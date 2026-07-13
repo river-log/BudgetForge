@@ -1,0 +1,27 @@
+.card,
+.panel,
+.bill-card{
+
+background:var(--panel);
+
+backdrop-filter:blur(18px);
+
+border:1px solid var(--border);
+
+border-radius:var(--radius);
+
+box-shadow:var(--shadow);
+
+transition:.25s;
+
+}
+
+.card:hover,
+.panel:hover,
+.bill-card:hover{
+
+transform:translateY(-4px);
+
+background:var(--panel-hover);
+
+}
