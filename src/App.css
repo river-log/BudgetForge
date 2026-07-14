@@ -548,3 +548,83 @@ margin-top:20px;
   }
 
 }
+
+/* ===== Mobile Header Polish ===== */
+
+.mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 18px;
+
+  background: #111214;
+
+  border-bottom: 1px solid #2f3136;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-left,
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.header-center {
+  flex: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.header-center h1 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.header-logo {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #6f7dff,
+    #5865f2
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-weight: 800;
+
+  box-shadow: 0 0 15px rgba(88, 101, 242, 0.35);
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+}

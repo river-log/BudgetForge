@@ -3,14 +3,25 @@ import { Menu } from "lucide-react";
 function MobileHeader({ onMenuClick }) {
   return (
     <header className="mobile-header">
-      <button
-        className="mobile-menu-button"
-        onClick={onMenuClick}
-      >
-        <Menu size={28} />
-      </button>
+      <div className="header-left">
+        <button
+          className="menu-btn"
+          onClick={onMenuClick}
+          aria-label="Open navigation"
+        >
+          <Menu size={30} />
+        </button>
+      </div>
 
-      <h2>BudgetForge</h2>
+      <div className="header-center">
+        <div className="header-logo">
+          B
+        </div>
+
+        <h1>BudgetForge</h1>
+      </div>
+
+      <div className="header-right" />
     </header>
   );
 }
