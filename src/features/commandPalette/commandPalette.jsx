@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { commands } from "./commands";
 
 function CommandPalette({ open, onClose }) {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -42,9 +43,13 @@ function CommandPalette({ open, onClose }) {
           {filteredCommands.length > 0 ? (
             filteredCommands.map((command) => (
               <div
-                key={command.path}
+                 key={command.path}
                 className="command-item"
-              >
+                 onClick={() => {
+                  navigate(command.path);
+                   onClose();
+                 }}
+>
                 <span>{command.icon}</span>
                 <span>{command.name}</span>
               </div>
