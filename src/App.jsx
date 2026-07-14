@@ -14,6 +14,8 @@ import ReportsPage from "./pages/ReportsPage";
 import SettingsPage from "./pages/SettingsPage";
 
 import ToastContainer from "./features/toasts/ToastContainer";
+import CommandPalette from "./features/commandPalette/CommandPalette";
+import "./features/commandPalette/CommandPalette.css";
 
 function App() {
   // Bills
@@ -35,6 +37,9 @@ function App() {
 
   // Toast Notifications
   const [toasts, setToasts] = useState([]);
+
+  // Command Palette
+  const [commandOpen, setCommandOpen] = useState(false);
 
   // Save Bills
   useEffect(() => {
@@ -104,6 +109,31 @@ function App() {
     showToast("Bill deleted.", "error");
   }
 
+  useEffect(() => {
+  function handleKeyDown(event) {
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === "k"
+    ) {
+      event.preventDefault();
+      setCommandOpen(true);
+    }
+
+    if (event.key === "Escape") {
+      setCommandOpen(false);
+    }
+  }
+
+  window.addEventListener("keydown", handleKeyDown);
+
+  return () => {
+    window.removeEventListener(
+      "keydown",
+      handleKeyDown
+    );
+  };
+}, []);
+
   return (
     <div className="layout">
       <Sidebar />
@@ -167,6 +197,11 @@ function App() {
           />
         </Routes>
       </main>
+      
+<CommandPalette
+  open={commandOpen}
+  onClose={() => setCommandOpen(false)}
+/>
 
       <ToastContainer toasts={toasts} />
     </div>

@@ -1,0 +1,106 @@
+.command-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-top: 120px;
+
+  backdrop-filter: blur(8px);
+
+  z-index: 9999;
+
+  animation: fadeIn 0.18s ease;
+}
+
+.command-palette {
+  width: 650px;
+  max-width: 92%;
+
+  background: rgba(25, 25, 35, 0.95);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.45);
+
+  animation: popIn .18s ease;
+}
+
+.command-input {
+  width: 100%;
+
+  padding: 22px 24px;
+
+  font-size: 20px;
+
+  color: white;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+}
+
+.command-empty {
+  padding: 30px;
+
+  color: #8b93a7;
+
+  border-top: 1px solid rgba(255,255,255,.05);
+
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.command-results {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.command-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 16px 22px;
+
+  cursor: pointer;
+
+  border-top: 1px solid rgba(255,255,255,.05);
+
+  transition: background .15s ease;
+}
+
+.command-item:hover {
+  background: rgba(255,255,255,.05);
+}
