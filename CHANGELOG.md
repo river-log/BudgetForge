@@ -4,7 +4,18 @@ All notable changes to BudgetForge OS will be documented here.
 
 ---
 
+## Version 14.3
+
+### Added
+- Click-to-navigate Command Palette
+- React Router integration
+- Commands now navigate directly to pages
+- Command Palette automatically closes after navigation
+
+---
+
 ## Version 14.2
+
 ### Added
 - Budget utilization progress bar
 - Monthly income utilization percentage
@@ -15,6 +26,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 14.1
+
 ### Added
 - BudgetForge OS Command Palette
 - Ctrl + K keyboard shortcut
@@ -26,6 +38,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 13.4
+
 ### Fixed
 - Fixed first-time username onboarding
 - Fixed monthly income being locked at the default value
@@ -36,6 +49,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 13.0
+
 ### Added
 - Global toast notification system
 - Success, info, and error notifications
@@ -44,6 +58,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 12.0
+
 ### Added
 - Bills workspace
 - Live search
@@ -54,6 +69,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 11.0
+
 ### Added
 - Dedicated Bills page
 - Dashboard overview redesign
@@ -62,6 +78,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 10.0
+
 ### Added
 - Personalized greeting
 - Username stored in Local Storage
@@ -69,6 +86,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 9.0
+
 ### Added
 - Dashboard homepage
 - Dashboard widget layout
@@ -76,6 +94,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 8.0
+
 ### Added
 - Widget architecture
 - Income Widget
@@ -86,6 +105,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 7.0
+
 ### Added
 - Aurora UI
 - Glassmorphism
@@ -95,6 +115,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 6.0
+
 ### Added
 - React Router
 - Multi-page navigation
@@ -102,6 +123,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 5.0
+
 ### Added
 - Pages architecture
 - Better project organization
@@ -109,6 +131,7 @@ All notable changes to BudgetForge OS will be documented here.
 ---
 
 ## Version 1.0
+
 ### Initial Release
 - Bill tracking
 - Monthly income
