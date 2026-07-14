@@ -13,13 +13,21 @@ function DashboardPage({
   setMonthlyIncome,
   userName,
   setUserName,
+  showToast,
 }) {
   const [nameInput, setNameInput] = useState("");
 
   function saveName() {
-    if (nameInput.trim()) {
-      setUserName(nameInput.trim());
-    }
+    const trimmed = nameInput.trim();
+
+    if (!trimmed) return;
+
+    setUserName(trimmed);
+
+    showToast(
+      `Welcome to BudgetForge, ${trimmed}!`,
+      "success"
+    );
   }
 
   return (
@@ -68,6 +76,7 @@ function DashboardPage({
         <IncomeWidget
           income={monthlyIncome}
           setIncome={setMonthlyIncome}
+          showToast={showToast}
         />
 
         <QuickStatsWidget bills={bills} />

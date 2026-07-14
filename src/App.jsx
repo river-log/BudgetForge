@@ -119,6 +119,7 @@ function App() {
                 setMonthlyIncome={setMonthlyIncome}
                 userName={userName}
                 setUserName={setUserName}
+                showToast={showToast}
               />
             }
           />

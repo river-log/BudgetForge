@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-function IncomeWidget({ income, setIncome }) {
+function IncomeWidget({
+  income,
+  setIncome,
+  showToast,
+}) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(income);
 
@@ -9,6 +13,12 @@ function IncomeWidget({ income, setIncome }) {
 
     if (!Number.isNaN(newIncome) && newIncome >= 0) {
       setIncome(newIncome);
+
+      showToast(
+        "Monthly income updated!",
+        "success"
+      );
+
       setEditing(false);
     }
   }
