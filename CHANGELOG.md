@@ -4,6 +4,16 @@ All notable changes to BudgetForge OS will be documented here.
 
 ---
 
+## Version 14.2
+### Added
+- Budget utilization progress bar
+- Monthly income utilization percentage
+- Color-coded budget health indicator
+- Over-budget warning
+- Dollar amount committed vs. monthly income
+
+---
+
 ## Version 14.1
 ### Added
 - BudgetForge OS Command Palette
