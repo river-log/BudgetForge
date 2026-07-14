@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import DashboardHeader from "../widgets/DashboardHeader";
 import WidgetGrid from "../widgets/WidgetGrid";
 import IncomeWidget from "../widgets/IncomeWidget";
@@ -11,6 +13,14 @@ function DashboardPage({
   userName,
   setUserName,
 }) {
+  const [nameInput, setNameInput] = useState("");
+
+  function saveName() {
+    if (nameInput.trim()) {
+      setUserName(nameInput.trim());
+    }
+  }
+
   return (
     <>
       {!userName && (
@@ -33,32 +43,34 @@ function DashboardPage({
           <input
             type="text"
             placeholder="Enter your name..."
-            value={userName}
-            onChange={(e) =>
-              setUserName(e.target.value)
-            }
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                saveName();
+              }
+            }}
           />
+
+          <button
+            style={{ marginTop: "15px" }}
+            onClick={saveName}
+          >
+            Continue
+          </button>
         </div>
       )}
 
       <DashboardHeader userName={userName} />
 
       <WidgetGrid>
+        <IncomeWidget income={monthlyIncome} />
 
-        <IncomeWidget
-          income={monthlyIncome}
-        />
+        <QuickStatsWidget bills={bills} />
 
-        <QuickStatsWidget
-          bills={bills}
-        />
-
-        <UpcomingBillsWidget
-          bills={bills}
-        />
+        <UpcomingBillsWidget bills={bills} />
 
         <RecentActivityWidget />
-
       </WidgetGrid>
     </>
   );
