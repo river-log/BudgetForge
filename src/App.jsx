@@ -14,8 +14,8 @@ import ReportsPage from "./pages/ReportsPage";
 import SettingsPage from "./pages/SettingsPage";
 
 import ToastContainer from "./features/toasts/ToastContainer";
-import CommandPalette from "./features/commandPalette/CommandPalette";
-import "./features/commandPalette/CommandPalette.css";
+import CommandPalette from "./features/commandPalette/commandPalette";
+import "./features/commandPalette/commandPalette.css";
 
 function App() {
   // Bills
@@ -197,7 +197,7 @@ function App() {
           />
         </Routes>
       </main>
-      
+
 <CommandPalette
   open={commandOpen}
   onClose={() => setCommandOpen(false)}
