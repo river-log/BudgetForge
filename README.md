@@ -2,7 +2,14 @@
 
 A modern personal finance dashboard built with **React**, **Vite**, and a beautiful widget-based interface.
 
-BudgetForge OS helps users organize bills, monitor monthly finances, and manage their personal budget through a fast, modern, desktop-inspired interface.
+BudgetForge OS helps users organize bills, monitor monthly finances, and manage their personal budget through a fast, modern, desktop-inspired experience.
+
+---
+
+# 🔗 Links
+
+- 🌐 **Live Demo:** https://budgetforge-os.netlify.app
+- 📂 **GitHub Repository:** https://github.com/river-log/BudgetForge
 
 ---
 
@@ -12,6 +19,8 @@ BudgetForge OS helps users organize bills, monitor monthly finances, and manage 
 
 - Personalized greeting
 - Monthly income overview
+- Editable monthly income
+- Budget utilization meter
 - Quick financial statistics
 - Upcoming bills widget
 - Recent activity panel
@@ -27,7 +36,17 @@ BudgetForge OS helps users organize bills, monitor monthly finances, and manage 
 - Live bill search
 - Paid / Unpaid filtering
 - Bills summary dashboard
-- Total Due calculation
+- Total due calculation
+
+---
+
+## ⌨️ Productivity
+
+- Command Palette (Ctrl + K)
+- Live command search
+- Command navigation
+- Toast notifications
+- Responsive mobile navigation
 
 ---
 
@@ -36,14 +55,14 @@ BudgetForge OS helps users organize bills, monitor monthly finances, and manage 
 - Aurora gradient theme
 - Glassmorphism interface
 - Responsive dashboard layout
+- Mobile friendly
 - Sidebar navigation
-- Toast notifications
 - Local Storage persistence
-- Modern desktop-inspired UI
+- Desktop-inspired interface
 
 ---
 
-## ⚙️ Built With
+# ⚙️ Built With
 
 - React 19
 - Vite
@@ -89,9 +108,9 @@ BudgetForge
 ├── public
 ├── src
 │   ├── components
+│   ├── config
 │   ├── features
 │   ├── pages
-│   ├── styles
 │   ├── widgets
 │   └── assets
 │
@@ -107,41 +126,50 @@ BudgetForge
 
 - ✅ Dashboard
 - ✅ Bills Workspace
+- ✅ Budget Utilization Meter
+- ✅ Command Palette (Ctrl + K)
+- ✅ Command Navigation
 - ✅ Live Search
 - ✅ Bill Filtering
 - ✅ Summary Widgets
 - ✅ Toast Notifications
+- ✅ Mobile Responsive Layout
 - ✅ React Router Navigation
 - ✅ User Personalization
-- ✅ Local Storage Saving
+- ✅ Local Storage Persistence
 - ✅ GitHub Version History
+- ✅ Live Netlify Deployment
 
 ---
 
 # 🛣️ Roadmap
 
-## Version 14
-- ⌨️ Command Palette (Ctrl + K)
+## ✅ Version 14
+- Command Palette
+- Command Navigation
+- Budget Utilization Meter
 
-## Version 15
-- 📊 Interactive Charts
-- 📈 Spending Analytics
+## 🚧 Version 15
+- Mobile Optimization
+- Keyboard Navigation (↑ ↓ Enter)
+- Interactive Charts
+- Spending Analytics
 
 ## Version 16
-- 🎯 Savings Goals
+- Savings Goals
 
 ## Version 17
-- 💳 Debt Payoff Planner
+- Debt Payoff Planner
 
 ## Version 18
-- 📅 Calendar View
+- Calendar View
 
 ## Version 19
-- 🌙 Theme Customizer
+- Theme Customizer
 
 ## Version 20
-- ☁️ Cloud Sync
-- 🔐 User Accounts
+- Cloud Sync
+- User Accounts
 
 ---
 
@@ -171,9 +199,9 @@ Start the development server:
 npm run dev
 ```
 
-Open:
+Open your browser:
 
-```
+```text
 http://localhost:5173
 ```
 
@@ -189,4 +217,4 @@ See **CHANGELOG.md** for the complete version history.
 
 **Shane Edsall**
 
-Built with ❤️ using React and Vite.
+Built with ❤️ using React, Vite, and modern frontend technologies.
