@@ -4,6 +4,27 @@ All notable changes to BudgetForge OS will be documented here.
 
 ---
 
+## Version 14.1
+### Added
+- BudgetForge OS Command Palette
+- Ctrl + K keyboard shortcut
+- Glassmorphism command overlay
+- Live command search
+- Auto-focused search input
+- Escape key to close the palette
+
+---
+
+## Version 13.4
+### Fixed
+- Fixed first-time username onboarding
+- Fixed monthly income being locked at the default value
+- Monthly Income widget is now editable
+- Welcome toast after onboarding
+- Success toast when monthly income is updated
+
+---
+
 ## Version 13.0
 ### Added
 - Global toast notification system
@@ -39,8 +60,8 @@ All notable changes to BudgetForge OS will be documented here.
 
 ## Version 9.0
 ### Added
-- Dashboard widget layout
 - Dashboard homepage
+- Dashboard widget layout
 
 ---
 
