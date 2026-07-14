@@ -74,10 +74,11 @@ function DashboardPage({
 
       <WidgetGrid>
         <IncomeWidget
-          income={monthlyIncome}
-          setIncome={setMonthlyIncome}
-          showToast={showToast}
-        />
+  income={monthlyIncome}
+  bills={bills}
+  setIncome={setMonthlyIncome}
+  showToast={showToast}
+/>
 
         <QuickStatsWidget bills={bills} />
 
