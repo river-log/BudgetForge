@@ -21,12 +21,12 @@ function IncomeWidget({
 
   const progressWidth = Math.min(percentUsed, 100);
 
-  let barColor = "#22c55e";
+  let barColor = "#57f287";
 
   if (percentUsed >= 80) {
-    barColor = "#ef4444";
+    barColor = "#ed4245";
   } else if (percentUsed >= 50) {
-    barColor = "#f59e0b";
+    barColor = "#faa61a";
   }
 
   function saveIncome() {
@@ -57,35 +57,25 @@ function IncomeWidget({
             })}
           </h1>
 
-          <div
-            style={{
-              width: "100%",
-              height: "10px",
-              background: "#2b3140",
-              borderRadius: "999px",
-              overflow: "hidden",
-              marginTop: "18px",
-            }}
-          >
+          <div className="progress">
             <div
+              className="progress-fill"
               style={{
                 width: `${progressWidth}%`,
-                height: "100%",
                 background: barColor,
-                transition: "all .3s ease",
               }}
             />
           </div>
 
           <p
             style={{
-              marginTop: "12px",
+              marginTop: "14px",
               fontWeight: "600",
             }}
           >
             {percentUsed.toFixed(0)}% of income committed
             {percentUsed > 100 && (
-              <span style={{ color: "#ef4444" }}>
+              <span style={{ color: "#ed4245" }}>
                 {" "}
                 (Over Budget)
               </span>
