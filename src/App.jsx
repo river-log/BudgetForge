@@ -81,7 +81,6 @@ function App() {
 
   function addBill(newBill) {
     setBills((prev) => [...prev, newBill]);
-
     showToast("Bill added successfully!", "success");
   }
 
@@ -117,6 +116,7 @@ function App() {
               <DashboardPage
                 bills={bills}
                 monthlyIncome={monthlyIncome}
+                setMonthlyIncome={setMonthlyIncome}
                 userName={userName}
                 setUserName={setUserName}
               />

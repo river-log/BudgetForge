@@ -10,6 +10,7 @@ import RecentActivityWidget from "../widgets/RecentActivityWidget";
 function DashboardPage({
   bills,
   monthlyIncome,
+  setMonthlyIncome,
   userName,
   setUserName,
 }) {
@@ -64,7 +65,10 @@ function DashboardPage({
       <DashboardHeader userName={userName} />
 
       <WidgetGrid>
-        <IncomeWidget income={monthlyIncome} />
+        <IncomeWidget
+          income={monthlyIncome}
+          setIncome={setMonthlyIncome}
+        />
 
         <QuickStatsWidget bills={bills} />
 
