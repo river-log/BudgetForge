@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 
 import Sidebar from "./components/Sidebar";
+import MobileHeader from "./components/MobileHeader";
+import MobileDrawer from "./components/MobileDrawer";
 
 import DashboardPage from "./pages/DashboardPage";
 import BillsPage from "./pages/BillsPage";
@@ -40,6 +42,8 @@ function App() {
 
   // Command Palette
   const [commandOpen, setCommandOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] =
+  useState(false);
 
   // Save Bills
   useEffect(() => {
@@ -136,9 +140,23 @@ function App() {
 
   return (
     <div className="layout">
-      <Sidebar />
 
-      <main className="main-content">
+  <Sidebar />
+
+  <MobileHeader
+    onMenuClick={() =>
+      setMobileMenuOpen(true)
+    }
+  />
+
+  <MobileDrawer
+    open={mobileMenuOpen}
+    onClose={() =>
+      setMobileMenuOpen(false)
+    }
+  />
+
+  <main className="main-content">
         <Routes>
           <Route
             path="/"

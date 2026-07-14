@@ -4,6 +4,18 @@ All notable changes to BudgetForge OS will be documented here.
 
 ---
 
+## Version 15.0
+
+### Added
+- Mobile header with hamburger menu
+- Responsive mobile navigation drawer
+- Slide-out navigation animation
+- Tap-outside-to-close mobile drawer
+- Mobile-friendly navigation experience
+- Navigation drawer automatically closes after page selection
+
+---
+
 ## Version 14.3
 
 ### Added
