@@ -4,6 +4,32 @@ All notable changes to BudgetForge OS will be documented here.
 
 ---
 
+## Version 16.0
+
+### Added
+- Fully functional Savings Goals workspace
+- Savings Overview dashboard widget
+- Add Savings Goal form
+- Individual Savings Goal cards
+- Deposit funds functionality
+- Withdraw funds functionality
+- Goal progress tracking
+- Automatic completion percentage calculation
+- Remaining balance calculation
+- Savings data persistence with Local Storage
+- Reusable BudgetForge Modal component
+- Premium deposit and withdraw dialogs
+- Glassmorphism modal styling
+- Modal animations and overlay
+
+### Improved
+- Replaced browser prompt dialogs with native BudgetForge modals
+- Improved overall savings workflow
+- Enhanced desktop application experience
+- Established reusable modal architecture for future features
+
+---
+
 ## Version 15.3
 
 ### Added
