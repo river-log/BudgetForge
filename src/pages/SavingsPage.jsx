@@ -17,8 +17,19 @@ function SavingsPage() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("");
-  const [selectedGoal, setSelectedGoal] = useState(null);
+  const [selectedGoal, setSelectedGoal] =
+    useState(null);
+
   const [amount, setAmount] = useState("");
+
+  const [editName, setEditName] =
+    useState("");
+
+  const [editTarget, setEditTarget] =
+    useState("");
+
+  const [editSaved, setEditSaved] =
+    useState("");
 
   useEffect(() => {
     localStorage.setItem(
@@ -45,14 +56,66 @@ function SavingsPage() {
     setModalOpen(true);
   }
 
-  function submitTransaction() {
+  function openDelete(id) {
+    setSelectedGoal(id);
+    setModalMode("delete");
+    setModalOpen(true);
+  }
+
+  function openEdit(goal) {
+    setSelectedGoal(goal.id);
+
+    setEditName(goal.name);
+    setEditTarget(goal.target);
+    setEditSaved(goal.saved);
+
+    setModalMode("edit");
+    setModalOpen(true);
+  }
+
+  function submitModal() {
+    if (modalMode === "delete") {
+      setGoals((prev) =>
+        prev.filter(
+          (goal) =>
+            goal.id !== selectedGoal
+        )
+      );
+
+      closeModal();
+      return;
+    }
+if (modalMode === "edit") {
+  setGoals((prev) =>
+    prev.map((goal) => {
+      if (
+        goal.id !== selectedGoal
+      ) {
+        return goal;
+      }
+
+      return {
+        ...goal,
+        name: editName,
+        target: Number(editTarget),
+        saved: Number(editSaved),
+      };
+    })
+  );
+
+  closeModal();
+  return;
+}
+
     const value = Number(amount);
 
     if (!value || value <= 0) return;
 
     setGoals((prev) =>
       prev.map((goal) => {
-        if (goal.id !== selectedGoal) {
+        if (
+          goal.id !== selectedGoal
+        ) {
           return goal;
         }
 
@@ -61,14 +124,29 @@ function SavingsPage() {
           saved:
             modalMode === "deposit"
               ? goal.saved + value
-              : Math.max(goal.saved - value, 0),
+              : Math.max(
+                  goal.saved - value,
+                  0
+                ),
         };
       })
     );
 
+    closeModal();
+  }
+
+  function closeModal() {
     setModalOpen(false);
-    setAmount("");
+
     setSelectedGoal(null);
+
+    setAmount("");
+
+    setEditName("");
+
+    setEditTarget("");
+
+    setEditSaved("");
   }
 
   return (
@@ -77,16 +155,20 @@ function SavingsPage() {
         <h1>🏦 Savings</h1>
 
         <p className="text-muted">
-          Build savings goals and track your
-          progress.
+          Build savings goals and
+          track your progress.
         </p>
       </div>
 
-      <SavingsSummaryWidget goals={goals} />
+      <SavingsSummaryWidget
+        goals={goals}
+      />
 
       <div
         className="widget-grid"
-        style={{ marginTop: "24px" }}
+        style={{
+          marginTop: "24px",
+        }}
       >
         <AddSavingsGoal
           addGoal={addGoal}
@@ -98,50 +180,128 @@ function SavingsPage() {
             goal={goal}
             onDeposit={openDeposit}
             onWithdraw={openWithdraw}
+            onDelete={openDelete}
+            onEdit={openEdit}
           />
         ))}
       </div>
 
       <Modal
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={closeModal}
         title={
           modalMode === "deposit"
             ? "💰 Deposit Funds"
-            : "➖ Withdraw Funds"
+            : modalMode === "withdraw"
+            ? "➖ Withdraw Funds"
+            : modalMode === "edit"
+            ? "✏️ Edit Goal"
+            : "🗑 Delete Goal"
         }
       >
-        <p>
-          Enter the amount you would like to{" "}
-          {modalMode}.
-        </p>
+        {modalMode === "delete" ? (
+          <>
+            <p>
+              Are you sure you want to
+              permanently delete this
+              savings goal?
+            </p>
 
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) =>
-            setAmount(e.target.value)
-          }
-          autoFocus
-        />
+            <div className="modal-actions">
+              <button
+                className="secondary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
 
-        <div className="modal-actions">
-          <button
-            className="secondary"
-            onClick={() =>
-              setModalOpen(false)
-            }
-          >
-            Cancel
-          </button>
+              <button
+                style={{
+                  background: "#ED4245",
+                }}
+                onClick={submitModal}
+              >
+                Delete Goal
+              </button>
+            </div>
+          </>
+        ) : modalMode === "edit" ? (
+          <>
+            <input
+              type="text"
+              placeholder="Goal Name"
+              value={editName}
+              onChange={(e) =>
+                setEditName(e.target.value)
+              }
+            />
 
-          <button
-            onClick={submitTransaction}
-          >
-            Confirm
-          </button>
-        </div>
+            <input
+              type="number"
+              placeholder="Target Amount"
+              value={editTarget}
+              onChange={(e) =>
+                setEditTarget(e.target.value)
+              }
+            />
+
+            <input
+              type="number"
+              placeholder="Current Saved"
+              value={editSaved}
+              onChange={(e) =>
+                setEditSaved(e.target.value)
+              }
+            />
+
+            <div className="modal-actions">
+              <button
+                className="secondary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={submitModal}
+              >
+                Save Changes
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p>
+              Enter the amount you would
+              like to {modalMode}.
+            </p>
+
+            <input
+              type="number"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) =>
+                setAmount(e.target.value)
+              }
+              autoFocus
+            />
+
+            <div className="modal-actions">
+              <button
+                className="secondary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={submitModal}
+              >
+                Confirm
+              </button>
+            </div>
+          </>
+        )}
       </Modal>
     </>
   );

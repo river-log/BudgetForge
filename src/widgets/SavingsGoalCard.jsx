@@ -2,6 +2,8 @@ function SavingsGoalCard({
   goal,
   onDeposit,
   onWithdraw,
+  onDelete,
+  onEdit,
 }) {
   const progress =
     goal.target > 0
@@ -18,7 +20,6 @@ function SavingsGoalCard({
 
   return (
     <div className="widget">
-
       <div
         style={{
           display: "flex",
@@ -68,7 +69,9 @@ function SavingsGoalCard({
 
       <div
         style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(2, 1fr)",
           gap: "12px",
         }}
       >
@@ -77,21 +80,39 @@ function SavingsGoalCard({
             onDeposit(goal.id)
           }
         >
-          Deposit
+          💰 Deposit
         </button>
 
         <button
           onClick={() =>
             onWithdraw(goal.id)
           }
+        >
+          ➖ Withdraw
+        </button>
+
+        <button
+          onClick={() =>
+            onEdit(goal)
+          }
+          style={{
+            background: "#FAA61A",
+          }}
+        >
+          ✏️ Edit
+        </button>
+
+        <button
+          onClick={() =>
+            onDelete(goal.id)
+          }
           style={{
             background: "#ED4245",
           }}
         >
-          Withdraw
+          🗑 Delete
         </button>
       </div>
-
     </div>
   );
 }
