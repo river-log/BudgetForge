@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import { commands } from "./commands";
 
-function CommandPalette({ open, onClose }) {
-  const navigate = useNavigate();
+import CommandItem from "./CommandItem";
+import CommandGroup from "./CommandGroup";
 
+function CommandPalette({ open, onClose }) {
   const [search, setSearch] = useState("");
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] =
+    useState(0);
 
   useEffect(() => {
     if (open) {
@@ -16,42 +18,56 @@ function CommandPalette({ open, onClose }) {
   }, [open]);
 
   const filteredCommands = useMemo(() => {
-    return commands.filter((command) =>
-      command.name
-        .toLowerCase()
-        .includes(search.toLowerCase())
-    );
+    const query = search.toLowerCase();
+
+    return commands.filter((command) => {
+      return (
+        command.title
+          .toLowerCase()
+          .includes(query) ||
+        command.subtitle
+          .toLowerCase()
+          .includes(query)
+      );
+    });
   }, [search]);
 
   useEffect(() => {
     if (!open) return;
 
-    function handleKeys(e) {
+    function handleKeys(event) {
       if (!filteredCommands.length) return;
 
-      switch (e.key) {
+      switch (event.key) {
         case "ArrowDown":
-          e.preventDefault();
+          event.preventDefault();
+
           setSelectedIndex((prev) =>
             prev === filteredCommands.length - 1
               ? 0
               : prev + 1
           );
+
           break;
 
         case "ArrowUp":
-          e.preventDefault();
+          event.preventDefault();
+
           setSelectedIndex((prev) =>
             prev === 0
               ? filteredCommands.length - 1
               : prev - 1
           );
+
           break;
 
         case "Enter":
-          e.preventDefault();
-          navigate(filteredCommands[selectedIndex].path);
-          onClose();
+          event.preventDefault();
+
+          document
+            .querySelector(".command-item.selected")
+            ?.click();
+
           break;
 
         default:
@@ -59,21 +75,17 @@ function CommandPalette({ open, onClose }) {
       }
     }
 
-    window.addEventListener("keydown", handleKeys);
+    window.addEventListener(
+      "keydown",
+      handleKeys
+    );
 
-    return () => {
+    return () =>
       window.removeEventListener(
         "keydown",
         handleKeys
       );
-    };
-  }, [
-    open,
-    filteredCommands,
-    selectedIndex,
-    navigate,
-    onClose,
-  ]);
+  }, [open, filteredCommands]);
 
   if (!open) return null;
 
@@ -98,33 +110,29 @@ function CommandPalette({ open, onClose }) {
         />
 
         <div className="command-results">
-          {filteredCommands.length > 0 ? (
-            filteredCommands.map((command, index) => (
-              <div
-                key={command.path}
-                className={`command-item ${
-                  index === selectedIndex
-                    ? "selected"
-                    : ""
-                }`}
-                onMouseEnter={() =>
-                  setSelectedIndex(index)
-                }
-                onClick={() => {
-                  navigate(command.path);
-                  onClose();
-                }}
-              >
-                <span>{command.icon}</span>
-
-                <span>{command.name}</span>
+          <CommandGroup title="Pages">
+            {filteredCommands.length > 0 ? (
+              filteredCommands.map(
+                (command, index) => (
+                  <CommandItem
+                    key={command.id}
+                    command={command}
+                    selected={
+                      index === selectedIndex
+                    }
+                    onMouseEnter={() =>
+                      setSelectedIndex(index)
+                    }
+                    onClose={onClose}
+                  />
+                )
+              )
+            ) : (
+              <div className="command-empty">
+                No commands found.
               </div>
-            ))
-          ) : (
-            <div className="command-empty">
-              No commands found.
-            </div>
-          )}
+            )}
+          </CommandGroup>
         </div>
       </div>
     </div>
