@@ -104,3 +104,17 @@
 .command-item:hover {
   background: rgba(255,255,255,.05);
 }
+
+.command-item.selected {
+  background: rgba(88, 101, 242, 0.22);
+
+  border-left: 4px solid #5865f2;
+
+  transform: translateX(4px);
+
+  transition: all 0.15s ease;
+}
+
+.command-item.selected span {
+  color: white;
+}
