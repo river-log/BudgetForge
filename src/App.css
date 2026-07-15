@@ -1,8 +1,66 @@
+/* =====================================================
+   BudgetForge OS v15.4
+   Base Layout & Global Styles
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #1a1b1e;
+  color: #ffffff;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+:root {
+  --bg: #1a1b1e;
+  --surface: #2b2d31;
+  --surface-dark: #1e1f22;
+
+  --border: #3b3d44;
+  --border-light: #4b4d54;
+
+  --primary: #5865f2;
+  --primary-hover: #4752c4;
+
+  --success: #57f287;
+  --warning: #faa61a;
+  --danger: #ed4245;
+
+  --muted: #a9b1ba;
+}
+
+/* =====================================================
+   App Layout
+===================================================== */
+
 .app {
   max-width: 1300px;
   margin: auto;
   padding: 40px;
 }
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* =====================================================
+   Header
+===================================================== */
 
 .header {
   text-align: center;
@@ -11,341 +69,520 @@
 
 .header h1 {
   font-size: 2.8rem;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 
 .header p {
-  color: #a9b1ba;
-  font-size: 1rem;
+  color: var(--muted);
 }
+
+/* =====================================================
+   Dashboard
+===================================================== */
 
 .dashboard {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(220px, 1fr)
+  );
+
   gap: 20px;
+
   margin-bottom: 35px;
 }
 
-.card {
-  background: #2b2d31;
+.content-grid {
+  display: grid;
+
+  grid-template-columns: 340px 1fr;
+
+  gap: 30px;
+}
+
+/* =====================================================
+   Cards & Panels
+===================================================== */
+
+.card,
+.panel {
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
   border-radius: 14px;
+
   padding: 24px;
-  border: 1px solid #3b3d44;
-  transition: .2s;
+}
+
+.card {
+  transition:
+    transform .2s ease,
+    border-color .2s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: #5865f2;
-}
 
-.card h3 {
-  color: #b5bac1;
-  margin-bottom: 12px;
+  border-color: var(--primary);
 }
 
 .card h2 {
   font-size: 2rem;
 }
 
-.content-grid {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 30px;
-}
+.card h3 {
+  color: #b5bac1;
 
-.panel {
-  background: #2b2d31;
-  border-radius: 14px;
-  padding: 24px;
-  border: 1px solid #3b3d44;
+  margin-bottom: 12px;
 }
 
 .panel h2 {
+  margin-top: 0;
   margin-bottom: 20px;
 }
 
-input {
+/* =====================================================
+   Forms
+===================================================== */
+
+input,
+select {
   width: 100%;
-  margin-bottom: 15px;
+
   padding: 13px;
-  background: #1e1f22;
+
+  margin-bottom: 15px;
+
+  background: var(--surface-dark);
+
   color: white;
-  border: 1px solid #4b4d54;
+
+  border: 1px solid var(--border-light);
+
   border-radius: 8px;
+
   font-size: 15px;
+
+  transition: border-color .2s ease;
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: none;
-  border-color: #5865f2;
+
+  border-color: var(--primary);
 }
+
+/* =====================================================
+   Buttons
+===================================================== */
 
 button {
   cursor: pointer;
-  background: #5865f2;
-  color: white;
+
   border: none;
-  padding: 12px 18px;
+
   border-radius: 8px;
-  transition: .2s;
+
+  padding: 12px 18px;
+
+  background: var(--primary);
+
+  color: white;
+
+  font-size: 15px;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
 }
 
 button:hover {
-  background: #4752c4;
+  background: var(--primary-hover);
+
+  transform: translateY(-1px);
 }
 
-.bill-card {
-  background: #1e1f22;
-  border: 1px solid #3b3d44;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 16px;
+button:active {
+  transform: translateY(0);
+}
 
+/* =====================================================
+   Categories
+===================================================== */
+
+.category {
+  display: inline-block;
+
+  margin: 8px 0;
+
+  padding: 4px 10px;
+
+  border-radius: 20px;
+
+  background: var(--primary);
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+/* =====================================================
+   Bills
+===================================================== */
+
+.bill-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  padding: 18px;
+
+  margin-bottom: 16px;
+
+  background: var(--surface-dark);
+
+  border: 1px solid var(--border);
+
+  border-radius: 14px;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.bill-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
 }
 
 .bill-card h3 {
-  margin-bottom: 8px;
-}
+  margin: 0 0 8px;
 
-.bill-card p {
-  color: #57f287;
-  margin-bottom: 5px;
   font-size: 18px;
 }
 
-.bill-card small {
-  color: #b5bac1;
+.bill-card p {
+  margin: 0 0 6px;
+
+  color: var(--success);
+
+  font-size: 18px;
+
+  font-weight: 600;
 }
+
+.bill-card small {
+  color: var(--muted);
+}
+
+/* =====================================================
+   Bill Status Colors
+===================================================== */
+
+.bill-card.overdue {
+  border-color: var(--danger);
+}
+
+.bill-card.dueSoon {
+  border-color: var(--warning);
+}
+
+.bill-card.paid {
+  border-color: var(--success);
+}
+
+.bill-card.overdue h3 {
+  color: var(--danger);
+}
+
+.bill-card.dueSoon h3 {
+  color: var(--warning);
+}
+
+.bill-card.paid h3 {
+  color: var(--success);
+}
+
+/* =====================================================
+   Bill Buttons
+===================================================== */
 
 .buttons {
   display: flex;
   flex-direction: column;
+
   gap: 10px;
 }
 
+.buttons button {
+  min-width: 110px;
+}
+
 .buttons button:last-child {
-  background: #ed4245;
+  background: var(--danger);
 }
 
 .buttons button:last-child:hover {
   background: #c03537;
 }
 
-@media (max-width: 900px) {
+/* =====================================================
+   Progress Bars
+===================================================== */
+
+.progress {
+  width: 100%;
+
+  height: 22px;
+
+  margin-top: 18px;
+
+  background: var(--surface-dark);
+
+  border-radius: 999px;
+
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    #5865f2,
+    #6f7dff
+  );
+
+  transition: width .45s ease;
+}
+
+/* =====================================================
+   Widget Cards
+===================================================== */
+
+.widget {
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 16px;
+
+  padding: 22px;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.widget:hover {
+  transform: translateY(-3px);
+
+  border-color: var(--primary);
+
+  box-shadow: 0 15px 35px rgba(0,0,0,.28);
+}
+
+.widget h3 {
+  margin-top: 0;
+
+  margin-bottom: 18px;
+}
+
+/* =====================================================
+   Widget Grid
+===================================================== */
+
+.widget-grid {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(340px, 1fr)
+  );
+
+  gap: 24px;
+}
+
+/* =====================================================
+   Sidebar
+===================================================== */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+
+  background: #111214;
+
+  border-right: 1px solid #2f3136;
+
+  padding: 28px 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: sticky;
+  top: 0;
+
+  height: 100vh;
+
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+
+  padding: 32px;
+}
+
+/* =====================================================
+   Logo
+===================================================== */
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  margin-bottom: 40px;
+}
+
+.logo-circle {
+  width: 48px;
+  height: 48px;
+
+  border-radius: 14px;
+
+  background: linear-gradient(
+    135deg,
+    #6f7dff,
+    #5865f2
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  color: white;
+
+  box-shadow: 0 0 18px rgba(88,101,242,.35);
+}
+
+.logo {
+  margin: 0;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.logo-area small {
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+/* =====================================================
+   Navigation
+===================================================== */
+
+nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  text-decoration: none;
+
+  color: white;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.nav-item:hover {
+  background: #2b2d31;
+
+  transform: translateX(4px);
+}
+
+.nav-item.active,
+.nav-item.active:hover {
+  background: var(--primary);
+
+  transform: translateX(4px);
+}
+
+.nav-item svg {
+  flex-shrink: 0;
+}
+
+/* =====================================================
+   Footer
+===================================================== */
+
+.version {
+  color: #7f848e;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  margin-top: 30px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+/* =====================================================
+   Responsive Layout
+===================================================== */
+
+@media (max-width: 1024px) {
+
   .content-grid {
     grid-template-columns: 1fr;
   }
 
   .dashboard {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .dashboard {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(
+      2,
+      minmax(220px, 1fr)
+    );
   }
 
-  .app {
-    padding: 20px;
+  .widget-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(320px, 1fr)
+    );
   }
-}
 
-select {
-  width: 100%;
-  margin-bottom: 15px;
-  padding: 13px;
-  background: #1e1f22;
-  color: white;
-  border: 1px solid #4b4d54;
-  border-radius: 8px;
-  font-size: 15px;
-}
-
-.category {
-  display: inline-block;
-  margin: 8px 0;
-  padding: 4px 10px;
-  background: #5865f2;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.bill-card {
-    transition: all .25s ease;
-}
-
-.bill-card:hover{
-    transform: translateY(-4px);
-    box-shadow:0 10px 30px rgba(0,0,0,.35);
-}
-
-.bill-card.overdue{
-    border:2px solid #ed4245;
-}
-
-.bill-card.dueSoon{
-    border:2px solid #faa61a;
-}
-
-.bill-card.paid{
-    border:2px solid #57f287;
-}
-
-.bill-card.overdue h3{
-    color:#ed4245;
-}
-
-.bill-card.dueSoon h3{
-    color:#faa61a;
-}
-
-.bill-card.paid h3{
-    color:#57f287;
-}
-
-.progress{
-    width:100%;
-    height:22px;
-    background:#1e1f22;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:20px;
-}
-
-.progress-fill{
-    height:100%;
-    background:#5865f2;
-    transition:.5s;
-}
-
-.layout{
-display:flex;
-min-height:100vh;
-}
-
-.sidebar{
-
-width:260px;
-
-background:#111214;
-
-border-right:1px solid #2f3136;
-
-padding:30px 20px;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:space-between;
-
-position:sticky;
-
-top:0;
-
-height:100vh;
-
-}
-
-.logo{
-
-font-size:28px;
-
-margin-bottom:40px;
-
-}
-
-nav{
-
-display:flex;
-
-flex-direction:column;
-
-gap:12px;
-
-}
-
-.nav-item{
-
-width:100%;
-
-text-align:left;
-
-padding:15px;
-
-background:transparent;
-.mo
-border:none;
-
-border-radius:10px;
-
-font-size:16px;
-
-transition:.25s;
-
-}
-
-.nav-item:hover{
-
-background:#2b2d31;
-
-}
-
-.nav-item.active,
-.nav-item.active:hover {
-  background: #5865f2;
-}
-
-.nav-item {
-  text-decoration: none;
-  color: white;
-  display: block;
-}
-
-.main-content{
-
-flex:1;
-
-overflow-y:auto;
-
-}
-
-.version{
-
-color:#7f848e;
-
-text-align:center;
-
-display:block;
-
-margin-top:20px;
-
-}
-
-/* ==========================================
-   Version 15.0 — Mobile Optimization
-========================================== */
-
-/* ==========================================
-   Version 15.0 — Mobile Navigation
-========================================== */
-
-bile-header {
-  display: none;
-}
-
-.drawer-overlay {
-  display: none;
-}
-
-.mobile-drawer {
-  display: none;
 }
 
 @media (max-width: 768px) {
@@ -359,192 +596,285 @@ bile-header {
     display: none;
   }
 
-  /* Mobile header */
-  der {
+  .main-content {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .app {
+    padding: 20px;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .widget-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-header {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 16px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .bill-card {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .buttons {
+    width: 100%;
+  }
+
+  .buttons button {
+    width: 100%;
+  }
+
+  input,
+  select,
+  button {
+    width: 100%;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .main-content {
+    padding: 16px;
+  }
+
+  .panel,
+  .card,
+  .widget {
+    padding: 18px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+}
+
+/* =====================================================
+   Mobile Navigation
+===================================================== */
+
+/* Hidden on desktop */
+
+.mobile-header,
+.drawer-overlay,
+.mobile-drawer {
+  display: none;
+}
+
+/* -----------------------------------------------------
+   Mobile Layout
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+  .mobile-header {
+    display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     position: sticky;
     top: 0;
 
-    padding: 18px 20px;
+    z-index: 1000;
+
+    padding: 16px 20px;
 
     background: #111214;
 
     border-bottom: 1px solid #2f3136;
-
-    z-index: 1000;
   }
 
-  /* ===== Mobile Header Polish ===== */
+  .header-left,
+  .header-right {
+    flex: 1;
 
-.mobile-header {
-  display: none;
-
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 16px 18px;
-
-  background: #111214;
-
-  border-bottom: 1px solid #2f3136;
-
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.header-left,
-.header-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.header-right {
-  justify-content: flex-end;
-}
-
-.header-center {
-  flex: 2;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  gap: 12px;
-}
-
-.header-center h1 {
-  margin: 0;
-
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.header-logo {
-  width: 36px;
-  height: 36px;
-
-  border-radius: 10px;
-
-  background: linear-gradient(
-    135deg,
-    #6f7dff,
-    #5865f2
-  );
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-  font-weight: 800;
-
-  box-shadow: 0 0 15px rgba(88, 101, 242, 0.35);
-}
-
-.menu-btn {
-  background: transparent;
-  border: none;
-  padding: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-}
-
-@media (max-width: 768px) {
-  .mobile-header {
     display: flex;
+    align-items: center;
   }
-}
 
-  .mobile-drawer nav {
+  .header-right {
+    justify-content: flex-end;
+  }
+
+  .header-center {
+    flex: 2;
 
     display: flex;
 
-    flex-direction: column;
-
-    gap: 12px;
-  }
-
-  .mobile-drawer nav a {
-
-    color: white;
-
-    text-decoration: none;
-
-    padding: 14px;
-
-    border-radius: 10px;
-
-    display: flex;
-
+    justify-content: center;
     align-items: center;
 
     gap: 12px;
   }
 
-  .mobile-drawer nav a.active {
+  .header-center h1 {
+    margin: 0;
 
-    background: #5865f2;
+    font-size: 24px;
+
+    font-weight: 700;
   }
 
-  /* Main Content */
+  .header-logo {
+    width: 38px;
+    height: 38px;
 
-  .main-content {
+    border-radius: 12px;
 
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    padding: 20px;
+    background: linear-gradient(
+      135deg,
+      #6f7dff,
+      #5865f2
+    );
+
+    color: white;
+
+    font-weight: 800;
+
+    box-shadow:
+      0 0 18px rgba(88,101,242,.35);
   }
 
-  .dashboard {
+  .menu-btn {
+    display: flex;
 
-    grid-template-columns: 1fr;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    border: none;
+
+    color: white;
+
+    padding: 4px;
   }
 
-  .content-grid {
+  /* Drawer Overlay */
 
-    grid-template-columns: 1fr;
+  .drawer-overlay {
+    display: block;
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,.45);
+
+    backdrop-filter: blur(2px);
+
+    z-index: 1100;
   }
 
-  .widget-grid {
+  /* Drawer */
 
-    grid-template-columns: 1fr !important;
-  }
-
-  .dashboard-header {
+  .mobile-drawer {
+    display: flex;
 
     flex-direction: column;
 
-    align-items: flex-start;
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 290px;
+
+    height: 100vh;
+
+    background: #111214;
+
+    border-right: 1px solid #2f3136;
+
+    padding: 24px;
+
+    z-index: 1200;
+
+    animation: drawerSlide .25s ease;
+  }
+
+  .drawer-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 28px;
+  }
+
+  .drawer-header button {
+    background: transparent;
+
+    color: white;
+
+    border: none;
+  }
+
+  .mobile-drawer nav {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .mobile-drawer nav a {
+    display: flex;
+
+    align-items: center;
 
     gap: 14px;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    text-decoration: none;
+
+    color: white;
+
+    transition: .2s;
   }
 
-  .dashboard-header h1 {
-
-    font-size: 2rem;
+  .mobile-drawer nav a:hover {
+    background: #2b2d31;
   }
 
-  .bill-card {
-
-    flex-direction: column;
-
-    align-items: flex-start;
-  }
-
-  input,
-  select,
-  button {
-
-    width: 100%;
+  .mobile-drawer nav a.active {
+    background: var(--primary);
   }
 
 }
@@ -552,116 +882,124 @@ bile-header {
 @keyframes drawerSlide {
 
   from {
-
     transform: translateX(-100%);
   }
 
   to {
-
     transform: translateX(0);
   }
 
 }
 
-/*/* ===== Mobile Header Polish ===== */
+/* =====================================================
+   Dashboard Polish
+===================================================== */
 
-.mobile-header {
-  display: none;
-
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 16px 18px;
-
-  background: #111214;
-
-  border-bottom: 1px solid #2f3136;
-
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+.dashboard-header {
+  margin-bottom: 28px;
 }
 
-@media (max-width: 768px) {
-  .mobile-header {
-    display: flex;
-  }
-} ===== Mobile Header Polish ===== */
-
-.mobile-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 16px 18px;
-
-  background: #111214;
-
-  border-bottom: 1px solid #2f3136;
-
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.header-left,
-.header-right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.header-right {
-  justify-content: flex-end;
-}
-
-.header-center {
-  flex: 2;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  gap: 12px;
-}
-
-.header-center h1 {
+.dashboard-header h1 {
   margin: 0;
-
-  font-size: 24px;
-  font-weight: 700;
 }
 
-.header-logo {
-  width: 36px;
-  height: 36px;
-
-  border-radius: 10px;
-
-  background: linear-gradient(
-    135deg,
-    #6f7dff,
-    #5865f2
-  );
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-  font-weight: 800;
-
-  box-shadow: 0 0 15px rgba(88, 101, 242, 0.35);
+.dashboard-header p {
+  margin-top: 8px;
+  color: var(--muted);
 }
 
-.menu-btn {
-  background: transparent;
-  border: none;
-  padding: 0;
+/* =====================================================
+   Widget Polish
+===================================================== */
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
+.widget,
+.card,
+.panel {
+  overflow: hidden;
 }
+
+.widget p:last-child,
+.panel p:last-child {
+  margin-bottom: 0;
+}
+
+/* =====================================================
+   Scrollbars
+===================================================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1b1e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b3d44;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5865f2;
+}
+
+/* Firefox */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #5865f2 #1a1b1e;
+}
+
+/* =====================================================
+   Links
+===================================================== */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* =====================================================
+   Images
+===================================================== */
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* =====================================================
+   Utilities
+===================================================== */
+
+.text-muted {
+  color: var(--muted);
+}
+
+.text-success {
+  color: var(--success);
+}
+
+.text-warning {
+  color: var(--warning);
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+/* =====================================================
+   Smooth UI
+===================================================== */
+
+* {
+  transition:
+    background-color .2s ease,
+    border-color .2s ease,
+    color .2s ease;
+}
+
+/* =====================================================
+   Version 15.4 CSS Refresh Complete
+===================================================== */
