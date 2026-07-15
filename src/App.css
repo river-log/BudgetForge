@@ -280,7 +280,7 @@ text-align:left;
 padding:15px;
 
 background:transparent;
-
+.mo
 border:none;
 
 border-radius:10px;
@@ -336,7 +336,7 @@ margin-top:20px;
    Version 15.0 — Mobile Navigation
 ========================================== */
 
-.mobile-header {
+bile-header {
   display: none;
 }
 
@@ -360,7 +360,7 @@ margin-top:20px;
   }
 
   /* Mobile header */
-  .mobile-header {
+  der {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -377,78 +377,92 @@ margin-top:20px;
     z-index: 1000;
   }
 
-  .mobile-header h2 {
-    margin: 0;
-    font-size: 24px;
-  }
+  /* ===== Mobile Header Polish ===== */
 
-  .mobile-menu-button {
-    background: transparent;
-    border: none;
-    color: white;
-    padding: 6px;
-    cursor: pointer;
-  }
+.mobile-header {
+  display: none;
 
-  /* Drawer */
+  align-items: center;
+  justify-content: space-between;
 
-  .drawer-overlay {
-    display: block;
+  padding: 16px 18px;
 
-    position: fixed;
-    inset: 0;
+  background: #111214;
 
-    background: rgba(0,0,0,.45);
+  border-bottom: 1px solid #2f3136;
 
-    z-index: 999;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-  .mobile-drawer {
+.header-left,
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
 
+.header-right {
+  justify-content: flex-end;
+}
+
+.header-center {
+  flex: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.header-center h1 {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.header-logo {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #6f7dff,
+    #5865f2
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-weight: 800;
+
+  box-shadow: 0 0 15px rgba(88, 101, 242, 0.35);
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .mobile-header {
     display: flex;
-
-    flex-direction: column;
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    width: 280px;
-
-    height: 100vh;
-
-    background: #111214;
-
-    border-right: 1px solid #2f3136;
-
-    padding: 24px;
-
-    z-index: 1000;
-
-    animation: drawerSlide .25s ease;
   }
-
-  .drawer-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 30px;
-  }
-
-  .drawer-header button {
-
-    background: transparent;
-
-    border: none;
-
-    color: white;
-  }
+}
 
   .mobile-drawer nav {
 
@@ -549,7 +563,30 @@ margin-top:20px;
 
 }
 
-/* ===== Mobile Header Polish ===== */
+/*/* ===== Mobile Header Polish ===== */
+
+.mobile-header {
+  display: none;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 18px;
+
+  background: #111214;
+
+  border-bottom: 1px solid #2f3136;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .mobile-header {
+    display: flex;
+  }
+} ===== Mobile Header Polish ===== */
 
 .mobile-header {
   display: flex;

@@ -4,25 +4,64 @@ All notable changes to BudgetForge OS will be documented here.
 
 ---
 
+## Version 15.3
+
+### Added
+- Spending by Category analytics widget
+- Interactive doughnut chart
+- Animated chart rendering
+- Premium spending tooltip
+- Monthly spending total
+- Largest spending category insight
+- Category spending percentages
+- Custom BudgetForge analytics color palette
+
+### Improved
+- Dashboard analytics experience
+- Financial overview visualization
+
+---
+
+## Version 15.2
+
+### Changed
+- Refactored Command Palette into reusable components
+- Added CommandItem component
+- Added CommandGroup component
+- Introduced extensible command architecture
+- Added command titles and descriptions
+- Improved command search using titles and subtitles
+- Prepared architecture for Actions, Bill Search, and future AI integration
+
+---
+
+## Version 15.1
+
+### Added
+- Enhanced Command Palette keyboard navigation
+- Arrow key navigation
+- Enter to launch commands
+- Hover synchronization
+- Improved search experience
+
+---
+
 ## Version 15.0
 
 ### Added
-- Mobile header with hamburger menu
-- Responsive mobile navigation drawer
-- Slide-out navigation animation
-- Tap-outside-to-close mobile drawer
-- Mobile-friendly navigation experience
-- Navigation drawer automatically closes after page selection
+- Mobile responsive layout
+- Mobile navigation drawer
+- Mobile header
+- Responsive dashboard widgets
+- Mobile optimized sidebar
 
 ---
 
 ## Version 14.3
 
 ### Added
-- Click-to-navigate Command Palette
-- React Router integration
-- Commands now navigate directly to pages
-- Command Palette automatically closes after navigation
+- Command Palette page navigation
+- Click-to-navigate commands
 
 ---
 
@@ -33,7 +72,7 @@ All notable changes to BudgetForge OS will be documented here.
 - Monthly income utilization percentage
 - Color-coded budget health indicator
 - Over-budget warning
-- Dollar amount committed vs. monthly income
+- Dollar amount committed vs monthly income
 
 ---
 
@@ -45,18 +84,17 @@ All notable changes to BudgetForge OS will be documented here.
 - Glassmorphism command overlay
 - Live command search
 - Auto-focused search input
-- Escape key to close the palette
+- Escape key support
 
 ---
 
 ## Version 13.4
 
 ### Fixed
-- Fixed first-time username onboarding
-- Fixed monthly income being locked at the default value
-- Monthly Income widget is now editable
-- Welcome toast after onboarding
-- Success toast when monthly income is updated
+- First-time username onboarding
+- Editable Monthly Income widget
+- Welcome notification
+- Income update notification
 
 ---
 
@@ -65,7 +103,7 @@ All notable changes to BudgetForge OS will be documented here.
 ### Added
 - Global toast notification system
 - Success, info, and error notifications
-- Automatic notification dismissal
+- Automatic toast dismissal
 
 ---
 
@@ -74,7 +112,7 @@ All notable changes to BudgetForge OS will be documented here.
 ### Added
 - Bills workspace
 - Live search
-- Live filtering
+- Bill filtering
 - Bills summary widgets
 - Total Due calculation
 
@@ -84,8 +122,8 @@ All notable changes to BudgetForge OS will be documented here.
 
 ### Added
 - Dedicated Bills page
-- Dashboard overview redesign
-- Widget-based homepage
+- Dashboard redesign
+- Widget homepage
 
 ---
 
@@ -100,7 +138,6 @@ All notable changes to BudgetForge OS will be documented here.
 ## Version 9.0
 
 ### Added
-- Dashboard homepage
 - Dashboard widget layout
 
 ---

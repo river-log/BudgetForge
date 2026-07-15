@@ -2,10 +2,12 @@ import { useState } from "react";
 
 import DashboardHeader from "../widgets/DashboardHeader";
 import WidgetGrid from "../widgets/WidgetGrid";
+
 import IncomeWidget from "../widgets/IncomeWidget";
 import QuickStatsWidget from "../widgets/QuickStatsWidget";
 import UpcomingBillsWidget from "../widgets/UpcomingBillsWidget";
 import RecentActivityWidget from "../widgets/RecentActivityWidget";
+import CategoryPieChart from "../widgets/CategoryPieChart";
 
 function DashboardPage({
   bills,
@@ -53,7 +55,9 @@ function DashboardPage({
             type="text"
             placeholder="Enter your name..."
             value={nameInput}
-            onChange={(e) => setNameInput(e.target.value)}
+            onChange={(e) =>
+              setNameInput(e.target.value)
+            }
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 saveName();
@@ -74,13 +78,15 @@ function DashboardPage({
 
       <WidgetGrid>
         <IncomeWidget
-  income={monthlyIncome}
-  bills={bills}
-  setIncome={setMonthlyIncome}
-  showToast={showToast}
-/>
+          income={monthlyIncome}
+          bills={bills}
+          setIncome={setMonthlyIncome}
+          showToast={showToast}
+        />
 
         <QuickStatsWidget bills={bills} />
+
+        <CategoryPieChart bills={bills} />
 
         <UpcomingBillsWidget bills={bills} />
 
