@@ -1,12 +1,27 @@
+import ExportDataCard from "../widgets/ExportDataCard";
+import ImportDataCard from "../widgets/ImportDataCard";
+
 function SettingsPage() {
   return (
-    <div className="coming-soon">
-      <h1>⚙ Settings</h1>
+    <>
+      <div className="dashboard-header">
+        <h1>⚙ Settings</h1>
 
-      <p>
-        Customize BudgetForge.
-      </p>
-    </div>
+        <p className="text-muted">
+          Manage your BudgetForge
+          application settings and backups.
+        </p>
+      </div>
+
+      <div
+        className="widget-grid"
+        style={{ marginTop: "24px" }}
+      >
+        <ExportDataCard />
+
+        <ImportDataCard />
+      </div>
+    </>
   );
 }
 

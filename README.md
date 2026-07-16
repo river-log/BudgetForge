@@ -2,7 +2,7 @@
 
 A modern personal finance dashboard built with **React**, **Vite**, and a desktop-inspired interface.
 
-BudgetForge OS helps users organize bills, manage budgets, track savings goals, manage debt, and visualize personal finances through a fast, responsive workspace.
+BudgetForge OS helps users organize bills, manage budgets, track savings goals, manage debt, back up their financial data, and visualize personal finances through a fast, responsive workspace.
 
 ---
 
@@ -10,7 +10,7 @@ BudgetForge OS helps users organize bills, manage budgets, track savings goals, 
 
 🚀 **Live Application**
 
-https://budgetforge-os.netlify.app/
+https://budget-forge.com
 
 ---
 
@@ -59,7 +59,7 @@ https://budgetforge-os.netlify.app/
 
 ---
 
-## 💳 Debt Payoff Planner
+## 💳 Debt Management
 
 - Create unlimited debt accounts
 - Record debt payments
@@ -71,6 +71,18 @@ https://budgetforge-os.netlify.app/
 - Balance tracking
 - Local Storage persistence
 - Reusable BudgetForge Modal
+
+---
+
+## 💾 Backup & Restore
+
+- Export complete BudgetForge backups
+- Restore backups from JSON
+- Versioned backup format
+- Automatic timestamped backup files
+- Full Local Storage backup
+- Cross-device migration
+- Backup validation before restore
 
 ---
 
@@ -160,7 +172,13 @@ https://budgetforge-os.netlify.app/
 
 ---
 
-## 💳 Debt Payoff Planner
+## 💳 Debt Management
+
+*(Screenshot coming soon)*
+
+---
+
+## 💾 Backup & Restore
 
 *(Screenshot coming soon)*
 
@@ -172,7 +190,10 @@ https://budgetforge-os.netlify.app/
 - ✅ Bills Management
 - ✅ Budget Overview
 - ✅ Savings Goals (Full CRUD)
-- ✅ Debt Payoff Planner (Full CRUD)
+- ✅ Debt Management (Full CRUD)
+- ✅ Backup & Restore
+- ✅ JSON Data Export
+- ✅ JSON Data Import
 - ✅ Spending Analytics
 - ✅ Interactive Doughnut Chart
 - ✅ Budget Utilization Meter
@@ -191,25 +212,23 @@ https://budgetforge-os.netlify.app/
 
 # 🎯 Current Release
 
-## Version 17.0
+## Version 18.0
 
 Latest additions include:
 
-- 💳 Debt Payoff Planner
-- 💰 Record Debt Payments
-- ✏️ Edit Debt Accounts
-- 🗑 Delete Debt Accounts
-- 📊 Debt Overview Dashboard
-- 💵 Monthly Minimum Tracking
-- 📈 Average APR Tracking
-- 🪟 Reusable Modal System
-- 💾 Local Storage Persistence
+- 💾 Backup & Restore
+- 📤 Export BudgetForge Data
+- 📥 Import BudgetForge Backups
+- 🗂 Versioned JSON Backups
+- 🛡 Backup Validation
+- 🔄 Automatic Restore
+- 🌍 Cross-device Migration
 
 ---
 
 # 🛣️ Roadmap
 
-## Version 17.1
+## Version 18.1
 
 - 🏔 Snowball Payoff Strategy
 - 🏔 Avalanche Payoff Strategy
@@ -217,7 +236,7 @@ Latest additions include:
 
 ---
 
-## Version 18
+## Version 19
 
 - 📅 Calendar View
 - 🔔 Bill Reminders
@@ -225,7 +244,7 @@ Latest additions include:
 
 ---
 
-## Version 19
+## Version 20
 
 - 📈 Financial Trends
 - 📊 Monthly Spending History
@@ -233,7 +252,7 @@ Latest additions include:
 
 ---
 
-## Version 20
+## Version 21
 
 - ☁️ Cloud Sync
 - 🔐 User Accounts
@@ -293,4 +312,4 @@ Built with ❤️ using React, Vite, and modern web technologies.
 
 **BudgetForge OS** is actively under development.
 
-Current development focuses on transforming BudgetForge into a complete personal finance platform with budgeting, savings, debt management, financial analytics, and future payoff planning tools.
+Current development focuses on expanding BudgetForge into a complete personal finance platform with budgeting, savings, debt management, analytics, secure backup & restore, and future cloud synchronization.
