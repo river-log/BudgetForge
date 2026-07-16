@@ -4,6 +4,27 @@ All notable changes to BudgetForge OS will be documented here.
 
 ---
 
+## Version 17.0
+
+### Added
+- Debt Payoff Planner
+- Debt Overview dashboard
+- Add Debt workspace
+- Edit Debt modal
+- Record Payment modal
+- Delete Debt confirmation modal
+- Monthly minimum payment tracking
+- Average APR calculation
+- Debt balance tracking
+- Full CRUD support for debt accounts
+
+### Improved
+- Expanded reusable modal architecture
+- Added Local Storage persistence for debt accounts
+- Improved overall financial planning workflow
+
+---
+
 ## Version 16.0
 
 ### Added

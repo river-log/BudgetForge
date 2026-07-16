@@ -2,7 +2,7 @@
 
 A modern personal finance dashboard built with **React**, **Vite**, and a desktop-inspired interface.
 
-BudgetForge OS helps users organize bills, manage monthly budgets, track savings goals, and visualize personal finances through a fast, responsive workspace.
+BudgetForge OS helps users organize bills, manage budgets, track savings goals, manage debt, and visualize personal finances through a fast, responsive workspace.
 
 ---
 
@@ -48,10 +48,27 @@ https://budgetforge-os.netlify.app/
 - Create unlimited savings goals
 - Deposit funds
 - Withdraw funds
+- Edit savings goals
+- Delete savings goals
 - Live progress tracking
 - Savings Overview dashboard
 - Completion percentage
 - Remaining balance calculation
+- Local Storage persistence
+- Reusable BudgetForge Modal
+
+---
+
+## 💳 Debt Payoff Planner
+
+- Create unlimited debt accounts
+- Record debt payments
+- Edit debt accounts
+- Delete debt accounts
+- Debt Overview dashboard
+- Monthly minimum payment tracking
+- Average APR calculation
+- Balance tracking
 - Local Storage persistence
 - Reusable BudgetForge Modal
 
@@ -64,6 +81,7 @@ https://budgetforge-os.netlify.app/
 - Budget Utilization Meter
 - Monthly Spending Overview
 - Savings Progress Tracking
+- Debt Overview
 - Category Analysis
 
 ---
@@ -98,7 +116,7 @@ https://budgetforge-os.netlify.app/
 - Toast Notifications
 - Reusable Modal System
 - Command Palette
-- Desktop-inspired UI
+- Desktop-inspired Interface
 - Local Storage Persistence
 
 ---
@@ -142,15 +160,24 @@ https://budgetforge-os.netlify.app/
 
 ---
 
+## 💳 Debt Payoff Planner
+
+*(Screenshot coming soon)*
+
+---
+
 # 🚀 Current Features
 
 - ✅ Dashboard Workspace
 - ✅ Bills Management
 - ✅ Budget Overview
-- ✅ Savings Goals
+- ✅ Savings Goals (Full CRUD)
+- ✅ Debt Payoff Planner (Full CRUD)
 - ✅ Spending Analytics
 - ✅ Interactive Doughnut Chart
 - ✅ Budget Utilization Meter
+- ✅ Debt Overview Dashboard
+- ✅ Savings Overview Dashboard
 - ✅ Command Palette
 - ✅ Keyboard Navigation
 - ✅ Reusable Modal System
@@ -164,27 +191,29 @@ https://budgetforge-os.netlify.app/
 
 # 🎯 Current Release
 
-## Version 16.0
+## Version 17.0
 
 Latest additions include:
 
-- 🏦 Savings Goals
-- 💰 Deposit Funds
-- ➖ Withdraw Funds
-- 📊 Savings Overview Dashboard
-- 📈 Goal Progress Tracking
+- 💳 Debt Payoff Planner
+- 💰 Record Debt Payments
+- ✏️ Edit Debt Accounts
+- 🗑 Delete Debt Accounts
+- 📊 Debt Overview Dashboard
+- 💵 Monthly Minimum Tracking
+- 📈 Average APR Tracking
 - 🪟 Reusable Modal System
-- ✨ Improved Desktop Experience
+- 💾 Local Storage Persistence
 
 ---
 
 # 🛣️ Roadmap
 
-## Version 17
+## Version 17.1
 
-- 💳 Debt Payoff Planner
-- 📉 Snowball vs Avalanche Calculator
-- 📅 Debt Progress Tracking
+- 🏔 Snowball Payoff Strategy
+- 🏔 Avalanche Payoff Strategy
+- ⭐ Recommended Debt to Pay Next
 
 ---
 
@@ -198,9 +227,9 @@ Latest additions include:
 
 ## Version 19
 
-- 🌙 Theme Customizer
-- 🎨 Accent Colors
-- 🖥️ Dashboard Customization
+- 📈 Financial Trends
+- 📊 Monthly Spending History
+- 💹 Savings Growth Charts
 
 ---
 
@@ -264,4 +293,4 @@ Built with ❤️ using React, Vite, and modern web technologies.
 
 **BudgetForge OS** is actively under development.
 
-The current focus is expanding the financial planning ecosystem with Savings Goals, Debt Management, interactive analytics, and additional productivity tools while maintaining a modern desktop-inspired experience.
+Current development focuses on transforming BudgetForge into a complete personal finance platform with budgeting, savings, debt management, financial analytics, and future payoff planning tools.
