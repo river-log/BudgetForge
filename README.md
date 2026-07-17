@@ -300,9 +300,10 @@ See **CHANGELOG.md** for the complete version history.
 
 ---
 
-# 👨‍💻 Author
+# 👨‍💻 Authors
 
 **Shane Edsall**
+**Future wife, Jorgette Ward**
 
 Built with ❤️ using React, Vite, and modern web technologies.
 
