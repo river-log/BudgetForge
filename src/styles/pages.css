@@ -259,6 +259,8 @@ grid-template-columns:1fr;
 
 }
 
+}
+
 .debt-strategy{
 
 margin-top:24px;
@@ -402,6 +404,8 @@ margin:3px 0;
 align-items:flex-start;
 
 flex-direction:column;
+
+}
 
 }
 
@@ -753,13 +757,6 @@ margin-left:86px;
 
 }
 
-.recommended-debt{
-
-width:100%;
-
-}
-
-}
 
 .budget-panel,
 .budget-panel-heading{
@@ -791,7 +788,5 @@ flex-wrap:wrap;
 .budget-row > span{
 
 min-width:calc(100% - 45px);
-
-}
 
 }
