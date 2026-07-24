@@ -1,64 +1,45 @@
+import { CloudUpload, Download } from "lucide-react";
+import { backupFile, downloadBackup } from "../utils/backup";
+
 function ExportDataCard() {
-  function exportData() {
-    const backup = {
-      version: "18.0",
-      exportDate: new Date().toISOString(),
+  async function exportToCloud() {
+    const file = backupFile();
 
-      income: JSON.parse(
-        localStorage.getItem("monthlyIncome") || "0"
-      ),
-
-      bills: JSON.parse(
-        localStorage.getItem("budgetforge-bills") || "[]"
-      ),
-
-      savings: JSON.parse(
-        localStorage.getItem("budgetforge-savings") || "[]"
-      ),
-
-      debts: JSON.parse(
-        localStorage.getItem("budgetforge-debts") || "[]"
-      ),
-    };
-
-    const blob = new Blob(
-      [JSON.stringify(backup, null, 2)],
-      {
-        type: "application/json",
+    if (navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({
+          title: "BudgetForge backup",
+          text: "My BudgetForge backup",
+          files: [file],
+        });
+        return;
+      } catch (error) {
+        if (error.name === "AbortError") return;
       }
-    );
+    }
 
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-
-    const date = new Date()
-      .toISOString()
-      .split("T")[0];
-
-    link.href = url;
-
-    link.download = `BudgetForge-${date}.json`;
-
-    link.click();
-
-    URL.revokeObjectURL(url);
+    downloadBackup(file);
+    alert("Your backup was downloaded. Upload it to your preferred cloud drive.");
   }
 
   return (
     <div className="widget">
-      <h2>💾 Export Backup</h2>
-
+      <CloudUpload size={28} aria-hidden="true" />
+      <h2>Cloud export</h2>
       <p className="text-muted">
-        Download a complete backup of your
-        BudgetForge data.
+        Send a complete backup to a cloud app, or download it to upload later.
       </p>
-
+      <button style={{ marginTop: "20px" }} onClick={exportToCloud}>
+        <CloudUpload size={18} aria-hidden="true" />
+        Export to cloud
+      </button>
       <button
-        style={{ marginTop: "20px" }}
-        onClick={exportData}
+        className="secondary-button"
+        style={{ marginTop: "12px", marginLeft: "10px" }}
+        onClick={() => downloadBackup()}
       >
-        Export Backup
+        <Download size={18} aria-hidden="true" />
+        Download
       </button>
     </div>
   );

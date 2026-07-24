@@ -1,73 +1,46 @@
-function ImportDataCard() {
-  function importData(event) {
-    const file = event.target.files[0];
+import { useRef } from "react";
+import { CloudDownload } from "lucide-react";
+import { restoreBackup } from "../utils/backup";
 
+function ImportDataCard() {
+  const inputRef = useRef(null);
+
+  function importData(event) {
+    const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-
-    reader.onload = (e) => {
+    reader.onload = () => {
       try {
-        const backup = JSON.parse(e.target.result);
-
-        if (
-          !backup.version ||
-          !backup.exportDate
-        ) {
-          alert("Invalid BudgetForge backup.");
-          return;
-        }
-
-        localStorage.setItem(
-          "monthlyIncome",
-          JSON.stringify(backup.income)
-        );
-
-        localStorage.setItem(
-          "budgetforge-bills",
-          JSON.stringify(backup.bills || [])
-        );
-
-        localStorage.setItem(
-          "budgetforge-savings",
-          JSON.stringify(backup.savings || [])
-        );
-
-        localStorage.setItem(
-          "budgetforge-debts",
-          JSON.stringify(backup.debts || [])
-        );
-
-        alert(
-          "Backup restored successfully!\n\nBudgetForge will now reload."
-        );
-
+        restoreBackup(JSON.parse(reader.result));
+        alert("Backup restored successfully. BudgetForge will now reload.");
         window.location.reload();
       } catch {
-        alert(
-          "This is not a valid BudgetForge backup."
-        );
+        alert("This is not a valid BudgetForge backup.");
       }
     };
-
     reader.readAsText(file);
+    event.target.value = "";
   }
 
   return (
     <div className="widget">
-      <h2>📂 Restore Backup</h2>
-
+      <CloudDownload size={28} aria-hidden="true" />
+      <h2>Cloud import</h2>
       <p className="text-muted">
-        Import a previously exported
-        BudgetForge backup.
+        Choose a BudgetForge backup from Google Drive, OneDrive, Dropbox, or your device.
       </p>
-
       <input
+        ref={inputRef}
         type="file"
-        accept=".json"
+        accept="application/json,.json"
         onChange={importData}
-        style={{ marginTop: "20px" }}
+        style={{ display: "none" }}
       />
+      <button style={{ marginTop: "20px" }} onClick={() => inputRef.current?.click()}>
+        <CloudDownload size={18} aria-hidden="true" />
+        Choose backup
+      </button>
     </div>
   );
 }

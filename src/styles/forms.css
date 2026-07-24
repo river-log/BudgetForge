@@ -46,3 +46,25 @@ transform:translateY(-2px);
 box-shadow:0 8px 20px rgba(91,124,255,.35);
 
 }
+
+button svg{
+
+vertical-align:middle;
+
+margin-right:7px;
+
+}
+
+.secondary-button{
+
+background:transparent;
+
+border:1px solid var(--border);
+
+}
+
+.secondary-button:hover{
+
+box-shadow:none;
+
+}
