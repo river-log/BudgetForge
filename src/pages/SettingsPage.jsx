@@ -1,5 +1,6 @@
 import ExportDataCard from "../widgets/ExportDataCard";
 import ImportDataCard from "../widgets/ImportDataCard";
+import CloudSyncCard from "../widgets/CloudSyncCard";
 
 function SettingsPage() {
   return (
@@ -20,6 +21,8 @@ function SettingsPage() {
         <ExportDataCard />
 
         <ImportDataCard />
+
+        <CloudSyncCard />
       </div>
     </>
   );

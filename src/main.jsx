@@ -12,11 +12,14 @@ import "./styles/dashboard.css";
 import "./styles/pages.css";
 import "./styles/animations.css";
 import App from "./App.jsx";
+import { CloudSyncProvider } from "./features/cloud/CloudSyncProvider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <CloudSyncProvider>
+        <App />
+      </CloudSyncProvider>
     </BrowserRouter>
   </StrictMode>
 );
