@@ -1,20 +1,35 @@
-## Version 18.0
+# Changelog
+
+All notable changes to BudgetForge OS are documented here.
+
+## [21.0] - 2026-07-24
 
 ### Added
-- Backup & Restore workspace
-- Export BudgetForge data as JSON
-- Restore BudgetForge backups
-- Automatic timestamped backup filenames
-- Versioned backup file format
-- Backup validation before import
-- Full Local Storage backup support
-- Cross-device data migration
-- Automatic application reload after restore
+
+- Supabase email-link authentication
+- Optional automatic multi-device cloud synchronization
+- Manual cloud-sync action and connection status
+- Financial reports with spending, savings-growth, and category-trend charts
+- Bill calendar with monthly payment tracking
+- Upcoming-payment timeline and configurable browser reminders
+- Debt snowball and avalanche payoff strategies
 
 ### Improved
-- Data portability
-- User data protection
-- Disaster recovery experience
-- Overall application reliability
 
----
+- Bill payments are tracked by month rather than as a permanent paid status
+- Data backup and restore workflow remains available for local-only users
+- README and release metadata now reflect the current v21.0 feature set
+
+## [18.0]
+
+### Added
+
+- Backup and Restore workspace
+- JSON export and import for BudgetForge data
+- Timestamped, versioned backup files
+- Backup validation and application reload after restore
+
+### Improved
+
+- Data portability and recovery experience
+- Local data protection and reliability
