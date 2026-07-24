@@ -19,6 +19,7 @@ import CalendarPage from "./pages/CalendarPage";
 import ToastContainer from "./features/toasts/ToastContainer";
 import CommandPalette from "./features/commandPalette/commandPalette";
 import "./features/commandPalette/commandPalette.css";
+import { recordPayment } from "./utils/history";
 
 function App() {
   // Bills
@@ -95,6 +96,12 @@ function App() {
   }
 
   function togglePaid(id) {
+    const bill = bills.find((item) => item.id === id);
+
+    if (bill && !bill.paid) {
+      recordPayment(bill);
+    }
+
     setBills((prev) =>
       prev.map((bill) =>
         bill.id === id
@@ -212,7 +219,7 @@ function App() {
 
           <Route
             path="/reports"
-            element={<ReportsPage />}
+            element={<ReportsPage bills={bills} monthlyIncome={monthlyIncome} />}
           />
 
           <Route

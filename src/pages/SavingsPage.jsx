@@ -5,6 +5,7 @@ import "../components/Modal.css";
 import SavingsSummaryWidget from "../widgets/SavingsSummaryWidget";
 import SavingsGoalCard from "../widgets/SavingsGoalCard";
 import AddSavingsGoal from "../widgets/AddSavingsGoal";
+import { recordSavingsSnapshot } from "../utils/history";
 
 function SavingsPage() {
   const [goals, setGoals] = useState(() => {
@@ -36,6 +37,10 @@ function SavingsPage() {
       "budgetforge-savings",
       JSON.stringify(goals)
     );
+  }, [goals]);
+
+  useEffect(() => {
+    recordSavingsSnapshot(goals);
   }, [goals]);
 
   function addGoal(goal) {
