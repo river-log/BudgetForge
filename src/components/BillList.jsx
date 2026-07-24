@@ -10,7 +10,7 @@ function BillList({ bills, togglePaid, deleteBill }) {
     )
     .sort(
       (a, b) =>
-        new Date(a.dueDate) - new Date(b.dueDate)
+        new Date(a.occurrenceDate || a.dueDate) - new Date(b.occurrenceDate || b.dueDate)
     );
 
   return (

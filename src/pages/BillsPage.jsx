@@ -7,6 +7,12 @@ import BillsSummary from "../features/bills/BillsSummary";
 import BillsToolbar from "../features/bills/BillsToolbar";
 import { isPaidForMonth } from "../utils/billPayments";
 
+function occurrenceDate(bill, date = new Date()) {
+  const source = new Date(`${bill.dueDate}T12:00:00`);
+  const maxDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  return new Date(date.getFullYear(), date.getMonth(), Math.min(source.getDate(), maxDay), 12).toISOString().slice(0, 10);
+}
+
 function BillsPage({
   bills,
   addBill,
@@ -20,6 +26,7 @@ function BillsPage({
     return bills.map((bill) => ({
       ...bill,
       paid: isPaidForMonth(bill),
+      occurrenceDate: occurrenceDate(bill),
     })).filter((bill) => {
       const matchesSearch =
         bill.name
@@ -44,7 +51,7 @@ function BillsPage({
           <h1>💳 Bills</h1>
 
           <p>
-            Manage all of your monthly bills.
+            Manage bills for {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}.
           </p>
         </div>
       </div>

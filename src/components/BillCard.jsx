@@ -2,7 +2,7 @@ function BillCard({ bill, togglePaid, deleteBill }) {
 
   const today = new Date();
 
-  const dueDate = new Date(bill.dueDate);
+  const dueDate = new Date(`${bill.occurrenceDate || bill.dueDate}T12:00:00`);
 
   const diff =
     (dueDate - today) / (1000 * 60 * 60 * 24);
