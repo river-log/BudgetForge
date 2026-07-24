@@ -5,6 +5,7 @@ import BillList from "../components/BillList";
 
 import BillsSummary from "../features/bills/BillsSummary";
 import BillsToolbar from "../features/bills/BillsToolbar";
+import { isPaidForMonth } from "../utils/billPayments";
 
 function BillsPage({
   bills,
@@ -16,7 +17,10 @@ function BillsPage({
   const [filter, setFilter] = useState("all");
 
   const filteredBills = useMemo(() => {
-    return bills.filter((bill) => {
+    return bills.map((bill) => ({
+      ...bill,
+      paid: isPaidForMonth(bill),
+    })).filter((bill) => {
       const matchesSearch =
         bill.name
           .toLowerCase()

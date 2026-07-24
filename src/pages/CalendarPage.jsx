@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Bell, CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
+import { isPaidForMonth } from "../utils/billPayments";
 
 const REMINDER_KEY = "budgetforge-reminder-days";
 
@@ -25,14 +26,17 @@ function CalendarPage({ bills, togglePaid }) {
   const monthLabel = cursor.toLocaleDateString("en-US", { month: "long", year: "numeric" });
   const firstWeekday = new Date(year, month, 1).getDay();
 
-  const monthBills = useMemo(() => bills.map((bill) => ({ ...bill, calendarDate: billDateInMonth(bill, year, month) })).filter((bill) => bill.calendarDate), [bills, year, month]);
+  const monthBills = useMemo(() => bills.map((bill) => {
+    const calendarDate = billDateInMonth(bill, year, month);
+    return { ...bill, calendarDate, paid: calendarDate ? isPaidForMonth(bill, calendarDate) : false };
+  }).filter((bill) => bill.calendarDate), [bills, year, month]);
   const timeline = useMemo(() => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return bills.map((bill) => {
       const due = billDateInMonth(bill, today.getFullYear(), today.getMonth());
       if (due < today) due.setMonth(due.getMonth() + 1);
-      return { ...bill, nextDue: due };
+      return { ...bill, nextDue: due, paid: isPaidForMonth(bill, due) };
     }).filter((bill) => (bill.nextDue - today) / 86400000 <= 30).sort((left, right) => left.nextDue - right.nextDue);
   }, [bills]);
 
@@ -78,7 +82,7 @@ function CalendarPage({ bills, togglePaid }) {
             {calendarCells.map((day, index) => {
               const items = day ? monthBills.filter((bill) => bill.calendarDate.getDate() === day) : [];
               return <div className="calendar-day" key={`${day}-${index}`}>
-                {day && <><span className="calendar-date">{day}</span>{items.map((bill) => <button key={bill.id} className={`calendar-bill ${bill.paid ? "paid" : ""}`} title={`${bill.name}: ${formatCurrency(bill.amount)}`} onClick={() => togglePaid(bill.id)}>{bill.name}</button>)}</>}
+                {day && <><span className="calendar-date">{day}</span>{items.map((bill) => <button key={bill.id} className={`calendar-bill ${bill.paid ? "paid" : ""}`} title={`${bill.name}: ${formatCurrency(bill.amount)}`} onClick={() => togglePaid(bill.id, bill.calendarDate)}>{bill.name}</button>)}</>}
               </div>;
             })}
           </div>
@@ -102,7 +106,7 @@ function CalendarPage({ bills, togglePaid }) {
 
       <section className="panel timeline-panel">
         <div className="timeline-heading"><div><Clock3 size={22} aria-hidden="true" /><h2>Upcoming payment timeline</h2></div><span>Next 30 days</span></div>
-        {timeline.length ? <div className="timeline-list">{timeline.map((bill) => <div className={`timeline-row ${bill.paid ? "paid" : ""}`} key={bill.id}><div className="timeline-date"><strong>{bill.nextDue.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</strong><span>{Math.max(0, Math.ceil((bill.nextDue - new Date().setHours(0, 0, 0, 0)) / 86400000))} days</span></div><div><strong>{bill.name}</strong><span>{bill.category || "Other"}</span></div><strong>{formatCurrency(bill.amount)}</strong><button className="secondary-button" onClick={() => togglePaid(bill.id)}>{bill.paid ? "Paid" : "Mark paid"}</button></div>)}</div> : <div className="timeline-empty"><CalendarDays size={28} /><p>Add bills with due dates to create your payment timeline.</p></div>}
+        {timeline.length ? <div className="timeline-list">{timeline.map((bill) => <div className={`timeline-row ${bill.paid ? "paid" : ""}`} key={bill.id}><div className="timeline-date"><strong>{bill.nextDue.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</strong><span>{Math.max(0, Math.ceil((bill.nextDue - new Date().setHours(0, 0, 0, 0)) / 86400000))} days</span></div><div><strong>{bill.name}</strong><span>{bill.category || "Other"}</span></div><strong>{formatCurrency(bill.amount)}</strong><button className="secondary-button" onClick={() => togglePaid(bill.id, bill.nextDue)}>{bill.paid ? "Paid" : "Mark paid"}</button></div>)}</div> : <div className="timeline-empty"><CalendarDays size={28} /><p>Add bills with due dates to create your payment timeline.</p></div>}
       </section>
     </>
   );

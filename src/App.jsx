@@ -20,6 +20,7 @@ import ToastContainer from "./features/toasts/ToastContainer";
 import CommandPalette from "./features/commandPalette/commandPalette";
 import "./features/commandPalette/commandPalette.css";
 import { recordPayment } from "./utils/history";
+import { isPaidForMonth, toggleBillMonth } from "./utils/billPayments";
 
 function App() {
   // Bills
@@ -95,17 +96,17 @@ function App() {
     showToast("Bill added successfully!", "success");
   }
 
-  function togglePaid(id) {
+  function togglePaid(id, date = new Date()) {
     const bill = bills.find((item) => item.id === id);
 
-    if (bill && !bill.paid) {
+    if (bill && !isPaidForMonth(bill, date)) {
       recordPayment(bill);
     }
 
     setBills((prev) =>
       prev.map((bill) =>
         bill.id === id
-          ? { ...bill, paid: !bill.paid }
+          ? toggleBillMonth(bill, date)
           : bill
       )
     );
