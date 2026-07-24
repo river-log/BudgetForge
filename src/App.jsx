@@ -14,6 +14,7 @@ import SavingsPage from "./pages/SavingsPage";
 import DebtPage from "./pages/DebtPage";
 import ReportsPage from "./pages/ReportsPage";
 import SettingsPage from "./pages/SettingsPage";
+import CalendarPage from "./pages/CalendarPage";
 
 import ToastContainer from "./features/toasts/ToastContainer";
 import CommandPalette from "./features/commandPalette/commandPalette";
@@ -192,6 +193,11 @@ function App() {
                 monthlyIncome={monthlyIncome}
               />
             }
+          />
+
+          <Route
+            path="/calendar"
+            element={<CalendarPage bills={bills} togglePaid={togglePaid} />}
           />
 
           <Route

@@ -5,6 +5,7 @@ import {
   PiggyBank,
   Landmark,
   BarChart3,
+  CalendarDays,
   Settings,
   X,
 } from "lucide-react";
@@ -60,6 +61,15 @@ function MobileDrawer({
           >
             <Wallet size={20} />
             Budget
+          </NavLink>
+
+          <NavLink
+            to="/calendar"
+            className="nav-item"
+            onClick={onClose}
+          >
+            <CalendarDays size={20} />
+            Calendar
           </NavLink>
 
           <NavLink

@@ -5,6 +5,7 @@ import {
   PiggyBank,
   Landmark,
   BarChart3,
+  CalendarDays,
   Settings,
 } from "lucide-react";
 
@@ -46,6 +47,11 @@ function Sidebar() {
           <NavLink to="/budget" className="nav-item">
             <Wallet size={20} />
             Budget
+          </NavLink>
+
+          <NavLink to="/calendar" className="nav-item">
+            <CalendarDays size={20} />
+            Calendar
           </NavLink>
 
           <NavLink to="/savings" className="nav-item">

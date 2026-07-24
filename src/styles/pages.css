@@ -259,6 +259,508 @@ grid-template-columns:1fr;
 
 }
 
+.debt-strategy{
+
+margin-top:24px;
+
+min-height:0;
+
+}
+
+.strategy-heading,
+.strategy-heading > div,
+.strategy-details,
+.recommended-debt{
+
+display:flex;
+
+align-items:center;
+
+}
+
+.strategy-heading{
+
+justify-content:space-between;
+
+gap:20px;
+
+}
+
+.strategy-heading > div:first-child{
+
+gap:12px;
+
+}
+
+.strategy-heading h2{
+
+font-size:22px;
+
+margin-bottom:4px;
+
+}
+
+.strategy-heading p,
+.strategy-details p{
+
+color:var(--muted);
+
+}
+
+.strategy-toggle{
+
+padding:4px;
+
+background:rgba(255,255,255,.06);
+
+border-radius:12px;
+
+}
+
+.strategy-toggle button{
+
+padding:9px 12px;
+
+background:transparent;
+
+box-shadow:none;
+
+}
+
+.strategy-toggle button.selected{
+
+background:linear-gradient(90deg,var(--primary),var(--primary2));
+
+}
+
+.strategy-details{
+
+justify-content:space-between;
+
+gap:24px;
+
+margin-top:24px;
+
+padding-top:22px;
+
+border-top:1px solid var(--border);
+
+}
+
+.strategy-details > div:first-child{
+
+max-width:540px;
+
+}
+
+.strategy-details h3{
+
+margin-bottom:8px;
+
+}
+
+.recommended-debt{
+
+min-width:300px;
+
+gap:12px;
+
+padding:16px;
+
+background:rgba(91,124,255,.12);
+
+border:1px solid rgba(91,124,255,.35);
+
+border-radius:14px;
+
+}
+
+.recommended-debt span,
+.recommended-debt small{
+
+display:block;
+
+color:var(--muted);
+
+font-size:13px;
+
+}
+
+.recommended-debt strong{
+
+display:block;
+
+margin:3px 0;
+
+}
+
+@media(max-width:700px){
+
+.strategy-heading,
+.strategy-details{
+
+align-items:flex-start;
+
+flex-direction:column;
+
+}
+
+.calendar-layout{
+
+display:grid;
+
+grid-template-columns:minmax(0,2fr) minmax(280px,1fr);
+
+gap:22px;
+
+align-items:start;
+
+}
+
+.calendar-panel,
+.timeline-panel{
+
+padding:26px;
+
+}
+
+.calendar-controls,
+.timeline-heading,
+.timeline-heading > div,
+.reminders-title,
+.timeline-row{
+
+display:flex;
+
+align-items:center;
+
+}
+
+.calendar-controls{
+
+justify-content:space-between;
+
+margin-bottom:18px;
+
+}
+
+.calendar-controls h2{
+
+font-size:22px;
+
+}
+
+.calendar-weekdays,
+.calendar-grid{
+
+display:grid;
+
+grid-template-columns:repeat(7,minmax(0,1fr));
+
+}
+
+.calendar-weekdays span{
+
+padding:8px;
+
+color:var(--muted);
+
+font-size:12px;
+
+font-weight:700;
+
+text-align:center;
+
+}
+
+.calendar-day{
+
+min-height:100px;
+
+padding:7px;
+
+border:1px solid rgba(255,255,255,.06);
+
+}
+
+.calendar-date{
+
+display:block;
+
+margin-bottom:6px;
+
+color:var(--muted);
+
+font-size:12px;
+
+}
+
+.calendar-bill{
+
+display:block;
+
+width:100%;
+
+overflow:hidden;
+
+margin:3px 0;
+
+padding:5px 6px;
+
+background:rgba(91,124,255,.2);
+
+border-radius:6px;
+
+color:#dfe5ff;
+
+font-size:11px;
+
+line-height:1.1;
+
+text-align:left;
+
+text-overflow:ellipsis;
+
+white-space:nowrap;
+
+box-shadow:none;
+
+}
+
+.calendar-bill.paid{
+
+opacity:.48;
+
+text-decoration:line-through;
+
+}
+
+.calendar-bill:hover{
+
+transform:none;
+
+box-shadow:none;
+
+}
+
+.calendar-note{
+
+margin-top:14px;
+
+color:var(--muted);
+
+font-size:13px;
+
+}
+
+.reminders-panel{
+
+min-height:0;
+
+}
+
+.reminders-title,
+.timeline-heading > div{
+
+gap:10px;
+
+}
+
+.reminders-title h2,
+.timeline-heading h2{
+
+font-size:21px;
+
+}
+
+.reminders-panel > p{
+
+margin:15px 0 8px;
+
+}
+
+.reminder-list{
+
+margin-top:20px;
+
+border-top:1px solid var(--border);
+
+}
+
+.reminder-list > div{
+
+padding:12px 0;
+
+border-bottom:1px solid var(--border);
+
+}
+
+.reminder-list strong,
+.reminder-list span,
+.timeline-row span{
+
+display:block;
+
+}
+
+.reminder-list span,
+.timeline-row span{
+
+margin-top:3px;
+
+color:var(--muted);
+
+font-size:13px;
+
+}
+
+.timeline-panel{
+
+margin-top:22px;
+
+}
+
+.timeline-heading{
+
+justify-content:space-between;
+
+margin-bottom:18px;
+
+}
+
+.timeline-heading > span{
+
+color:var(--muted);
+
+font-size:14px;
+
+}
+
+.timeline-row{
+
+gap:18px;
+
+padding:15px 0;
+
+border-top:1px solid var(--border);
+
+}
+
+.timeline-row > div:nth-child(2){
+
+flex:1;
+
+}
+
+.timeline-row.paid{
+
+opacity:.55;
+
+}
+
+.timeline-date{
+
+min-width:76px;
+
+}
+
+.timeline-row .secondary-button{
+
+padding:9px 12px;
+
+}
+
+.timeline-empty{
+
+padding:30px 0 8px;
+
+color:var(--muted);
+
+text-align:center;
+
+}
+
+.timeline-empty svg{
+
+margin-bottom:8px;
+
+}
+
+@media(max-width:950px){
+
+.calendar-layout{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:620px){
+
+.calendar-panel,
+.timeline-panel{
+
+padding:16px;
+
+}
+
+.calendar-day{
+
+min-height:70px;
+
+padding:4px;
+
+}
+
+.calendar-weekdays span{
+
+padding:6px 2px;
+
+font-size:10px;
+
+}
+
+.calendar-bill{
+
+padding:4px;
+
+font-size:9px;
+
+}
+
+.timeline-row{
+
+align-items:flex-start;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+}
+
+.timeline-row > div:nth-child(2){
+
+flex-basis:calc(100% - 86px);
+
+}
+
+.timeline-row .secondary-button{
+
+margin-left:86px;
+
+}
+
+}
+
+.recommended-debt{
+
+width:100%;
+
+}
+
+}
+
 .budget-panel,
 .budget-panel-heading{
 

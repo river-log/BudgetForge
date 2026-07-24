@@ -5,6 +5,7 @@ import "../components/Modal.css";
 import DebtSummaryWidget from "../widgets/DebtSummaryWidget";
 import DebtCard from "../widgets/DebtCard";
 import AddDebt from "../widgets/AddDebt";
+import DebtStrategyWidget from "../widgets/DebtStrategyWidget";
 
 function DebtPage() {
   const [debts, setDebts] = useState(() => {
@@ -27,6 +28,10 @@ function DebtPage() {
   const [payment, setPayment] =
     useState("");
 
+  const [strategy, setStrategy] = useState(() => (
+    localStorage.getItem("budgetforge-debt-strategy") || "snowball"
+  ));
+
   const [editName, setEditName] =
     useState("");
 
@@ -45,6 +50,10 @@ function DebtPage() {
       JSON.stringify(debts)
     );
   }, [debts]);
+
+  useEffect(() => {
+    localStorage.setItem("budgetforge-debt-strategy", strategy);
+  }, [strategy]);
 
   function addDebt(debt) {
     setDebts((prev) => [...prev, debt]);
@@ -190,6 +199,12 @@ function DebtPage() {
       </div>
 
       <DebtSummaryWidget debts={debts} />
+
+      <DebtStrategyWidget
+        debts={debts}
+        strategy={strategy}
+        setStrategy={setStrategy}
+      />
 
       <div
         className="widget-grid"
