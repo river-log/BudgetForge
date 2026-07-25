@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useToast } from "../features/toasts";
 
 function IncomeWidget({
   income,
   bills,
   setIncome,
-  showToast,
 }) {
+  const { showToast } = useToast();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(income);
 

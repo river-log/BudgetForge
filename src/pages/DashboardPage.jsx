@@ -9,8 +9,9 @@ import UpcomingBillsWidget from "../widgets/UpcomingBillsWidget";
 import RecentActivityWidget from "../widgets/RecentActivityWidget";
 import CategoryPieChart from "../widgets/CategoryPieChart";
 import { useBudget } from "../context";
+import { useToast } from "../features/toasts";
 
-function DashboardPage({ showToast }) {
+function DashboardPage() {
   const {
     bills,
     monthlyIncome,
@@ -18,6 +19,7 @@ function DashboardPage({ showToast }) {
     userName,
     setUserName,
   } = useBudget();
+  const { showToast } = useToast();
   const [nameInput, setNameInput] = useState("");
 
   function saveName() {
@@ -82,7 +84,6 @@ function DashboardPage({ showToast }) {
           income={monthlyIncome}
           bills={bills}
           setIncome={setMonthlyIncome}
-          showToast={showToast}
         />
 
         <QuickStatsWidget bills={bills} />

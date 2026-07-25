@@ -3,9 +3,8 @@ import useBudgetData from "../hooks/useBudgetData";
 
 export default function BudgetProvider({
   children,
-  showToast,
 }) {
-  const budget = useBudgetData(showToast);
+  const budget = useBudgetData();
 
   return (
     <BudgetContext.Provider value={budget}>

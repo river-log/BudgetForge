@@ -5,8 +5,10 @@ import {
   isPaidForMonth,
   toggleBillMonth,
 } from "../utils/billPayments";
+import { useToast } from "../features/toasts";
 
-export default function useBudgetData(showToast) {
+export default function useBudgetData() {
+  const { showToast } = useToast();
   // Bills
   const [bills, setBills] = useState(() => {
     const saved = localStorage.getItem("budgetforge-bills");
@@ -51,7 +53,7 @@ export default function useBudgetData(showToast) {
   function addBill(newBill) {
     setBills((prev) => [...prev, newBill]);
 
-    showToast?.(
+    showToast(
       "Bill added successfully!",
       "success"
     );
@@ -72,7 +74,7 @@ export default function useBudgetData(showToast) {
       )
     );
 
-    showToast?.(
+    showToast(
       "Bill status updated.",
       "info"
     );
@@ -83,7 +85,7 @@ export default function useBudgetData(showToast) {
       prev.filter((bill) => bill.id !== id)
     );
 
-    showToast?.(
+    showToast(
       "Bill deleted.",
       "error"
     );

@@ -1,6 +1,5 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
 
 import "./index.css";
 import "./styles/theme.css";
@@ -12,14 +11,12 @@ import "./styles/dashboard.css";
 import "./styles/pages.css";
 import "./styles/animations.css";
 import App from "./App.jsx";
-import { CloudSyncProvider } from "./features/cloud/CloudSyncProvider";
+import { AppProviders } from "./providers";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter>
-      <CloudSyncProvider>
-        <App />
-      </CloudSyncProvider>
-    </BrowserRouter>
+    <AppProviders>
+      <App />
+    </AppProviders>
   </StrictMode>
 );

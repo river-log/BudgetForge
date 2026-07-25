@@ -1,21 +1,24 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import Spinner from "../ui/Spinner";
 
-import DashboardPage from "../pages/DashboardPage";
-import BillsPage from "../pages/BillsPage";
-import BudgetPage from "../pages/BudgetPage";
-import SavingsPage from "../pages/SavingsPage";
-import DebtPage from "../pages/DebtPage";
-import ReportsPage from "../pages/ReportsPage";
-import SettingsPage from "../pages/SettingsPage";
-import CalendarPage from "../pages/CalendarPage";
+const DashboardPage = lazy(() => import("../pages/DashboardPage"));
+const BillsPage = lazy(() => import("../pages/BillsPage"));
+const BudgetPage = lazy(() => import("../pages/BudgetPage"));
+const CalendarPage = lazy(() => import("../pages/CalendarPage"));
+const SavingsPage = lazy(() => import("../pages/SavingsPage"));
+const DebtPage = lazy(() => import("../pages/DebtPage"));
+const ReportsPage = lazy(() => import("../pages/ReportsPage"));
+const SettingsPage = lazy(() => import("../pages/SettingsPage"));
 
-function AppRouter({ showToast }) {
+function AppRouter() {
   return (
-    <Routes>
+    <Suspense fallback={<Spinner size="lg" centered label="Loading page..." />}>
+      <Routes>
       <Route
         path="/"
         element={
-          <DashboardPage showToast={showToast} />
+          <DashboardPage />
         }
       />
 
@@ -61,7 +64,8 @@ function AppRouter({ showToast }) {
         path="/settings"
         element={<SettingsPage />}
       />
-    </Routes>
+      </Routes>
+    </Suspense>
   );
 }
 
