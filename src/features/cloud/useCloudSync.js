@@ -2,5 +2,13 @@ import { useContext } from "react";
 import CloudSyncContext from "./CloudSyncContext";
 
 export default function useCloudSync() {
-  return useContext(CloudSyncContext);
+  const context = useContext(CloudSyncContext);
+
+  if (!context) {
+    throw new Error(
+      "useCloudSync must be used inside CloudSyncProvider."
+    );
+  }
+
+  return context;
 }
