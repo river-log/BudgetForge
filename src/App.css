@@ -1097,3 +1097,22 @@ select:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Budget category rows need their own breathing room inside the spending plan. */
+.budget-panel .budget-row {
+  padding: var(--space-lg);
+  gap: var(--space-lg);
+}
+
+.budget-panel .budget-row > span {
+  padding-left: var(--space-xs);
+}
+
+.budget-panel .budget-row input,
+.budget-panel .budget-row .icon-button {
+  min-height: 44px;
+}
+
+.budget-panel .budget-row .icon-button {
+  min-width: 44px;
+}
