@@ -1,101 +1,24 @@
 import { useState } from "react";
-
+import { Handshake } from "lucide-react";
 import DashboardHeader from "../widgets/DashboardHeader";
 import WidgetGrid from "../widgets/WidgetGrid";
-
 import IncomeWidget from "../widgets/IncomeWidget";
 import QuickStatsWidget from "../widgets/QuickStatsWidget";
 import UpcomingBillsWidget from "../widgets/UpcomingBillsWidget";
 import RecentActivityWidget from "../widgets/RecentActivityWidget";
 import CategoryPieChart from "../widgets/CategoryPieChart";
+import { Button, Card, CardContent, CardHeader, CardTitle } from "../ui";
 import { useBudget } from "../context";
 import { useToast } from "../features/toasts";
+import "../widgets/dashboard.css";
 
 function DashboardPage() {
-  const {
-    bills,
-    monthlyIncome,
-    setMonthlyIncome,
-    userName,
-    setUserName,
-  } = useBudget();
+  const { bills, monthlyIncome, setMonthlyIncome, userName, setUserName } = useBudget();
   const { showToast } = useToast();
   const [nameInput, setNameInput] = useState("");
+  function saveName() { const trimmed = nameInput.trim(); if (!trimmed) return; setUserName(trimmed); showToast(`Welcome to BudgetForge, ${trimmed}!`, "success"); }
 
-  function saveName() {
-    const trimmed = nameInput.trim();
-
-    if (!trimmed) return;
-
-    setUserName(trimmed);
-
-    showToast(
-      `Welcome to BudgetForge, ${trimmed}!`,
-      "success"
-    );
-  }
-
-  return (
-    <>
-      {!userName && (
-        <div
-          className="panel"
-          style={{ marginBottom: "30px" }}
-        >
-          <h2>👋 Welcome to BudgetForge OS</h2>
-
-          <p
-            style={{
-              color: "var(--muted)",
-              marginTop: "10px",
-              marginBottom: "20px",
-            }}
-          >
-            Before we get started, what should we call you?
-          </p>
-
-          <input
-            type="text"
-            placeholder="Enter your name..."
-            value={nameInput}
-            onChange={(e) =>
-              setNameInput(e.target.value)
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                saveName();
-              }
-            }}
-          />
-
-          <button
-            style={{ marginTop: "15px" }}
-            onClick={saveName}
-          >
-            Continue
-          </button>
-        </div>
-      )}
-
-      <DashboardHeader userName={userName} />
-
-      <WidgetGrid>
-        <IncomeWidget
-          income={monthlyIncome}
-          bills={bills}
-          setIncome={setMonthlyIncome}
-        />
-
-        <QuickStatsWidget bills={bills} />
-
-        <CategoryPieChart bills={bills} />
-
-        <UpcomingBillsWidget bills={bills} />
-
-        <RecentActivityWidget />
-      </WidgetGrid>
-    </>
-  );
+  return <div className="dashboard-page">{!userName && <Card className="dashboard-welcome" variant="subtle" padding="lg"><CardHeader className="dashboard-widget__header"><div className="dashboard-widget__heading"><span className="dashboard-widget__icon"><Handshake size={19} aria-hidden="true" /></span><div><CardTitle className="dashboard-widget__title">Welcome to BudgetForge</CardTitle><p className="dashboard-widget__description">Before we get started, what should we call you?</p></div></div></CardHeader><CardContent className="dashboard-welcome__content"><label htmlFor="user-name" className="sr-only">Your name</label><input id="user-name" type="text" placeholder="Enter your name..." value={nameInput} onChange={(event) => setNameInput(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") saveName(); }} /><div><Button onClick={saveName}>Continue</Button></div></CardContent></Card>}<DashboardHeader userName={userName} /><WidgetGrid><IncomeWidget income={monthlyIncome} bills={bills} setIncome={setMonthlyIncome} /><QuickStatsWidget bills={bills} /><CategoryPieChart bills={bills} /><UpcomingBillsWidget bills={bills} /><RecentActivityWidget /></WidgetGrid></div>;
 }
 
 export default DashboardPage;

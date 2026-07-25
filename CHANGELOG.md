@@ -2,6 +2,20 @@
 
 All notable changes to BudgetForge OS are documented here.
 
+## [2.3.0] - 2026-07-24
+
+### Added
+
+- Forge-brand release polish across the application workspaces
+- Lightweight first-run onboarding with a separate dismissal marker
+- Web manifest, Open Graph/Twitter metadata, social preview, and SPA redirect support
+- Vitest release-test foundation for onboarding and cloud-storage isolation utilities
+- Release checklist and updated production documentation
+
+### Improved
+
+- Consistent loading, error, empty-state, responsive, and accessibility presentation
+
 ## [21.0] - 2026-07-24
 
 ### Added

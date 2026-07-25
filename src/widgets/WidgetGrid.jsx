@@ -1,15 +1,5 @@
-function WidgetGrid({children}){
-
-return(
-
-<div className="widget-grid">
-
-{children}
-
-</div>
-
-);
-
+function WidgetGrid({ children }) {
+  return <section className="widget-grid" aria-label="Financial overview">{children}</section>;
 }
 
 export default WidgetGrid;

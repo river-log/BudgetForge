@@ -23,9 +23,9 @@ function ExportDataCard() {
   }
 
   return (
-    <div className="widget">
+    <div className="widget settings-card">
       <CloudUpload size={28} aria-hidden="true" />
-      <h2>Cloud export</h2>
+      <h2>Export backup</h2>
       <p className="text-muted">
         Send a complete backup to a cloud app, or download it to upload later.
       </p>

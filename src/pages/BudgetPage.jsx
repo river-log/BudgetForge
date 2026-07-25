@@ -51,8 +51,8 @@ function BudgetPage() {
   }
 
   return (
-    <>
-      <div className="dashboard-header">
+    <div className="workspace-page">
+      <div className="workspace-header">
         <div>
           <h1>Budget</h1>
           <p className="text-muted">Plan every dollar of this month’s income.</p>
@@ -66,7 +66,7 @@ function BudgetPage() {
         <div className={remaining < 0 ? "budget-negative" : ""}><span>{remaining < 0 ? "Over budget" : "Left to assign"}</span><strong>{formatCurrency(Math.abs(remaining))}</strong></div>
       </section>
 
-      <section className="panel budget-panel">
+      <section className="panel budget-panel workspace-section">
         <div className="budget-panel-heading">
           <div><Wallet size={22} aria-hidden="true" /><h2>Spending plan</h2></div>
           <span>{monthlyIncome ? `${Math.min(100, Math.round(((plannedTotal + billsTotal) / monthlyIncome) * 100))}% assigned` : "Add income to begin"}</span>
@@ -91,7 +91,7 @@ function BudgetPage() {
           <button type="submit"><Plus size={18} /> Add category</button>
         </form>
       </section>
-    </>
+    </div>
   );
 }
 

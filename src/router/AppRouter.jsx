@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Spinner from "../ui/Spinner";
+import { Logo } from "../components/branding";
 
 const DashboardPage = lazy(() => import("../pages/DashboardPage"));
 const BillsPage = lazy(() => import("../pages/BillsPage"));
@@ -13,7 +14,7 @@ const SettingsPage = lazy(() => import("../pages/SettingsPage"));
 
 function AppRouter() {
   return (
-    <Suspense fallback={<Spinner size="lg" centered label="Loading page..." />}>
+    <Suspense fallback={<RouteLoadingFallback />}>
       <Routes>
       <Route
         path="/"
@@ -66,6 +67,15 @@ function AppRouter() {
       />
       </Routes>
     </Suspense>
+  );
+}
+
+function RouteLoadingFallback() {
+  return (
+    <div className="route-loading" role="status" aria-live="polite">
+      <Logo variant="mark" theme="dark" size="lg" decorative />
+      <Spinner size="md" label="Loading your financial workspace..." />
+    </div>
   );
 }
 

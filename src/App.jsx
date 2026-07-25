@@ -10,6 +10,7 @@ import CommandPalette from "./features/commandPalette/commandPalette";
 import "./features/commandPalette/commandPalette.css";
 
 import { AppRouter } from "./router";
+import Onboarding from "./features/onboarding/Onboarding.jsx";
 
 function App() {
   // Command Palette
@@ -64,6 +65,8 @@ function App() {
         open={commandOpen}
         onClose={() => setCommandOpen(false)}
       />
+
+      <Onboarding />
 
     </div>
   );

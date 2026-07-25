@@ -1,43 +1,9 @@
 function BillsSummary({ bills }) {
-  const paid = bills.filter((b) => b.paid);
-
-  const unpaid = bills.filter((b) => !b.paid);
-
-  const totalDue = unpaid.reduce(
-    (sum, bill) => sum + Number(bill.amount || 0),
-    0
-  );
-
-  return (
-    <div className="widget-grid">
-
-      <div className="widget">
-        <h3>Total Bills</h3>
-        <h1>{bills.length}</h1>
-      </div>
-
-      <div className="widget">
-        <h3>Paid</h3>
-        <h1>{paid.length}</h1>
-      </div>
-
-      <div className="widget">
-        <h3>Unpaid</h3>
-        <h1>{unpaid.length}</h1>
-      </div>
-
-      <div className="widget">
-        <h3>Total Due</h3>
-        <h1>
-          {totalDue.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
-        </h1>
-      </div>
-
-    </div>
-  );
+  const paid = bills.filter((bill) => bill.paid);
+  const unpaid = bills.filter((bill) => !bill.paid);
+  const totalMonthly = bills.reduce((sum, bill) => sum + Number(bill.amount || 0), 0);
+  const remaining = unpaid.reduce((sum, bill) => sum + Number(bill.amount || 0), 0);
+  const format = (value) => Number(value).toLocaleString("en-US", { style: "currency", currency: "USD" });
+  return <section className="workspace-summary" aria-label="Bills summary"><div><span>Total monthly bills</span><strong>{format(totalMonthly)}</strong></div><div><span>Paid</span><strong>{paid.length}</strong></div><div><span>Remaining</span><strong>{format(remaining)}</strong></div><div><span>Upcoming</span><strong>{unpaid.length}</strong></div></section>;
 }
-
 export default BillsSummary;

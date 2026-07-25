@@ -104,3 +104,16 @@
   outline: 3px solid var(--color-info);
   outline-offset: 3px;
 }
+
+.bf-card--elevated { box-shadow: var(--shadow-elevated, var(--shadow-lg)); }
+.bf-card--subtle { background-color: var(--surface-dark); box-shadow: none; }
+.bf-card--interactive:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.bf-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-lg); }
+.bf-card__title { margin: 0; color: inherit; font-size: var(--font-h5); line-height: var(--line-height-heading); }
+.bf-card__description { margin: var(--space-xs) 0 0; color: var(--muted); font-size: var(--font-body-sm); line-height: var(--line-height-body); }
+.bf-card__content { margin-top: var(--space-xl); }
+.bf-card__footer { display: flex; align-items: center; gap: var(--space-md); margin-top: var(--space-xl); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bf-card, .bf-card--hover:hover, .bf-card--clickable:hover, .bf-card--interactive:hover { transform: none; transition: none; }
+}

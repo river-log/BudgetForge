@@ -24,9 +24,9 @@ function ImportDataCard() {
   }
 
   return (
-    <div className="widget">
+    <div className="widget settings-card">
       <CloudDownload size={28} aria-hidden="true" />
-      <h2>Cloud import</h2>
+      <h2>Backup and restore</h2>
       <p className="text-muted">
         Choose a BudgetForge backup from Google Drive, OneDrive, Dropbox, or your device.
       </p>

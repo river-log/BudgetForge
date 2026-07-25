@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
+import { Logo } from "./branding";
 
 function MobileDrawer({
   open,
@@ -27,7 +28,7 @@ function MobileDrawer({
 
       <aside className="mobile-drawer">
         <div className="drawer-header">
-          <h2>BudgetForge</h2>
+          <Logo theme="dark" size="sm" />
 
           <button onClick={onClose}>
             <X size={22} />

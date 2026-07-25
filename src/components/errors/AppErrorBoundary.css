@@ -3,20 +3,17 @@
   min-height: 100vh;
   padding: 24px;
   place-items: center;
-  background:
-    radial-gradient(circle at top left, #304ffe33, transparent 40%),
-    radial-gradient(circle at bottom right, #7c3aed22, transparent 40%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
 }
 
 .app-error-fallback__card {
   width: min(100%, 520px);
   padding: 36px;
-  background: var(--panel);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-elevated, var(--shadow));
   text-align: center;
 }
 

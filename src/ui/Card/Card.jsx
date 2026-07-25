@@ -5,6 +5,7 @@ function Card({
   className = "",
   padding = "md",
   shadow = "md",
+  variant = "default",
   border = true,
   hover = false,
   fullHeight = false,
@@ -13,6 +14,7 @@ function Card({
 }) {
   const classes = [
     "bf-card",
+    `bf-card--${variant}`,
     `bf-card--padding-${padding}`,
     `bf-card--shadow-${shadow}`,
     border ? "bf-card--border" : "",
@@ -28,6 +30,14 @@ function Card({
     <div
       className={classes}
       onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onClick(event);
+        }
+      } : undefined}
       {...props}
     >
       {children}

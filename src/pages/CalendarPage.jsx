@@ -67,10 +67,10 @@ function CalendarPage() {
   const calendarCells = Array.from({ length: firstWeekday + daysInMonth }, (_, index) => index < firstWeekday ? null : index - firstWeekday + 1);
 
   return (
-    <>
-      <div className="dashboard-header">
+    <div className="insights-page">
+      <header className="insights-header">
         <div><h1>Calendar</h1><p className="text-muted">See due dates, upcoming payments, and reminders in one place.</p></div>
-      </div>
+      </header>
 
       <section className="calendar-layout">
         <div className="panel calendar-panel">
@@ -110,7 +110,7 @@ function CalendarPage() {
         <div className="timeline-heading"><div><Clock3 size={22} aria-hidden="true" /><h2>Upcoming payment timeline</h2></div><span>Next 30 days</span></div>
         {timeline.length ? <div className="timeline-list">{timeline.map((bill) => <div className={`timeline-row ${bill.paid ? "paid" : ""}`} key={bill.id}><div className="timeline-date"><strong>{bill.nextDue.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</strong><span>{Math.max(0, Math.ceil((bill.nextDue - new Date().setHours(0, 0, 0, 0)) / 86400000))} days</span></div><div><strong>{bill.name}</strong><span>{bill.category || "Other"}</span></div><strong>{formatCurrency(bill.amount)}</strong><button className="secondary-button" onClick={() => togglePaid(bill.id, bill.nextDue)}>{bill.paid ? "Paid" : "Mark paid"}</button></div>)}</div> : <div className="timeline-empty"><CalendarDays size={28} /><p>Add bills with due dates to create your payment timeline.</p></div>}
       </section>
-    </>
+    </div>
   );
 }
 

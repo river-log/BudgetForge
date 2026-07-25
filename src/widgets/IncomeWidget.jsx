@@ -1,150 +1,36 @@
 import { useState } from "react";
+import { Banknote, Pencil, Save, X } from "lucide-react";
+import { Button, Card, CardContent, CardHeader, CardTitle, Progress } from "../ui";
 import { useToast } from "../features/toasts";
 
-function IncomeWidget({
-  income,
-  bills,
-  setIncome,
-}) {
+function IncomeWidget({ income, bills, setIncome }) {
   const { showToast } = useToast();
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(income);
-
-  const totalBills = bills.reduce(
-    (sum, bill) => sum + Number(bill.amount || 0),
-    0
-  );
-
-  const percentUsed =
-    income > 0
-      ? (totalBills / income) * 100
-      : 0;
-
+  const totalBills = bills.reduce((sum, bill) => sum + Number(bill.amount || 0), 0);
+  const percentUsed = income > 0 ? (totalBills / income) * 100 : 0;
   const progressWidth = Math.min(percentUsed, 100);
-
-  let barColor = "#57f287";
-
-  if (percentUsed >= 80) {
-    barColor = "#ed4245";
-  } else if (percentUsed >= 50) {
-    barColor = "#faa61a";
-  }
+  const progressColor = percentUsed >= 80 ? "danger" : percentUsed >= 50 ? "warning" : "success";
+  const format = (amount) => Number(amount).toLocaleString("en-US", { style: "currency", currency: "USD" });
 
   function saveIncome() {
     const newIncome = Number(value);
-
     if (!Number.isNaN(newIncome) && newIncome >= 0) {
       setIncome(newIncome);
-
-      showToast(
-        "Monthly income updated!",
-        "success"
-      );
-
+      showToast("Monthly income updated!", "success");
       setEditing(false);
     }
   }
 
   return (
-    <div className="widget">
-      <h3>💰 Monthly Income</h3>
-
-      {!editing ? (
-        <>
-          <h1>
-            {income.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
-          </h1>
-
-          <div className="progress">
-            <div
-              className="progress-fill"
-              style={{
-                width: `${progressWidth}%`,
-                background: barColor,
-              }}
-            />
-          </div>
-
-          <p
-            style={{
-              marginTop: "14px",
-              fontWeight: "600",
-            }}
-          >
-            {percentUsed.toFixed(0)}% of income committed
-            {percentUsed > 100 && (
-              <span style={{ color: "#ed4245" }}>
-                {" "}
-                (Over Budget)
-              </span>
-            )}
-          </p>
-
-          <p
-            style={{
-              color: "var(--muted)",
-            }}
-          >
-            {totalBills.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}{" "}
-            of{" "}
-            {income.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
-          </p>
-
-          <button
-            style={{ marginTop: "15px" }}
-            onClick={() => {
-              setValue(income);
-              setEditing(true);
-            }}
-          >
-            Edit Income
-          </button>
-        </>
-      ) : (
-        <>
-          <input
-            type="number"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                saveIncome();
-              }
-            }}
-          />
-
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              marginTop: "15px",
-            }}
-          >
-            <button onClick={saveIncome}>
-              Save
-            </button>
-
-            <button
-              onClick={() => {
-                setEditing(false);
-                setValue(income);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+    <Card className="widget dashboard-widget--income" variant="elevated" padding="lg">
+      <CardHeader className="dashboard-widget__header">
+        <div className="dashboard-widget__heading"><span className="dashboard-widget__icon"><Banknote size={19} aria-hidden="true" /></span><div><CardTitle className="dashboard-widget__title">Monthly income</CardTitle><p className="dashboard-widget__description">Your income and committed bills this month.</p></div></div>
+      </CardHeader>
+      <CardContent>
+        {!editing ? <><p className="income-value">{format(income)}</p><Progress value={progressWidth} max={100} color={progressColor} label="Income committed to bills" showValue /><p className={`income-status ${percentUsed > 100 ? "income-status--danger" : ""}`}>{percentUsed.toFixed(0)}% of income committed{percentUsed > 100 ? " — over budget" : ""}</p><p className="income-summary">{format(totalBills)} of {format(income)} committed to bills.</p><div className="income-actions"><Button leftIcon={<Pencil size={16} />} onClick={() => { setValue(income); setEditing(true); }}>Edit income</Button></div></> : <div className="income-form"><label htmlFor="monthly-income">Monthly income</label><input id="monthly-income" type="number" value={value} onChange={(event) => setValue(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") saveIncome(); }} /><div className="income-actions"><Button leftIcon={<Save size={16} />} onClick={saveIncome}>Save</Button><Button variant="secondary" leftIcon={<X size={16} />} onClick={() => { setEditing(false); setValue(income); }}>Cancel</Button></div></div>}
+      </CardContent>
+    </Card>
   );
 }
 

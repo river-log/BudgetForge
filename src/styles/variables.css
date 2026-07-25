@@ -8,8 +8,10 @@
      Brand Colors
      ======================================================= */
 
-  --color-brand: #1E293B;
-  --color-accent: #22C55E;
+  --forge-slate: #1E293B;
+  --forge-green: #22C55E;
+  --color-brand: var(--forge-slate);
+  --color-accent: var(--forge-green);
 
   /* =======================================================
      Surface Colors
@@ -36,6 +38,9 @@
   --color-warning: #F59E0B;
   --color-error: #EF4444;
   --color-info: #3B82F6;
+  --color-surface-subtle: #F1F5F9;
+  --focus-ring: 0 0 0 3px rgba(34, 197, 94, .35);
+  --transition-hover: 180ms var(--ease-smooth);
 
   /* =======================================================
      Chart Colors
@@ -135,5 +140,7 @@
   --container-width: 1440px;
   --sidebar-width: 280px;
   --header-height: 72px;
+  --content-max-width: 1440px;
+  --card-padding: 24px;
 
 }

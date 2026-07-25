@@ -12,24 +12,16 @@ import {
 import { NavLink } from "react-router-dom";
 
 import { APP_VERSION } from "../config/version";
+import { Logo } from "./branding";
 
 function Sidebar() {
   return (
     <aside className="sidebar">
       <div>
         <div className="logo-area">
-          <div className="logo-circle">
-            B
-          </div>
-
           <div>
-            <h1 className="logo">
-              BudgetForge
-            </h1>
-
-            <small>
-              Personal Finance OS
-            </small>
+            <Logo theme="dark" size="md" />
+            <small>Strength. Growth.</small>
           </div>
         </div>
 

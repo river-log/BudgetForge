@@ -1,4 +1,5 @@
 import { Menu } from "lucide-react";
+import { Logo } from "./branding";
 
 function MobileHeader({ onMenuClick }) {
   return (
@@ -14,11 +15,7 @@ function MobileHeader({ onMenuClick }) {
       </div>
 
       <div className="header-center">
-        <div className="header-logo">
-          B
-        </div>
-
-        <h1>BudgetForge</h1>
+        <Logo theme="dark" size="sm" />
       </div>
 
       <div className="header-right" />

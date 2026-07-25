@@ -1,0 +1,3 @@
+import { beforeEach, describe, expect, it } from "vitest";
+import { CLOUD_STORAGE_KEYS, clearCloudStorage, getCloudSnapshot, replaceCloudSnapshot } from "./cloudStorage";
+describe("cloud storage snapshot", () => { beforeEach(() => localStorage.clear()); it("replaces only cloud-owned values", () => { localStorage.setItem("budgetforge-device-id", "device"); localStorage.setItem(CLOUD_STORAGE_KEYS[0], "old"); replaceCloudSnapshot({ [CLOUD_STORAGE_KEYS[0]]: "new" }); expect(getCloudSnapshot()[CLOUD_STORAGE_KEYS[0]]).toBe("new"); clearCloudStorage(); expect(localStorage.getItem(CLOUD_STORAGE_KEYS[0])).toBeNull(); expect(localStorage.getItem("budgetforge-device-id")).toBe("device"); }); });

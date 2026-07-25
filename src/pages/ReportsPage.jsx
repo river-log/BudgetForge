@@ -28,10 +28,10 @@ function ReportsPage() {
   const remainingIncome = monthlyIncome - plannedBills;
 
   return (
-    <>
-      <div className="dashboard-header">
+    <div className="insights-page">
+      <header className="insights-header">
         <div><h1>Reports</h1><p className="text-muted">Track your financial trends as you pay bills and grow your savings.</p></div>
-      </div>
+      </header>
 
       <section className="report-stats">
         <div><CircleDollarSign size={22} /><span>Income after planned bills</span><strong>{currency.format(remainingIncome)}</strong></div>
@@ -61,7 +61,7 @@ function ReportsPage() {
         <div className="chart-heading"><div><ChartNoAxesCombined size={21} /><h2>Financial trends by category</h2></div><span>This month</span></div>
         {categoryData.length ? <ResponsiveContainer width="100%" height={300}><BarChart data={categoryData} layout="vertical" margin={{ left: 24 }}><CartesianGrid stroke="rgba(255,255,255,.08)" horizontal={false} /><XAxis type="number" stroke="#94a3b8" tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} /><YAxis dataKey="category" type="category" stroke="#94a3b8" tickLine={false} axisLine={false} width={100} /><Tooltip contentStyle={tooltipStyle} formatter={(value) => currency.format(value)} /><Legend /><Bar dataKey="amount" name="Paid amount" fill="#7c3aed" radius={[0, 8, 8, 0]} /></BarChart></ResponsiveContainer> : <div className="report-empty"><ChartNoAxesCombined size={28} /><p>Mark bills paid to start your spending history and category trends.</p></div>}
       </section>
-    </>
+    </div>
   );
 }
 

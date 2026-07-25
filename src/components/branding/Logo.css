@@ -1,0 +1,9 @@
+.bf-logo { display: inline-flex; align-items: center; flex: 0 0 auto; }
+.bf-logo--mark { display: block; object-fit: contain; }
+.bf-logo--horizontal { gap: 10px; text-decoration: none; }
+.bf-logo--horizontal img { width: auto; height: 100%; object-fit: contain; }
+.bf-logo__wordmark { color: var(--logo-text, var(--text)); font-size: 1.2rem; font-weight: 750; letter-spacing: -0.04em; line-height: 1; white-space: nowrap; }
+.bf-logo--xs { height: 22px; }.bf-logo--sm { height: 30px; }.bf-logo--md { height: 38px; }.bf-logo--lg { height: 48px; }.bf-logo--xl { height: 64px; }
+.bf-logo--mark.bf-logo--xs { width: 27px; }.bf-logo--mark.bf-logo--sm { width: 36px; }.bf-logo--mark.bf-logo--md { width: 46px; }.bf-logo--mark.bf-logo--lg { width: 58px; }.bf-logo--mark.bf-logo--xl { width: 78px; }
+.bf-logo--light { --logo-text: var(--color-text-primary); }.bf-logo--dark { --logo-text: var(--color-text-inverse); }
+@media (max-width: 420px) { .bf-logo--horizontal .bf-logo__wordmark { font-size: 1.05rem; } }
