@@ -19,6 +19,65 @@ const COLORS = [
   "#95A5A6",
 ];
 
+function CustomTooltip({
+  active,
+  payload,
+  totalSpending,
+}) {
+  if (
+    active &&
+    payload &&
+    payload.length
+  ) {
+    const value = payload[0].value;
+
+    const percent =
+      totalSpending > 0
+        ? (
+            (value / totalSpending) *
+            100
+          ).toFixed(1)
+        : 0;
+
+    return (
+      <div
+        style={{
+          background: "#1d1f24",
+          border:
+            "1px solid rgba(255,255,255,.08)",
+          borderRadius: "12px",
+          padding: "12px 16px",
+          boxShadow:
+            "0 10px 25px rgba(0,0,0,.35)",
+        }}
+      >
+        <strong
+          style={{
+            display: "block",
+            marginBottom: "6px",
+          }}
+        >
+          {payload[0].name}
+        </strong>
+
+        <div>
+          ${Number(value).toLocaleString("en-US")}
+        </div>
+
+        <small
+          style={{
+            color: "#8b93a7",
+          }}
+        >
+          {percent}% of spending
+        </small>
+      </div>
+    );
+  }
+
+  return null;
+}
+
 function CategoryPieChart({ bills }) {
   const categoryTotals = {};
 
@@ -81,67 +140,6 @@ function CategoryPieChart({ bills }) {
     );
   }
 
-  function CustomTooltip({
-    active,
-    payload,
-  }) {
-    if (
-      active &&
-      payload &&
-      payload.length
-    ) {
-      const value = payload[0].value;
-
-      const percent =
-        totalSpending > 0
-          ? (
-              (value / totalSpending) *
-              100
-            ).toFixed(1)
-          : 0;
-
-      return (
-        <div
-          style={{
-            background: "#1d1f24",
-            border:
-              "1px solid rgba(255,255,255,.08)",
-            borderRadius: "12px",
-            padding: "12px 16px",
-            boxShadow:
-              "0 10px 25px rgba(0,0,0,.35)",
-          }}
-        >
-          <strong
-            style={{
-              display: "block",
-              marginBottom: "6px",
-            }}
-          >
-            {payload[0].name}
-          </strong>
-
-          <div>
-            $
-            {Number(value).toLocaleString(
-              "en-US"
-            )}
-          </div>
-
-          <small
-            style={{
-              color: "#8b93a7",
-            }}
-          >
-            {percent}% of spending
-          </small>
-        </div>
-      );
-    }
-
-    return null;
-  }
-
   return (
     <div className="widget">
       <h3>🥧 Spending Breakdown</h3>
@@ -191,7 +189,11 @@ function CategoryPieChart({ bills }) {
               </Pie>
 
               <Tooltip
-                content={<CustomTooltip />}
+                content={
+                  <CustomTooltip
+                    totalSpending={totalSpending}
+                  />
+                }
               />
             </PieChart>
           </ResponsiveContainer>

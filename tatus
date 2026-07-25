@@ -1,0 +1,421 @@
+warning: in the working copy of 'src/App.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/BillsPage.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/BudgetPage.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/CalendarPage.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/DashboardPage.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/pages/ReportsPage.jsx', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/src/App.jsx b/src/App.jsx[m
+[1mindex b7e5bb2..f736750 100644[m
+[1m--- a/src/App.jsx[m
+[1m+++ b/src/App.jsx[m
+[36m@@ -1,5 +1,4 @@[m
+ import { useEffect, useState } from "react";[m
+[31m-import { Routes, Route } from "react-router-dom";[m
+ [m
+ import "./App.css";[m
+ [m
+[36m@@ -7,70 +6,22 @@[m [mimport Sidebar from "./components/Sidebar";[m
+ import MobileHeader from "./components/MobileHeader";[m
+ import MobileDrawer from "./components/MobileDrawer";[m
+ [m
+[31m-import DashboardPage from "./pages/DashboardPage";[m
+[31m-import BillsPage from "./pages/BillsPage";[m
+[31m-import BudgetPage from "./pages/BudgetPage";[m
+[31m-import SavingsPage from "./pages/SavingsPage";[m
+[31m-import DebtPage from "./pages/DebtPage";[m
+[31m-import ReportsPage from "./pages/ReportsPage";[m
+[31m-import SettingsPage from "./pages/SettingsPage";[m
+[31m-import CalendarPage from "./pages/CalendarPage";[m
+[31m-[m
+ import ToastContainer from "./features/toasts/ToastContainer";[m
+ import CommandPalette from "./features/commandPalette/commandPalette";[m
+ import "./features/commandPalette/commandPalette.css";[m
+[31m-import { recordPayment } from "./utils/history";[m
+[31m-import { isPaidForMonth, toggleBillMonth } from "./utils/billPayments";[m
+ [m
+[31m-function App() {[m
+[31m-  // Bills[m
+[31m-  const [bills, setBills] = useState(() => {[m
+[31m-    const saved = localStorage.getItem("budgetforge-bills");[m
+[31m-    return saved ? JSON.parse(saved) : [];[m
+[31m-  });[m
+[31m-[m
+[31m-  // Monthly Income[m
+[31m-  const [monthlyIncome, setMonthlyIncome] = useState(() => {[m
+[31m-    const saved = localStorage.getItem("budgetforge-income");[m
+[31m-    return saved ? Number(saved) : 4000;[m
+[31m-  });[m
+[31m-[m
+[31m-  // User Name[m
+[31m-  const [userName, setUserName] = useState(() => {[m
+[31m-    return localStorage.getItem("budgetforge-user") || "";[m
+[31m-  });[m
+[32m+[m[32mimport { BudgetProvider } from "./context";[m
+[32m+[m[32mimport { AppRouter } from "./router";[m
+ [m
+[32m+[m[32mfunction App() {[m
+   // Toast Notifications[m
+   const [toasts, setToasts] = useState([]);[m
+ [m
+   // Command Palette[m
+   const [commandOpen, setCommandOpen] = useState(false);[m
+[31m-  const [mobileMenuOpen, setMobileMenuOpen] =[m
+[31m-  useState(false);[m
+[31m-[m
+[31m-  // Save Bills[m
+[31m-  useEffect(() => {[m
+[31m-    localStorage.setItem([m
+[31m-      "budgetforge-bills",[m
+[31m-      JSON.stringify(bills)[m
+[31m-    );[m
+[31m-  }, [bills]);[m
+[31m-[m
+[31m-  // Save Income[m
+[31m-  useEffect(() => {[m
+[31m-    localStorage.setItem([m
+[31m-      "budgetforge-income",[m
+[31m-      monthlyIncome[m
+[31m-    );[m
+[31m-  }, [monthlyIncome]);[m
+ [m
+[31m-  // Save User Name[m
+[31m-  useEffect(() => {[m
+[31m-    localStorage.setItem([m
+[31m-      "budgetforge-user",[m
+[31m-      userName[m
+[31m-    );[m
+[31m-  }, [userName]);[m
+[32m+[m[32m  // Mobile Navigation[m
+[32m+[m[32m  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);[m
+ [m
+   function showToast(message, type = "info") {[m
+     const id = Date.now();[m
+[36m@@ -91,152 +42,57 @@[m [mfunction App() {[m
+     }, 3000);[m
+   }[m
+ [m
+[31m-  function addBill(newBill) {[m
+[31m-    setBills((prev) => [...prev, newBill]);[m
+[31m-    showToast("Bill added successfully!", "success");[m
+[31m-  }[m
+[31m-[m
+[31m-  function togglePaid(id, date = new Date()) {[m
+[31m-    const bill = bills.find((item) => item.id === id);[m
+[31m-[m
+[31m-    if (bill && !isPaidForMonth(bill, date)) {[m
+[31m-      recordPayment(bill);[m
+[31m-    }[m
+[31m-[m
+[31m-    setBills((prev) =>[m
+[31m-      prev.map((bill) =>[m
+[31m-        bill.id === id[m
+[31m-          ? toggleBillMonth(bill, date)[m
+[31m-          : bill[m
+[31m-      )[m
+[31m-    );[m
+[31m-[m
+[31m-    showToast("Bill status updated.", "info");[m
+[31m-  }[m
+[31m-[m
+[31m-  function deleteBill(id) {[m
+[31m-    setBills((prev) =>[m
+[31m-      prev.filter((bill) => bill.id !== id)[m
+[31m-    );[m
+[31m-[m
+[31m-    showToast("Bill deleted.", "error");[m
+[31m-  }[m
+[31m-[m
+   useEffect(() => {[m
+[31m-  function handleKeyDown(event) {[m
+[31m-    if ([m
+[31m-      (event.ctrlKey || event.metaKey) &&[m
+[31m-      event.key.toLowerCase() === "k"[m
+[31m-    ) {[m
+[31m-      event.preventDefault();[m
+[31m-      setCommandOpen(true);[m
+[31m-    }[m
+[31m-[m
+[31m-    if (event.key === "Escape") {[m
+[31m-      setCommandOpen(false);[m
+[32m+[m[32m    function handleKeyDown(event) {[m
+[32m+[m[32m      if ([m
+[32m+[m[32m        (event.ctrlKey || event.metaKey) &&[m
+[32m+[m[32m        event.key.toLowerCase() === "k"[m
+[32m+[m[32m      ) {[m
+[32m+[m[32m        event.preventDefault();[m
+[32m+[m[32m        setCommandOpen(true);[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m      if (event.key === "Escape") {[m
+[32m+[m[32m        setCommandOpen(false);[m
+[32m+[m[32m      }[m
+     }[m
+[31m-  }[m
+ [m
+[31m-  window.addEventListener("keydown", handleKeyDown);[m
+[32m+[m[32m    window.addEventListener("keydown", handleKeyDown);[m
+ [m
+[31m-  return () => {[m
+[31m-    window.removeEventListener([m
+[31m-      "keydown",[m
+[31m-      handleKeyDown[m
+[31m-    );[m
+[31m-  };[m
+[31m-}, []);[m
+[32m+[m[32m    return () => {[m
+[32m+[m[32m      window.removeEventListener([m
+[32m+[m[32m        "keydown",[m
+[32m+[m[32m        handleKeyDown[m
+[32m+[m[32m      );[m
+[32m+[m[32m    };[m
+[32m+[m[32m  }, []);[m
+ [m
+   return ([m
+[31m-    <div className="layout">[m
+[31m-[m
+[31m-  <Sidebar />[m
+[31m-[m
+[31m-  <MobileHeader[m
+[31m-    onMenuClick={() =>[m
+[31m-      setMobileMenuOpen(true)[m
+[31m-    }[m
+[31m-  />[m
+[31m-[m
+[31m-  <MobileDrawer[m
+[31m-    open={mobileMenuOpen}[m
+[31m-    onClose={() =>[m
+[31m-      setMobileMenuOpen(false)[m
+[31m-    }[m
+[31m-  />[m
+[31m-[m
+[31m-  <main className="main-content">[m
+[31m-        <Routes>[m
+[31m-          <Route[m
+[31m-            path="/"[m
+[31m-            element={[m
+[31m-              <DashboardPage[m
+[31m-                bills={bills}[m
+[31m-                monthlyIncome={monthlyIncome}[m
+[31m-                setMonthlyIncome={setMonthlyIncome}[m
+[31m-                userName={userName}[m
+[31m-                setUserName={setUserName}[m
+[31m-                showToast={showToast}[m
+[31m-              />[m
+[31m-            }[m
+[31m-          />[m
+[31m-[m
+[31m-          <Route[m
+[31m-            path="/bills"[m
+[31m-            element={[m
+[31m-              <BillsPage[m
+[31m-                bills={bills}[m
+[31m-                addBill={addBill}[m
+[31m-                togglePaid={togglePaid}[m
+[31m-                deleteBill={deleteBill}[m
+[31m-              />[m
+[31m-            }[m
+[31m-          />[m
+[31m-[m
+[31m-          <Route[m
+[31m-            path="/budget"[m
+[31m-            element={[m
+[31m-              <BudgetPage[m
+[31m-                bills={bills}[m
+[31m-                monthlyIncome={monthlyIncome}[m
+[31m-              />[m
+[31m-            }[m
+[31m-          />[m
+[31m-[m
+[31m-          <Route[m
+[31m-            path="/calendar"[m
+[31m-            element={<CalendarPage bills={bills} togglePaid={togglePaid} />}[m
+[31m-          />[m
+[31m-[m
+[31m-          <Route[m
+[31m-            path="/savings"[m
+[31m-            element={<SavingsPage />}[m
+[31m-          />[m
+[31m-[m
+[31m-          <Route[m
+[31m-            path="/debt"[m
+[31m-            element={<DebtPage />}[m
+[31m-          />[m
+[31m-[m
+[31m-          <Route[m
+[31m-            path="/reports"[m
+[31m-            element={<ReportsPage bills={bills} monthlyIncome={monthlyIncome} />}[m
+[31m-          />[m
+[31m-[m
+[31m-          <Route[m
+[31m-            path="/settings"[m
+[31m-            element={<SettingsPage />}[m
+[31m-          />[m
+[31m-        </Routes>[m
+[31m-      </main>[m
+[31m-[m
+[31m-<CommandPalette[m
+[31m-  open={commandOpen}[m
+[31m-  onClose={() => setCommandOpen(false)}[m
+[31m-/>[m
+[31m-[m
+[31m-      <ToastContainer toasts={toasts} />[m
+[31m-    </div>[m
+[32m+[m[32m    <BudgetProvider showToast={showToast}>[m
+[32m+[m[32m      <div className="layout">[m
+[32m+[m[32m        <Sidebar />[m
+[32m+[m
+[32m+[m[32m        <MobileHeader[m
+[32m+[m[32m          onMenuClick={() => setMobileMenuOpen(true)}[m
+[32m+[m[32m        />[m
+[32m+[m
+[32m+[m[32m        <MobileDrawer[m
+[32m+[m[32m          open={mobileMenuOpen}[m
+[32m+[m[32m          onClose={() => setMobileMenuOpen(false)}[m
+[32m+[m[32m        />[m
+[32m+[m
+[32m+[m[32m        <main className="main-content">[m
+[32m+[m[32m          <AppRouter showToast={showToast} />[m
+[32m+[m[32m        </main>[m
+[32m+[m
+[32m+[m[32m        <CommandPalette[m
+[32m+[m[32m          open={commandOpen}[m
+[32m+[m[32m          onClose={() => setCommandOpen(false)}[m
+[32m+[m[32m        />[m
+[32m+[m
+[32m+[m[32m        <ToastContainer toasts={toasts} />[m
+[32m+[m[32m      </div>[m
+[32m+[m[32m    </BudgetProvider>[m
+   );[m
+ }[m
+ [m
+[1mdiff --git a/src/pages/BillsPage.jsx b/src/pages/BillsPage.jsx[m
+[1mindex 69c03cd..7a39331 100644[m
+[1m--- a/src/pages/BillsPage.jsx[m
+[1m+++ b/src/pages/BillsPage.jsx[m
+[36m@@ -6,6 +6,7 @@[m [mimport BillList from "../components/BillList";[m
+ import BillsSummary from "../features/bills/BillsSummary";[m
+ import BillsToolbar from "../features/bills/BillsToolbar";[m
+ import { isPaidForMonth } from "../utils/billPayments";[m
+[32m+[m[32mimport { useBudget } from "../context";[m
+ [m
+ function occurrenceDate(bill, date = new Date()) {[m
+   const source = new Date(`${bill.dueDate}T12:00:00`);[m
+[36m@@ -13,12 +14,13 @@[m [mfunction occurrenceDate(bill, date = new Date()) {[m
+   return new Date(date.getFullYear(), date.getMonth(), Math.min(source.getDate(), maxDay), 12).toISOString().slice(0, 10);[m
+ }[m
+ [m
+[31m-function BillsPage({[m
+[31m-  bills,[m
+[31m-  addBill,[m
+[31m-  togglePaid,[m
+[31m-  deleteBill,[m
+[31m-}) {[m
+[32m+[m[32mfunction BillsPage() {[m
+[32m+[m[32m  const {[m
+[32m+[m[32m    bills,[m
+[32m+[m[32m    addBill,[m
+[32m+[m[32m    togglePaid,[m
+[32m+[m[32m    deleteBill,[m
+[32m+[m[32m  } = useBudget();[m
+   const [search, setSearch] = useState("");[m
+   const [filter, setFilter] = useState("all");[m
+ [m
+[1mdiff --git a/src/pages/BudgetPage.jsx b/src/pages/BudgetPage.jsx[m
+[1mindex 6eb18ee..e001803 100644[m
+[1m--- a/src/pages/BudgetPage.jsx[m
+[1m+++ b/src/pages/BudgetPage.jsx[m
+[36m@@ -1,5 +1,6 @@[m
+ import { useEffect, useMemo, useState } from "react";[m
+ import { Plus, Trash2, Wallet } from "lucide-react";[m
+[32m+[m[32mimport { useBudget } from "../context";[m
+ [m
+ const STORAGE_KEY = "budgetforge-budget-categories";[m
+ const DEFAULT_CATEGORIES = ["Housing", "Food", "Transport", "Utilities", "Fun"];[m
+[36m@@ -12,7 +13,8 @@[m [mfunction formatCurrency(value) {[m
+   }).format(value || 0);[m
+ }[m
+ [m
+[31m-function BudgetPage({ bills, monthlyIncome }) {[m
+[32m+[m[32mfunction BudgetPage() {[m
+[32m+[m[32m  const { bills, monthlyIncome } = useBudget();[m
+   const [categories, setCategories] = useState(() => {[m
+     try {[m
+       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");[m
+[1mdiff --git a/src/pages/CalendarPage.jsx b/src/pages/CalendarPage.jsx[m
+[1mindex 8a75902..f9d7a31 100644[m
+[1m--- a/src/pages/CalendarPage.jsx[m
+[1m+++ b/src/pages/CalendarPage.jsx[m
+[36m@@ -1,6 +1,7 @@[m
+ import { useMemo, useState } from "react";[m
+ import { Bell, CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";[m
+ import { isPaidForMonth } from "../utils/billPayments";[m
+[32m+[m[32mimport { useBudget } from "../context";[m
+ [m
+ const REMINDER_KEY = "budgetforge-reminder-days";[m
+ [m
+[36m@@ -15,7 +16,8 @@[m [mfunction billDateInMonth(bill, year, month) {[m
+   return new Date(year, month, Math.min(source.getDate(), maxDay), 12);[m
+ }[m
+ [m
+[31m-function CalendarPage({ bills, togglePaid }) {[m
+[32m+[m[32mfunction CalendarPage() {[m
+[32m+[m[32m  const { bills, togglePaid } = useBudget();[m
+   const [cursor, setCursor] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));[m
+   const [reminderDays, setReminderDays] = useState(() => Number(localStorage.getItem(REMINDER_KEY) || 3));[m
+   const [notificationState, setNotificationState] = useState(() => ("Notification" in window ? Notification.permission : "unsupported"));[m
+[1mdiff --git a/src/pages/DashboardPage.jsx b/src/pages/DashboardPage.jsx[m
+[1mindex 747fd24..34afe16 100644[m
+[1m--- a/src/pages/DashboardPage.jsx[m
+[1m+++ b/src/pages/DashboardPage.jsx[m
+[36m@@ -8,15 +8,16 @@[m [mimport QuickStatsWidget from "../widgets/QuickStatsWidget";[m
+ import UpcomingBillsWidget from "../widgets/UpcomingBillsWidget";[m
+ import RecentActivityWidget from "../widgets/RecentActivityWidget";[m
+ import CategoryPieChart from "../widgets/CategoryPieChart";[m
+[31m-[m
+[31m-function DashboardPage({[m
+[31m-  bills,[m
+[31m-  monthlyIncome,[m
+[31m-  setMonthlyIncome,[m
+[31m-  userName,[m
+[31m-  setUserName,[m
+[31m-  showToast,[m
+[31m-}) {[m
+[32m+[m[32mimport { useBudget } from "../context";[m
+[32m+[m
+[32m+[m[32mfunction DashboardPage({ showToast }) {[m
+[32m+[m[32m  const {[m
+[32m+[m[32m    bills,[m
+[32m+[m[32m    monthlyIncome,[m
+[32m+[m[32m    setMonthlyIncome,[m
+[32m+[m[32m    userName,[m
+[32m+[m[32m    setUserName,[m
+[32m+[m[32m  } = useBudget();[m
+   const [nameInput, setNameInput] = useState("");[m
+ [m
+   function saveName() {[m
+[36m@@ -96,4 +97,4 @@[m [mfunction DashboardPage({[m
+   );[m
+ }[m
+ [m
+[31m-export default DashboardPage;[m
+\ No newline at end of file[m
+[32m+[m[32mexport default DashboardPage;[m
+[1mdiff --git a/src/pages/ReportsPage.jsx b/src/pages/ReportsPage.jsx[m
+[1mindex 42a8138..5f6fc4b 100644[m
+[1m--- a/src/pages/ReportsPage.jsx[m
+[1m+++ b/src/pages/ReportsPage.jsx[m
+[36m@@ -2,11 +2,13 @@[m [mimport { useMemo } from "react";[m
+ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";[m
+ import { ChartNoAxesCombined, CircleDollarSign, PiggyBank, TrendingUp } from "lucide-react";[m
+ import { getSavingsHistory, getSpendingHistory, recentMonths } from "../utils/history";[m
+[32m+[m[32mimport { useBudget } from "../context";[m
+ [m
+ const tooltipStyle = { background: "#1d2438", border: "1px solid rgba(255,255,255,.12)", borderRadius: "10px" };[m
+ const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });[m
+ [m
+[31m-function ReportsPage({ bills, monthlyIncome }) {[m
+[32m+[m[32mfunction ReportsPage() {[m
+[32m+[m[32m  const { bills, monthlyIncome } = useBudget();[m
+   const { spendingData, savingsData, categoryData, currentSpending, currentSavings } = useMemo(() => {[m
+     const spending = getSpendingHistory();[m
+     const savings = getSavingsHistory();[m

@@ -6,6 +6,7 @@ import BillList from "../components/BillList";
 import BillsSummary from "../features/bills/BillsSummary";
 import BillsToolbar from "../features/bills/BillsToolbar";
 import { isPaidForMonth } from "../utils/billPayments";
+import { useBudget } from "../context";
 
 function occurrenceDate(bill, date = new Date()) {
   const source = new Date(`${bill.dueDate}T12:00:00`);
@@ -13,12 +14,13 @@ function occurrenceDate(bill, date = new Date()) {
   return new Date(date.getFullYear(), date.getMonth(), Math.min(source.getDate(), maxDay), 12).toISOString().slice(0, 10);
 }
 
-function BillsPage({
-  bills,
-  addBill,
-  togglePaid,
-  deleteBill,
-}) {
+function BillsPage() {
+  const {
+    bills,
+    addBill,
+    togglePaid,
+    deleteBill,
+  } = useBudget();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
 

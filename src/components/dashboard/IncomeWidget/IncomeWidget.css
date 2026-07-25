@@ -1,0 +1,110 @@
+/* =========================================================
+   BudgetForge Income Widget
+   ========================================================= */
+
+.bf-income-widget {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-xl);
+
+  height: 100%;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.bf-income-widget__header {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-xs);
+}
+
+.bf-income-widget__title {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: var(--font-h4);
+  font-weight: var(--font-bold);
+}
+
+.bf-income-widget__subtitle {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-body-sm);
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   Statistics
+   ========================================================= */
+
+.bf-income-widget__stats {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-md);
+}
+
+.bf-income-widget__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: var(--space-md);
+
+  font-size: var(--font-body);
+}
+
+.bf-income-widget__row span {
+  color: var(--color-text-secondary);
+}
+
+.bf-income-widget__row strong {
+  color: var(--color-text-primary);
+
+  font-weight: var(--font-bold);
+}
+
+/* =========================================================
+   Progress
+   ========================================================= */
+
+.bf-income-widget .bf-progress {
+  margin-top: var(--space-sm);
+}
+
+/* =========================================================
+   Actions
+   ========================================================= */
+
+.bf-income-widget__actions {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: auto;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .bf-income-widget {
+    gap: var(--space-lg);
+  }
+
+  .bf-income-widget__actions {
+    justify-content: stretch;
+  }
+
+  .bf-income-widget__actions > * {
+    width: 100%;
+  }
+}

@@ -1,0 +1,159 @@
+/* =========================================================
+   BudgetForge Topbar
+   ========================================================= */
+
+.bf-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+
+  min-height: 80px;
+  padding: var(--space-lg) var(--space-xl);
+
+  background: var(--color-surface);
+}
+
+/* =========================================================
+   Left Section
+   ========================================================= */
+
+.bf-topbar__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.bf-topbar__title {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: var(--font-h3);
+  font-weight: var(--font-bold);
+}
+
+.bf-topbar__greeting {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-body-sm);
+}
+
+/* =========================================================
+   Right Section
+   ========================================================= */
+
+.bf-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.bf-topbar__search {
+  width: 280px;
+}
+
+/* =========================================================
+   Icon Button
+   ========================================================= */
+
+.bf-topbar__icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+
+  color: var(--color-text-primary);
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--motion-fast) var(--ease-smooth),
+    border-color var(--motion-fast) var(--ease-smooth),
+    transform var(--motion-fast) var(--ease-smooth);
+}
+
+.bf-topbar__icon-button:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+
+  transform: translateY(-1px);
+}
+
+.bf-topbar__icon-button:focus-visible {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Avatar
+   ========================================================= */
+
+.bf-topbar__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  background: var(--color-primary);
+  border: none;
+  border-radius: 50%;
+
+  color: var(--color-surface);
+
+  font-size: var(--font-body);
+  font-weight: var(--font-bold);
+
+  cursor: pointer;
+
+  transition:
+    transform var(--motion-fast) var(--ease-smooth),
+    box-shadow var(--motion-fast) var(--ease-smooth);
+}
+
+.bf-topbar__avatar:hover {
+  transform: scale(1.05);
+
+  box-shadow: var(--shadow-md);
+}
+
+.bf-topbar__avatar:focus-visible {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .bf-topbar {
+    flex-direction: column;
+    align-items: stretch;
+
+    padding: var(--space-lg);
+  }
+
+  .bf-topbar__right {
+    flex-wrap: wrap;
+  }
+
+  .bf-topbar__search {
+    width: 100%;
+  }
+}

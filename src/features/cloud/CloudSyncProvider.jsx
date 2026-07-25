@@ -1,7 +1,7 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { isSupabaseConfigured, supabase } from "../../lib/supabase";
+import CloudSyncContext from "./CloudSyncContext";
 
-const CloudSyncContext = createContext(null);
 const STORAGE_KEYS = ["budgetforge-bills", "budgetforge-income", "budgetforge-user", "budgetforge-savings", "budgetforge-debts", "budgetforge-budget-categories", "budgetforge-spending-history", "budgetforge-savings-history", "budgetforge-reminder-days", "budgetforge-debt-strategy"];
 const DEVICE_KEY = "budgetforge-device-id";
 const LOADED_USER_KEY = "budgetforge-cloud-loaded-user";
@@ -78,5 +78,3 @@ export function CloudSyncProvider({ children }) {
   const value = useMemo(() => ({ configured: isSupabaseConfigured, session, status, signIn, signOut, syncNow }), [session, signIn, signOut, status, syncNow]);
   return <CloudSyncContext.Provider value={value}>{children}</CloudSyncContext.Provider>;
 }
-
-export function useCloudSync() { return useContext(CloudSyncContext); }

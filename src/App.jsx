@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
 
@@ -7,70 +6,22 @@ import Sidebar from "./components/Sidebar";
 import MobileHeader from "./components/MobileHeader";
 import MobileDrawer from "./components/MobileDrawer";
 
-import DashboardPage from "./pages/DashboardPage";
-import BillsPage from "./pages/BillsPage";
-import BudgetPage from "./pages/BudgetPage";
-import SavingsPage from "./pages/SavingsPage";
-import DebtPage from "./pages/DebtPage";
-import ReportsPage from "./pages/ReportsPage";
-import SettingsPage from "./pages/SettingsPage";
-import CalendarPage from "./pages/CalendarPage";
-
 import ToastContainer from "./features/toasts/ToastContainer";
 import CommandPalette from "./features/commandPalette/commandPalette";
 import "./features/commandPalette/commandPalette.css";
-import { recordPayment } from "./utils/history";
-import { isPaidForMonth, toggleBillMonth } from "./utils/billPayments";
+
+import { BudgetProvider } from "./context";
+import { AppRouter } from "./router";
 
 function App() {
-  // Bills
-  const [bills, setBills] = useState(() => {
-    const saved = localStorage.getItem("budgetforge-bills");
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  // Monthly Income
-  const [monthlyIncome, setMonthlyIncome] = useState(() => {
-    const saved = localStorage.getItem("budgetforge-income");
-    return saved ? Number(saved) : 4000;
-  });
-
-  // User Name
-  const [userName, setUserName] = useState(() => {
-    return localStorage.getItem("budgetforge-user") || "";
-  });
-
   // Toast Notifications
   const [toasts, setToasts] = useState([]);
 
   // Command Palette
   const [commandOpen, setCommandOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] =
-  useState(false);
 
-  // Save Bills
-  useEffect(() => {
-    localStorage.setItem(
-      "budgetforge-bills",
-      JSON.stringify(bills)
-    );
-  }, [bills]);
-
-  // Save Income
-  useEffect(() => {
-    localStorage.setItem(
-      "budgetforge-income",
-      monthlyIncome
-    );
-  }, [monthlyIncome]);
-
-  // Save User Name
-  useEffect(() => {
-    localStorage.setItem(
-      "budgetforge-user",
-      userName
-    );
-  }, [userName]);
+  // Mobile Navigation
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function showToast(message, type = "info") {
     const id = Date.now();
@@ -91,152 +42,57 @@ function App() {
     }, 3000);
   }
 
-  function addBill(newBill) {
-    setBills((prev) => [...prev, newBill]);
-    showToast("Bill added successfully!", "success");
-  }
-
-  function togglePaid(id, date = new Date()) {
-    const bill = bills.find((item) => item.id === id);
-
-    if (bill && !isPaidForMonth(bill, date)) {
-      recordPayment(bill);
-    }
-
-    setBills((prev) =>
-      prev.map((bill) =>
-        bill.id === id
-          ? toggleBillMonth(bill, date)
-          : bill
-      )
-    );
-
-    showToast("Bill status updated.", "info");
-  }
-
-  function deleteBill(id) {
-    setBills((prev) =>
-      prev.filter((bill) => bill.id !== id)
-    );
-
-    showToast("Bill deleted.", "error");
-  }
-
   useEffect(() => {
-  function handleKeyDown(event) {
-    if (
-      (event.ctrlKey || event.metaKey) &&
-      event.key.toLowerCase() === "k"
-    ) {
-      event.preventDefault();
-      setCommandOpen(true);
+    function handleKeyDown(event) {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.key.toLowerCase() === "k"
+      ) {
+        event.preventDefault();
+        setCommandOpen(true);
+      }
+
+      if (event.key === "Escape") {
+        setCommandOpen(false);
+      }
     }
 
-    if (event.key === "Escape") {
-      setCommandOpen(false);
-    }
-  }
+    window.addEventListener("keydown", handleKeyDown);
 
-  window.addEventListener("keydown", handleKeyDown);
-
-  return () => {
-    window.removeEventListener(
-      "keydown",
-      handleKeyDown
-    );
-  };
-}, []);
+    return () => {
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+    };
+  }, []);
 
   return (
-    <div className="layout">
+    <BudgetProvider showToast={showToast}>
+      <div className="layout">
+        <Sidebar />
 
-  <Sidebar />
+        <MobileHeader
+          onMenuClick={() => setMobileMenuOpen(true)}
+        />
 
-  <MobileHeader
-    onMenuClick={() =>
-      setMobileMenuOpen(true)
-    }
-  />
+        <MobileDrawer
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+        />
 
-  <MobileDrawer
-    open={mobileMenuOpen}
-    onClose={() =>
-      setMobileMenuOpen(false)
-    }
-  />
+        <main className="main-content">
+          <AppRouter showToast={showToast} />
+        </main>
 
-  <main className="main-content">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <DashboardPage
-                bills={bills}
-                monthlyIncome={monthlyIncome}
-                setMonthlyIncome={setMonthlyIncome}
-                userName={userName}
-                setUserName={setUserName}
-                showToast={showToast}
-              />
-            }
-          />
+        <CommandPalette
+          open={commandOpen}
+          onClose={() => setCommandOpen(false)}
+        />
 
-          <Route
-            path="/bills"
-            element={
-              <BillsPage
-                bills={bills}
-                addBill={addBill}
-                togglePaid={togglePaid}
-                deleteBill={deleteBill}
-              />
-            }
-          />
-
-          <Route
-            path="/budget"
-            element={
-              <BudgetPage
-                bills={bills}
-                monthlyIncome={monthlyIncome}
-              />
-            }
-          />
-
-          <Route
-            path="/calendar"
-            element={<CalendarPage bills={bills} togglePaid={togglePaid} />}
-          />
-
-          <Route
-            path="/savings"
-            element={<SavingsPage />}
-          />
-
-          <Route
-            path="/debt"
-            element={<DebtPage />}
-          />
-
-          <Route
-            path="/reports"
-            element={<ReportsPage bills={bills} monthlyIncome={monthlyIncome} />}
-          />
-
-          <Route
-            path="/settings"
-            element={<SettingsPage />}
-          />
-        </Routes>
-      </main>
-
-<CommandPalette
-  open={commandOpen}
-  onClose={() => setCommandOpen(false)}
-/>
-
-      <ToastContainer toasts={toasts} />
-    </div>
+        <ToastContainer toasts={toasts} />
+      </div>
+    </BudgetProvider>
   );
 }
 

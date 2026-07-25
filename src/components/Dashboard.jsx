@@ -6,10 +6,6 @@ function Dashboard({ bills, monthlyIncome }) {
     0
   );
 
-  const paidBills = bills.filter((bill) => bill.paid).length;
-
-  const unpaidBills = totalBills - paidBills;
-
   const remaining = monthlyIncome - totalAmount;
 
   const percentUsed =

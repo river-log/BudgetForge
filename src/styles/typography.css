@@ -1,0 +1,189 @@
+/* =========================================================
+   BudgetForge Typography System
+   ========================================================= */
+
+/* Base Typography */
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--font-body);
+  font-weight: var(--font-regular);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+}
+
+/* =========================================================
+   Display
+   ========================================================= */
+
+.display {
+  font-size: var(--font-display);
+  font-weight: var(--font-bold);
+  line-height: var(--line-height-heading);
+  letter-spacing: -0.02em;
+}
+
+/* =========================================================
+   Headings
+   ========================================================= */
+
+.h1,
+h1 {
+  font-size: var(--font-h1);
+  font-weight: var(--font-bold);
+  line-height: var(--line-height-heading);
+}
+
+.h2,
+h2 {
+  font-size: var(--font-h2);
+  font-weight: var(--font-bold);
+  line-height: var(--line-height-heading);
+}
+
+.h3,
+h3 {
+  font-size: var(--font-h3);
+  font-weight: var(--font-semibold);
+  line-height: var(--line-height-heading);
+}
+
+.h4,
+h4 {
+  font-size: var(--font-h4);
+  font-weight: var(--font-semibold);
+  line-height: var(--line-height-heading);
+}
+
+.h5,
+h5 {
+  font-size: var(--font-h5);
+  font-weight: var(--font-medium);
+  line-height: var(--line-height-heading);
+}
+
+.h6,
+h6 {
+  font-size: var(--font-h6);
+  font-weight: var(--font-medium);
+  line-height: var(--line-height-heading);
+}
+
+/* =========================================================
+   Body Text
+   ========================================================= */
+
+.body-lg {
+  font-size: var(--font-body-lg);
+  line-height: var(--line-height-body);
+}
+
+.body {
+  font-size: var(--font-body);
+  line-height: var(--line-height-body);
+}
+
+.body-sm {
+  font-size: var(--font-body-sm);
+  line-height: var(--line-height-body);
+}
+
+.caption {
+  font-size: var(--font-caption);
+  line-height: var(--line-height-caption);
+  color: var(--color-text-muted);
+}
+
+/* =========================================================
+   Font Weights
+   ========================================================= */
+
+.light {
+  font-weight: var(--font-light);
+}
+
+.regular {
+  font-weight: var(--font-regular);
+}
+
+.medium {
+  font-weight: var(--font-medium);
+}
+
+.semibold {
+  font-weight: var(--font-semibold);
+}
+
+.bold {
+  font-weight: var(--font-bold);
+}
+
+/* =========================================================
+   Text Colors
+   ========================================================= */
+
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-success {
+  color: var(--color-success);
+}
+
+.text-warning {
+  color: var(--color-warning);
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+.text-info {
+  color: var(--color-info);
+}
+
+/* =========================================================
+   Text Alignment
+   ========================================================= */
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* =========================================================
+   Text Utilities
+   ========================================================= */
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}

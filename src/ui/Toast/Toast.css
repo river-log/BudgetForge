@@ -1,0 +1,138 @@
+/* =========================================================
+   BudgetForge Toast
+   ========================================================= */
+
+.bf-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+
+  width: min(420px, 100%);
+  padding: var(--space-lg);
+
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+
+  border: 1px solid var(--color-border);
+  border-left: 4px solid transparent;
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-lg);
+
+  animation: toastSlide var(--motion-normal) var(--ease-smooth);
+}
+
+/* =========================================================
+   Content
+   ========================================================= */
+
+.bf-toast__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.bf-toast__title {
+  margin: 0;
+
+  font-size: var(--font-body);
+  font-weight: var(--font-bold);
+
+  color: var(--color-text-primary);
+}
+
+.bf-toast__message {
+  margin: var(--space-xs) 0 0;
+
+  font-size: var(--font-body-sm);
+  line-height: 1.5;
+
+  color: var(--color-text-secondary);
+}
+
+/* =========================================================
+   Icon
+   ========================================================= */
+
+.bf-toast__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 24px;
+  height: 24px;
+}
+
+.bf-toast__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* =========================================================
+   Action
+   ========================================================= */
+
+.bf-toast__action {
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================================
+   Close Button
+   ========================================================= */
+
+.bf-toast__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+
+  color: var(--color-text-secondary);
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--motion-fast) var(--ease-smooth),
+    color var(--motion-fast) var(--ease-smooth);
+}
+
+.bf-toast__close:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+}
+
+.bf-toast__close:focus-visible {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Variants
+   ========================================================= */
+
+.bf-toast--success {
+  border-left-color: var(--color-success);
+}
+
+.bf-toast--warning {
+  border-left-color: var(--color-warning);
+}
+
+.bf-toast--danger {
+  border-left-color: var(--color-error);
+}
+
+.bf-toast--info {
+  border-left-color: var(--color-info);
+}

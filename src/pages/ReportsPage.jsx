@@ -1,13 +1,14 @@
-import { useMemo } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ChartNoAxesCombined, CircleDollarSign, PiggyBank, TrendingUp } from "lucide-react";
 import { getSavingsHistory, getSpendingHistory, recentMonths } from "../utils/history";
+import { useBudget } from "../context";
 
 const tooltipStyle = { background: "#1d2438", border: "1px solid rgba(255,255,255,.12)", borderRadius: "10px" };
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
-function ReportsPage({ bills, monthlyIncome }) {
-  const { spendingData, savingsData, categoryData, currentSpending, currentSavings } = useMemo(() => {
+function ReportsPage() {
+  const { bills, monthlyIncome } = useBudget();
+  const { spendingData, savingsData, categoryData, currentSpending, currentSavings } = (() => {
     const spending = getSpendingHistory();
     const savings = getSavingsHistory();
     const months = recentMonths();
@@ -21,7 +22,7 @@ function ReportsPage({ bills, monthlyIncome }) {
       currentSpending: spending[thisMonth]?.total || 0,
       currentSavings: savings[thisMonth] || 0,
     };
-  }, [bills, monthlyIncome]);
+  })();
 
   const plannedBills = bills.reduce((total, bill) => total + (Number(bill.amount) || 0), 0);
   const remainingIncome = monthlyIncome - plannedBills;

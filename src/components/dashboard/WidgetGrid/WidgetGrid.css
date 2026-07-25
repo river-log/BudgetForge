@@ -1,0 +1,84 @@
+/* =========================================================
+   BudgetForge Widget Grid
+   ========================================================= */
+
+.bf-widget-grid {
+  display: grid;
+
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-xl);
+
+  align-items: start;
+}
+
+/* =========================================================
+   Default Widget Behavior
+   ========================================================= */
+
+.bf-widget-grid > * {
+  grid-column: span 6;
+
+  min-width: 0;
+}
+
+/* =========================================================
+   Full Width Widget
+   ========================================================= */
+
+.bf-widget-grid > *.bf-widget--full {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   Large Widget
+   ========================================================= */
+
+.bf-widget-grid > *.bf-widget--large {
+  grid-column: span 8;
+}
+
+/* =========================================================
+   Small Widget
+   ========================================================= */
+
+.bf-widget-grid > *.bf-widget--small {
+  grid-column: span 4;
+}
+
+/* =========================================================
+   Tablet
+   ========================================================= */
+
+@media (max-width: 992px) {
+  .bf-widget-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .bf-widget-grid > * {
+    grid-column: span 6;
+  }
+
+  .bf-widget-grid > *.bf-widget--large,
+  .bf-widget-grid > *.bf-widget--small,
+  .bf-widget-grid > *.bf-widget--full {
+    grid-column: span 6;
+  }
+}
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .bf-widget-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .bf-widget-grid > *,
+  .bf-widget-grid > *.bf-widget--large,
+  .bf-widget-grid > *.bf-widget--small,
+  .bf-widget-grid > *.bf-widget--full {
+    grid-column: 1;
+  }
+}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CheckCircle2, Cloud, LogOut, RefreshCw } from "lucide-react";
-import { useCloudSync } from "../features/cloud/CloudSyncProvider";
+import useCloudSync from "../features/cloud/useCloudSync";
 
 function CloudSyncCard() {
   const cloud = useCloudSync();

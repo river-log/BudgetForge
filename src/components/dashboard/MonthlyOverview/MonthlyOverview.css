@@ -1,0 +1,138 @@
+/* =========================================================
+   BudgetForge Monthly Overview
+   ========================================================= */
+
+.bf-monthly-overview {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-xl);
+
+  height: 100%;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.bf-monthly-overview__header {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-xs);
+}
+
+.bf-monthly-overview__title {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: var(--font-h4);
+  font-weight: var(--font-bold);
+}
+
+.bf-monthly-overview__subtitle {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-body-sm);
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   Statistics Grid
+   ========================================================= */
+
+.bf-monthly-overview__grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: var(--space-lg);
+}
+
+.bf-monthly-overview__stat {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-xs);
+
+  padding: var(--space-md);
+
+  background: var(--color-background-secondary);
+
+  border-radius: var(--radius-md);
+
+  transition:
+    transform var(--motion-fast) var(--ease-smooth),
+    box-shadow var(--motion-fast) var(--ease-smooth);
+}
+
+.bf-monthly-overview__stat:hover {
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.bf-monthly-overview__label {
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-body-sm);
+}
+
+.bf-monthly-overview__value {
+  color: var(--color-text-primary);
+
+  font-size: var(--font-h5);
+  font-weight: var(--font-bold);
+}
+
+/* =========================================================
+   Progress
+   ========================================================= */
+
+.bf-monthly-overview .bf-progress {
+  margin-top: var(--space-sm);
+}
+
+/* =========================================================
+   Summary
+   ========================================================= */
+
+.bf-monthly-overview__summary {
+  padding: var(--space-md);
+
+  background: var(--color-background-secondary);
+
+  border-left: 4px solid var(--color-primary);
+
+  border-radius: var(--radius-md);
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-body);
+
+  line-height: 1.6;
+}
+
+.bf-monthly-overview__summary strong {
+  color: var(--color-text-primary);
+
+  font-weight: var(--font-bold);
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .bf-monthly-overview {
+    gap: var(--space-lg);
+  }
+
+  .bf-monthly-overview__grid {
+    grid-template-columns: 1fr;
+  }
+}

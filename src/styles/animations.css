@@ -1,75 +1,179 @@
-@keyframes fadeUp{
+/* =========================================================
+   BudgetForge Animation System
+   ========================================================= */
 
-from{
+/* ---------- Motion Tokens ---------- */
 
-opacity:0;
+:root {
+  --motion-fast: 150ms;
+  --motion-normal: 250ms;
+  --motion-slow: 400ms;
 
-transform:translateY(20px);
-
+  --ease-standard: ease;
+  --ease-smooth: cubic-bezier(.4,0,.2,1);
 }
 
-to{
+/* ---------- Keyframes ---------- */
 
-opacity:1;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
 
-transform:translateY(0);
-
+  to {
+    opacity: 1;
+  }
 }
 
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.card,
-.panel,
-.bill-card{
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
 
-animation:fadeUp .4s ease;
-
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.toast-container{
-position:fixed;
-top:25px;
-right:25px;
-display:flex;
-flex-direction:column;
-gap:12px;
-z-index:9999;
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.toast{
-padding:16px 20px;
-border-radius:14px;
-background:rgba(25,32,56,.92);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.08);
-box-shadow:0 20px 40px rgba(0,0,0,.35);
-animation:toastSlide .35s ease;
-font-weight:600;
-min-width:260px;
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.toast.success{
-border-left:5px solid #22c55e;
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.toast.error{
-border-left:5px solid #ef4444;
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.toast.info{
-border-left:5px solid #5b7cff;
+/* ---------- Utility Classes ---------- */
+
+.animate-fade {
+  animation: fadeIn var(--motion-normal) var(--ease-standard);
 }
 
-@keyframes toastSlide{
-
-from{
-opacity:0;
-transform:translateX(60px);
+.animate-fade-up {
+  animation: fadeUp var(--motion-slow) var(--ease-standard);
 }
 
-to{
-opacity:1;
-transform:translateX(0);
+.animate-fade-down {
+  animation: fadeDown var(--motion-slow) var(--ease-standard);
 }
+
+.animate-slide-left {
+  animation: slideLeft var(--motion-normal) var(--ease-smooth);
+}
+
+.animate-slide-right {
+  animation: slideRight var(--motion-normal) var(--ease-smooth);
+}
+
+.animate-scale {
+  animation: scaleIn var(--motion-normal) var(--ease-smooth);
+}
+
+/* ---------- Toasts ---------- */
+
+.toast-container {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999;
+}
+
+.toast {
+  min-width: 260px;
+  padding: 16px 20px;
+  border-radius: 14px;
+
+  background: rgba(25,32,56,.92);
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  box-shadow: 0 20px 40px rgba(0,0,0,.35);
+
+  font-weight: 600;
+
+  animation: toastSlide var(--motion-normal) var(--ease-smooth);
+}
+
+.toast.success {
+  border-left: 5px solid var(--color-success);
+}
+
+.toast.error {
+  border-left: 5px solid var(--color-error);
+}
+
+.toast.info {
+  border-left: 5px solid var(--color-info);
+}
+
+/* ---------- Accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 
 }

@@ -8,15 +8,16 @@ import QuickStatsWidget from "../widgets/QuickStatsWidget";
 import UpcomingBillsWidget from "../widgets/UpcomingBillsWidget";
 import RecentActivityWidget from "../widgets/RecentActivityWidget";
 import CategoryPieChart from "../widgets/CategoryPieChart";
+import { useBudget } from "../context";
 
-function DashboardPage({
-  bills,
-  monthlyIncome,
-  setMonthlyIncome,
-  userName,
-  setUserName,
-  showToast,
-}) {
+function DashboardPage({ showToast }) {
+  const {
+    bills,
+    monthlyIncome,
+    setMonthlyIncome,
+    userName,
+    setUserName,
+  } = useBudget();
   const [nameInput, setNameInput] = useState("");
 
   function saveName() {

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Trash2, Wallet } from "lucide-react";
+import { useBudget } from "../context";
 
 const STORAGE_KEY = "budgetforge-budget-categories";
 const DEFAULT_CATEGORIES = ["Housing", "Food", "Transport", "Utilities", "Fun"];
@@ -12,7 +13,8 @@ function formatCurrency(value) {
   }).format(value || 0);
 }
 
-function BudgetPage({ bills, monthlyIncome }) {
+function BudgetPage() {
+  const { bills, monthlyIncome } = useBudget();
   const [categories, setCategories] = useState(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");

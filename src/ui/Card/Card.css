@@ -1,0 +1,106 @@
+/* =========================================================
+   BudgetForge Card
+   ========================================================= */
+
+.bf-card {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+
+  border-radius: var(--radius-lg);
+
+  transition:
+    background-color var(--motion-fast) var(--ease-smooth),
+    border-color var(--motion-fast) var(--ease-smooth),
+    box-shadow var(--motion-fast) var(--ease-smooth),
+    transform var(--motion-fast) var(--ease-smooth);
+}
+
+/* =========================================================
+   Borders
+   ========================================================= */
+
+.bf-card--border {
+  border: 1px solid var(--color-border);
+}
+
+/* =========================================================
+   Shadows
+   ========================================================= */
+
+.bf-card--shadow-none {
+  box-shadow: none;
+}
+
+.bf-card--shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.bf-card--shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.bf-card--shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+/* =========================================================
+   Padding
+   ========================================================= */
+
+.bf-card--padding-sm {
+  padding: var(--space-md);
+}
+
+.bf-card--padding-md {
+  padding: var(--space-lg);
+}
+
+.bf-card--padding-lg {
+  padding: var(--space-xl);
+}
+
+/* =========================================================
+   Hover
+   ========================================================= */
+
+.bf-card--hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* =========================================================
+   Clickable
+   ========================================================= */
+
+.bf-card--clickable {
+  cursor: pointer;
+}
+
+.bf-card--clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.bf-card--clickable:active {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   Full Height
+   ========================================================= */
+
+.bf-card--full-height {
+  height: 100%;
+}
+
+/* =========================================================
+   Focus
+   ========================================================= */
+
+.bf-card--clickable:focus-visible {
+  outline: 3px solid var(--color-info);
+  outline-offset: 3px;
+}

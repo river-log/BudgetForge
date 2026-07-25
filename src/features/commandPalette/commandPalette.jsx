@@ -6,16 +6,15 @@ import CommandItem from "./CommandItem";
 import CommandGroup from "./CommandGroup";
 
 function CommandPalette({ open, onClose }) {
+  if (!open) return null;
+
+  return <CommandPaletteContent onClose={onClose} />;
+}
+
+function CommandPaletteContent({ onClose }) {
   const [search, setSearch] = useState("");
   const [selectedIndex, setSelectedIndex] =
     useState(0);
-
-  useEffect(() => {
-    if (open) {
-      setSearch("");
-      setSelectedIndex(0);
-    }
-  }, [open]);
 
   const filteredCommands = useMemo(() => {
     const query = search.toLowerCase();
@@ -33,8 +32,6 @@ function CommandPalette({ open, onClose }) {
   }, [search]);
 
   useEffect(() => {
-    if (!open) return;
-
     function handleKeys(event) {
       if (!filteredCommands.length) return;
 
@@ -85,9 +82,7 @@ function CommandPalette({ open, onClose }) {
         "keydown",
         handleKeys
       );
-  }, [open, filteredCommands]);
-
-  if (!open) return null;
+  }, [filteredCommands]);
 
   return (
     <div

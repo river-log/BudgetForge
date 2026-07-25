@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Bell, CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
 import { isPaidForMonth } from "../utils/billPayments";
+import { useBudget } from "../context";
 
 const REMINDER_KEY = "budgetforge-reminder-days";
 
@@ -15,7 +16,8 @@ function billDateInMonth(bill, year, month) {
   return new Date(year, month, Math.min(source.getDate(), maxDay), 12);
 }
 
-function CalendarPage({ bills, togglePaid }) {
+function CalendarPage() {
+  const { bills, togglePaid } = useBudget();
   const [cursor, setCursor] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
   const [reminderDays, setReminderDays] = useState(() => Number(localStorage.getItem(REMINDER_KEY) || 3));
   const [notificationState, setNotificationState] = useState(() => ("Notification" in window ? Notification.permission : "unsupported"));

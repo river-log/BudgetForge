@@ -1,0 +1,198 @@
+/* =========================================================
+   BudgetForge Global Styles
+   ========================================================= */
+
+/* =========================================================
+   Document
+   ========================================================= */
+
+html {
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+
+  background: var(--color-background);
+  color: var(--color-text-primary);
+
+  font-family: var(--font-primary);
+  font-size: var(--font-body);
+  line-height: var(--line-height-body);
+
+  transition:
+    background-color var(--motion-normal) var(--ease-smooth),
+    color var(--motion-normal) var(--ease-smooth);
+}
+
+/* =========================================================
+   React Root
+   ========================================================= */
+
+#root {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================================
+   Selection
+   ========================================================= */
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* =========================================================
+   Focus States
+   ========================================================= */
+
+:focus-visible {
+  outline: 3px solid var(--color-info);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* =========================================================
+   Links
+   ========================================================= */
+
+a {
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+button {
+  transition:
+    background var(--motion-fast) var(--ease-standard),
+    color var(--motion-fast) var(--ease-standard),
+    transform var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard);
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   Inputs
+   ========================================================= */
+
+input,
+textarea,
+select {
+
+  width: 100%;
+
+  padding: var(--space-lg);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+
+  color: var(--color-text-primary);
+
+  transition:
+    border-color var(--motion-fast) var(--ease-standard),
+    box-shadow var(--motion-fast) var(--ease-standard);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+
+  border-color: var(--color-accent);
+
+  box-shadow: 0 0 0 4px rgba(34,197,94,.15);
+
+  outline: none;
+
+}
+
+/* =========================================================
+   Horizontal Rules
+   ========================================================= */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+/* =========================================================
+   Scrollbars
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Firefox */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 var(--color-background);
+}
+
+/* =========================================================
+   Disabled Elements
+   ========================================================= */
+
+:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+/* =========================================================
+   Smooth Images
+   ========================================================= */
+
+img {
+  user-select: none;
+}
+
+/* =========================================================
+   Transitions
+   ========================================================= */
+
+* {
+  transition-property:
+    background-color,
+    border-color,
+    color,
+    fill,
+    stroke;
+}

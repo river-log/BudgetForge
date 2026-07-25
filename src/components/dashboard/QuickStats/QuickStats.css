@@ -1,0 +1,101 @@
+/* =========================================================
+   BudgetForge Quick Stats
+   ========================================================= */
+
+.bf-quick-stats {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-lg);
+}
+
+/* =========================================================
+   Card
+   ========================================================= */
+
+.bf-quick-stats__card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+
+  transition:
+    transform var(--motion-fast) var(--ease-smooth),
+    box-shadow var(--motion-fast) var(--ease-smooth);
+}
+
+.bf-quick-stats__card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================================
+   Icon
+   ========================================================= */
+
+.bf-quick-stats__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 60px;
+  height: 60px;
+
+  flex-shrink: 0;
+
+  background: var(--color-background-secondary);
+  border-radius: var(--radius-lg);
+
+  font-size: 1.75rem;
+}
+
+/* =========================================================
+   Content
+   ========================================================= */
+
+.bf-quick-stats__content {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.bf-quick-stats__label {
+  margin: 0 0 var(--space-xs);
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-body-sm);
+}
+
+.bf-quick-stats__value {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: var(--font-h3);
+  font-weight: var(--font-bold);
+
+  line-height: 1.2;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .bf-quick-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .bf-quick-stats__card {
+    gap: var(--space-md);
+  }
+
+  .bf-quick-stats__icon {
+    width: 52px;
+    height: 52px;
+
+    font-size: 1.5rem;
+  }
+}

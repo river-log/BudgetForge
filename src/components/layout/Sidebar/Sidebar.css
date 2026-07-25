@@ -1,0 +1,128 @@
+/* =========================================================
+   BudgetForge Sidebar
+   ========================================================= */
+
+.bf-sidebar {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+
+  padding: var(--space-xl);
+
+  background: var(--color-surface);
+}
+
+/* =========================================================
+   Branding
+   ========================================================= */
+
+.bf-sidebar__brand {
+  margin-bottom: var(--space-2xl);
+}
+
+.bf-sidebar__logo {
+  margin: 0;
+
+  color: var(--color-primary);
+
+  font-size: var(--font-h3);
+  font-weight: var(--font-bold);
+}
+
+.bf-sidebar__tagline {
+  margin: var(--space-xs) 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-body-sm);
+}
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+
+.bf-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--space-sm);
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+/* =========================================================
+   Navigation Button
+   ========================================================= */
+
+.bf-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+
+  width: 100%;
+
+  padding: var(--space-md);
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+
+  color: var(--color-text-secondary);
+
+  font: inherit;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--motion-fast) var(--ease-smooth),
+    color var(--motion-fast) var(--ease-smooth),
+    transform var(--motion-fast) var(--ease-smooth);
+}
+
+.bf-sidebar__link:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+}
+
+.bf-sidebar__link:focus-visible {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+.bf-sidebar__link.is-active {
+  background: var(--color-primary);
+  color: var(--color-surface);
+
+  font-weight: var(--font-semibold);
+}
+
+/* =========================================================
+   Icon
+   ========================================================= */
+
+.bf-sidebar__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+
+  font-size: 1.1rem;
+
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 992px) {
+  .bf-sidebar {
+    padding: var(--space-lg);
+  }
+}

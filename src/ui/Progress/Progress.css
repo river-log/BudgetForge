@@ -1,0 +1,123 @@
+/* =========================================================
+   BudgetForge Progress
+   ========================================================= */
+
+.bf-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  width: 100%;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.bf-progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-md);
+}
+
+.bf-progress__label {
+  color: var(--color-text-primary);
+  font-size: var(--font-body-sm);
+  font-weight: var(--font-semibold);
+}
+
+.bf-progress__value {
+  color: var(--color-text-secondary);
+  font-size: var(--font-body-sm);
+  font-weight: var(--font-medium);
+}
+
+/* =========================================================
+   Track
+   ========================================================= */
+
+.bf-progress__track {
+  width: 100%;
+  overflow: hidden;
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+}
+
+/* =========================================================
+   Fill
+   ========================================================= */
+
+.bf-progress__fill {
+  height: 100%;
+  width: 0;
+
+  border-radius: inherit;
+
+  transition:
+    width var(--motion-normal) var(--ease-smooth),
+    background-color var(--motion-fast) var(--ease-smooth);
+}
+
+/* =========================================================
+   Sizes
+   ========================================================= */
+
+.bf-progress--sm .bf-progress__track {
+  height: 6px;
+}
+
+.bf-progress--md .bf-progress__track {
+  height: 10px;
+}
+
+.bf-progress--lg .bf-progress__track {
+  height: 14px;
+}
+
+/* =========================================================
+   Colors
+   ========================================================= */
+
+.bf-progress--primary .bf-progress__fill {
+  background: var(--color-accent);
+}
+
+.bf-progress--success .bf-progress__fill {
+  background: var(--color-success);
+}
+
+.bf-progress--warning .bf-progress__fill {
+  background: var(--color-warning);
+}
+
+.bf-progress--danger .bf-progress__fill {
+  background: var(--color-error);
+}
+
+.bf-progress--info .bf-progress__fill {
+  background: var(--color-info);
+}
+
+/* =========================================================
+   Animation
+   ========================================================= */
+
+.bf-progress--animated .bf-progress__fill {
+  transition:
+    width var(--motion-normal) var(--ease-smooth),
+    background-color var(--motion-fast) var(--ease-smooth);
+}
+
+/* =========================================================
+   Reduced Motion
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .bf-progress__fill {
+    transition: none;
+  }
+}
