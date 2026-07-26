@@ -1,0 +1,213 @@
+html {
+  min-height: 100%;
+  background: var(--bg);
+  overscroll-behavior-y: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body,
+#root,
+.layout {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+button,
+a,
+select,
+input[type="button"],
+input[type="submit"] {
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .62;
+  transform: none;
+}
+
+.connection-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: 0 auto var(--space-md);
+  padding: 10px 12px;
+  border: 1px solid rgba(245, 158, 11, .32);
+  border-radius: var(--radius-sm);
+  background: rgba(245, 158, 11, .12);
+  color: var(--text);
+  font-size: var(--font-body-sm);
+}
+
+.connection-notice svg {
+  flex: 0 0 auto;
+}
+
+.connection-notice--update {
+  border-color: rgba(59, 130, 246, .32);
+  background: rgba(59, 130, 246, .12);
+}
+
+.connection-notice button {
+  min-width: 44px;
+  min-height: 44px;
+  margin-left: auto;
+  padding: 8px 12px;
+}
+
+.install-instruction {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  line-height: 1.6;
+}
+
+.install-instruction svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.toast-container {
+  top: max(25px, env(safe-area-inset-top));
+  right: max(25px, env(safe-area-inset-right));
+  bottom: env(safe-area-inset-bottom);
+}
+
+.bf-modal__overlay {
+  padding:
+    max(var(--space-xl), env(safe-area-inset-top))
+    max(var(--space-xl), env(safe-area-inset-right))
+    max(var(--space-xl), env(safe-area-inset-bottom))
+    max(var(--space-xl), env(safe-area-inset-left));
+}
+
+.bf-modal {
+  max-height: calc(100vh - (2 * var(--space-xl)));
+  max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - (2 * var(--space-xl)));
+}
+
+@media (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .mobile-header {
+    min-height: calc(var(--header-height) + env(safe-area-inset-top));
+    padding:
+      calc(14px + env(safe-area-inset-top))
+      max(20px, env(safe-area-inset-right))
+      14px
+      max(20px, env(safe-area-inset-left));
+  }
+
+  .mobile-drawer {
+    width: min(290px, calc(100vw - 28px));
+    height: 100vh;
+    height: 100dvh;
+    padding:
+      max(24px, env(safe-area-inset-top))
+      24px
+      max(24px, env(safe-area-inset-bottom))
+      max(24px, env(safe-area-inset-left));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .main-content {
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
+  }
+
+  .mobile-drawer a,
+  .mobile-drawer button,
+  .command-item,
+  .calendar-controls button,
+  .bill-card__actions button,
+  .goal-card__actions button,
+  .debt-card__actions button,
+  .month-selector select {
+    min-height: 44px;
+  }
+
+  .bf-modal__overlay {
+    align-items: flex-end;
+    padding:
+      max(var(--space-md), env(safe-area-inset-top))
+      max(var(--space-md), env(safe-area-inset-right))
+      max(var(--space-md), env(safe-area-inset-bottom))
+      max(var(--space-md), env(safe-area-inset-left));
+  }
+
+  .bf-modal {
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - (2 * var(--space-md)));
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - (2 * var(--space-md)));
+  }
+
+  .command-overlay {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding:
+      max(72px, calc(env(safe-area-inset-top) + 24px))
+      max(var(--space-md), env(safe-area-inset-right))
+      max(var(--space-md), env(safe-area-inset-bottom))
+      max(var(--space-md), env(safe-area-inset-left));
+  }
+
+  .command-palette {
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 96px);
+  }
+
+  .onboarding {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding:
+      max(var(--space-lg), env(safe-area-inset-top))
+      max(var(--space-lg), env(safe-area-inset-right))
+      max(var(--space-lg), env(safe-area-inset-bottom))
+      max(var(--space-lg), env(safe-area-inset-left));
+    overflow-y: auto;
+  }
+
+  .settings-card .bf-button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 340px) {
+  .main-content {
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-left: max(12px, env(safe-area-inset-left));
+  }
+
+  .panel,
+  .card,
+  .widget,
+  .bf-card {
+    padding-right: var(--space-md);
+    padding-left: var(--space-md);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .mobile-header {
+    position: relative;
+  }
+
+  .bf-modal__overlay {
+    align-items: center;
+  }
+}
+
+@media (display-mode: standalone) {
+  body {
+    user-select: text;
+  }
+
+  .mobile-header {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}

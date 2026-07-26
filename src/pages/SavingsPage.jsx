@@ -6,14 +6,11 @@ import SavingsSummaryWidget from "../widgets/SavingsSummaryWidget";
 import SavingsGoalCard from "../widgets/SavingsGoalCard";
 import AddSavingsGoal from "../widgets/AddSavingsGoal";
 import { recordSavingsSnapshot } from "../utils/history";
+import { isRecordArray, safeReadJson } from "../utils/safeStorage";
 
 function SavingsPage() {
   const [goals, setGoals] = useState(() => {
-    const saved = localStorage.getItem(
-      "budgetforge-savings"
-    );
-
-    return saved ? JSON.parse(saved) : [];
+    return safeReadJson("budgetforge-savings", [], isRecordArray);
   });
 
   const [modalOpen, setModalOpen] = useState(false);

@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ChartNoAxesCombined, CircleDollarSign, PiggyBank, TrendingUp } from "lucide-react";
 import { getSavingsHistory, getSpendingHistory, recentMonths } from "../utils/history";
+import { monthKey } from "../utils/billPayments";
+import { isRecordArray, safeReadJson } from "../utils/safeStorage";
+import MonthlyReview from "../features/monthlyReview";
 import { useBudget } from "../context";
 
 const tooltipStyle = { background: "#1d2438", border: "1px solid rgba(255,255,255,.12)", borderRadius: "10px" };
@@ -8,19 +12,28 @@ const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "
 
 function ReportsPage() {
   const { bills, monthlyIncome } = useBudget();
+  const spendingHistory = getSpendingHistory();
+  const savingsHistory = getSavingsHistory();
+  const availableMonths = (() => {
+    const keys = new Set([monthKey(), ...Object.keys(spendingHistory), ...Object.keys(savingsHistory)]);
+    return [...keys].sort().reverse().map((key) => ({
+      key,
+      label: new Date(`${key}-15T12:00:00`).toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+    }));
+  })();
+  const [selectedMonth, setSelectedMonth] = useState(availableMonths[0]?.key || monthKey());
+  const budgetCategories = safeReadJson("budgetforge-budget-categories", [], isRecordArray);
   const { spendingData, savingsData, categoryData, currentSpending, currentSavings } = (() => {
-    const spending = getSpendingHistory();
-    const savings = getSavingsHistory();
     const months = recentMonths();
     const thisMonth = months.at(-1).key;
-    const categories = spending[thisMonth]?.categories || {};
+    const categories = spendingHistory[thisMonth]?.categories || {};
 
     return {
-      spendingData: months.map((month) => ({ month: month.label, spending: spending[month.key]?.total || 0 })),
-      savingsData: months.map((month) => ({ month: month.label, saved: savings[month.key] || 0 })),
+      spendingData: months.map((month) => ({ month: month.label, spending: spendingHistory[month.key]?.total || 0 })),
+      savingsData: months.map((month) => ({ month: month.label, saved: savingsHistory[month.key] || 0 })),
       categoryData: Object.entries(categories).map(([category, amount]) => ({ category, amount })),
-      currentSpending: spending[thisMonth]?.total || 0,
-      currentSavings: savings[thisMonth] || 0,
+      currentSpending: spendingHistory[thisMonth]?.total || 0,
+      currentSavings: savingsHistory[thisMonth] || 0,
     };
   })();
 
@@ -32,6 +45,17 @@ function ReportsPage() {
       <header className="insights-header">
         <div><h1>Reports</h1><p className="text-muted">Track your financial trends as you pay bills and grow your savings.</p></div>
       </header>
+
+      <MonthlyReview
+        selectedMonth={selectedMonth}
+        months={availableMonths}
+        onMonthChange={setSelectedMonth}
+        bills={bills}
+        monthlyIncome={monthlyIncome}
+        spendingHistory={spendingHistory}
+        savingsHistory={savingsHistory}
+        budgetCategories={budgetCategories}
+      />
 
       <section className="report-stats">
         <div><CircleDollarSign size={22} /><span>Income after planned bills</span><strong>{currency.format(remainingIncome)}</strong></div>

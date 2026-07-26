@@ -12,6 +12,11 @@ dist
 dist-ssr
 .npm-cache
 *.local
+android/keystore.properties
+android/*.jks
+android/*.keystore
+*.p12
+*.mobileprovision
 .env
 .env.*
 !.env.example

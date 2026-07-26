@@ -14,10 +14,13 @@ function CommandItem({
   }
 
   return (
-    <div
+    <button
+      type="button"
       className={`command-item ${
         selected ? "selected" : ""
       }`}
+      role="option"
+      aria-selected={selected}
       onMouseEnter={onMouseEnter}
       onClick={handleClick}
     >
@@ -58,7 +61,7 @@ function CommandItem({
       >
         {command.type.toUpperCase()}
       </small>
-    </div>
+    </button>
   );
 }
 

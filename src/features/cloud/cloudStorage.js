@@ -10,6 +10,8 @@ export const CLOUD_STORAGE_KEYS = [
   "budgetforge-reminder-days",
   "budgetforge-debt-strategy",
 ];
+import { RECOVERY_STORAGE_KEY } from "../../utils/backup";
+import { clearQuarantinedStorage } from "../../utils/safeStorage";
 
 const CLOUD_OWNER_KEY = "budgetforge-cloud-owner-id";
 
@@ -29,6 +31,11 @@ export function serializeCloudSnapshot(snapshot) {
 
 export function clearCloudStorage() {
   CLOUD_STORAGE_KEYS.forEach((key) => localStorage.removeItem(key));
+}
+
+export function clearAccountLocalSafetyData() {
+  localStorage.removeItem(RECOVERY_STORAGE_KEY);
+  clearQuarantinedStorage();
 }
 
 export function replaceCloudSnapshot(snapshot) {
@@ -53,4 +60,13 @@ export function setCloudOwnerId(userId) {
 
 export function clearCloudOwnerId() {
   localStorage.removeItem(CLOUD_OWNER_KEY);
+}
+
+export function clearDeletedAccountLocalData(storage = localStorage, temporaryStorage = sessionStorage) {
+  CLOUD_STORAGE_KEYS.forEach((key) => storage.removeItem(key));
+  storage.removeItem(CLOUD_OWNER_KEY);
+  storage.removeItem(RECOVERY_STORAGE_KEY);
+  storage.removeItem("budgetforge-device-id");
+  clearQuarantinedStorage(storage);
+  temporaryStorage.removeItem("budgetforge-cloud-isolation-reload-user");
 }

@@ -1,1 +1,34 @@
-{"name":"BudgetForge","short_name":"BudgetForge","start_url":"/","display":"standalone","background_color":"#1E293B","theme_color":"#1E293B","icons":[{"src":"/branding/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
+{
+  "id": "/",
+  "name": "BudgetForge",
+  "short_name": "BudgetForge",
+  "description": "A private personal finance workspace for bills, budgets, savings, debt payoff, and monthly reports.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "theme_color": "#1E293B",
+  "background_color": "#1E293B",
+  "categories": ["finance", "productivity"],
+  "lang": "en-US",
+  "icons": [
+    { "src": "/branding/app-icon-48.png", "sizes": "48x48", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-72.png", "sizes": "72x72", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-152.png", "sizes": "152x152", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/branding/app-icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/branding/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Dashboard", "short_name": "Dashboard", "url": "/", "icons": [{ "src": "/branding/app-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Bills", "short_name": "Bills", "url": "/bills", "icons": [{ "src": "/branding/app-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Reports", "short_name": "Reports", "url": "/reports", "icons": [{ "src": "/branding/app-icon-192.png", "sizes": "192x192" }] }
+  ]
+}

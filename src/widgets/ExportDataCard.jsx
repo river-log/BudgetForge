@@ -1,25 +1,11 @@
 import { CloudUpload, Download } from "lucide-react";
-import { backupFile, downloadBackup } from "../utils/backup";
+import { downloadBackup } from "../utils/backup";
+import { exportBackup } from "../native/backupTransfer";
 
 function ExportDataCard() {
   async function exportToCloud() {
-    const file = backupFile();
-
-    if (navigator.canShare?.({ files: [file] })) {
-      try {
-        await navigator.share({
-          title: "BudgetForge backup",
-          text: "My BudgetForge backup",
-          files: [file],
-        });
-        return;
-      } catch (error) {
-        if (error.name === "AbortError") return;
-      }
-    }
-
-    downloadBackup(file);
-    alert("Your backup was downloaded. Upload it to your preferred cloud drive.");
+    const result = await exportBackup();
+    if (result === "downloaded") alert("Your backup was downloaded. Upload it to your preferred cloud drive.");
   }
 
   return (
@@ -27,8 +13,9 @@ function ExportDataCard() {
       <CloudUpload size={28} aria-hidden="true" />
       <h2>Export backup</h2>
       <p className="text-muted">
-        Send a complete backup to a cloud app, or download it to upload later.
+        Export bills, income, profile, budgets, savings, debts, histories, and supported preferences. Authentication and device-only settings are excluded.
       </p>
+      <p className="text-muted">Cloud sync is not a substitute for keeping an offline backup.</p>
       <button style={{ marginTop: "20px" }} onClick={exportToCloud}>
         <CloudUpload size={18} aria-hidden="true" />
         Export to cloud

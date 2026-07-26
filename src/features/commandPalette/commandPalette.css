@@ -88,6 +88,7 @@
 }
 
 .command-item {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -95,6 +96,11 @@
   padding: 16px 22px;
 
   cursor: pointer;
+  color: white;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  text-align: left;
 
   border-top: 1px solid rgba(255,255,255,.05);
 
@@ -117,4 +123,9 @@
 
 .command-item.selected span {
   color: white;
+}
+
+.command-item:focus-visible {
+  outline: none;
+  box-shadow: inset var(--focus-ring);
 }

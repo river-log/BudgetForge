@@ -11,7 +11,10 @@ function BillsToolbar({
         marginBottom: "25px",
       }}
     >
+      <label className="sr-only" htmlFor="bills-search">Search bills</label>
       <input
+        id="bills-search"
+        type="search"
         type="text"
         placeholder="Search bills..."
         value={search}
@@ -20,7 +23,9 @@ function BillsToolbar({
         }
       />
 
+      <label className="sr-only" htmlFor="bills-status-filter">Filter bills by status</label>
       <select
+        id="bills-status-filter"
         value={filter}
         onChange={(e) =>
           setFilter(e.target.value)

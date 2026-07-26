@@ -1,8 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { App as CapacitorApp } from "@capacitor/app";
 import { isSupabaseConfigured, supabase } from "../../lib/supabase";
+import { getAuthRedirectUrl, parseNativeAuthCallback } from "../../native/auth";
+import { isNativePlatform } from "../../native/platform";
 import {
   clearCloudOwnerId,
+  clearAccountLocalSafetyData,
   clearCloudStorage,
+  clearDeletedAccountLocalData,
   getCloudOwnerId,
   getCloudSnapshot,
   replaceCloudSnapshot,
@@ -10,6 +15,7 @@ import {
   setCloudOwnerId,
 } from "./cloudStorage";
 import CloudSyncContext from "./CloudSyncContext";
+import { executeAccountDeletion } from "../accountDeletion/accountDeletion";
 
 const DEVICE_KEY = "budgetforge-device-id";
 const ISOLATION_RELOAD_KEY = "budgetforge-cloud-isolation-reload-user";
@@ -27,6 +33,7 @@ function getDeviceId() {
 
 function CloudSyncProvider({ children }) {
   const [session, setSession] = useState(null);
+  const [authError, setAuthError] = useState("");
   const [status, setStatus] = useState(
     isSupabaseConfigured ? "offline" : "not-configured"
   );
@@ -37,6 +44,7 @@ function CloudSyncProvider({ children }) {
   const interval = useRef(null);
   const channel = useRef(null);
   const lastSnapshot = useRef("");
+  const deletionInFlight = useRef(false);
 
   const isCurrentUser = useCallback((userId, requestGeneration) => (
     activeUserId.current === userId && generation.current === requestGeneration
@@ -60,6 +68,7 @@ function CloudSyncProvider({ children }) {
 
   const resetUserStorage = useCallback(() => {
     clearCloudStorage();
+    clearAccountLocalSafetyData();
     clearCloudOwnerId();
   }, []);
 
@@ -128,10 +137,45 @@ function CloudSyncProvider({ children }) {
     return supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: getAuthRedirectUrl(),
       },
     });
   }, []);
+
+  useEffect(() => {
+    if (!supabase || !isNativePlatform()) return undefined;
+    let active = true;
+    let handle;
+    async function acceptUrl(url) {
+      const callback = parseNativeAuthCallback(url);
+      if (!callback) return;
+      if (callback.error) {
+        if (active) setAuthError(callback.error);
+        return;
+      }
+      setAuthError("");
+      const { error } = await supabase.auth.exchangeCodeForSession(callback.code);
+      if (active && error) setAuthError("BudgetForge could not complete sign-in. Request a new link and try again.");
+    }
+    CapacitorApp.getLaunchUrl().then((result) => result?.url && acceptUrl(result.url));
+    CapacitorApp.addListener("appUrlOpen", ({ url }) => acceptUrl(url)).then((nextHandle) => {
+      if (active) handle = nextHandle;
+      else nextHandle.remove();
+    });
+    return () => {
+      active = false;
+      handle?.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isNativePlatform()) return undefined;
+    let handle;
+    CapacitorApp.addListener("appStateChange", ({ isActive }) => {
+      if (isActive && activeUserId.current && initialized.current) syncNow();
+    }).then((nextHandle) => { handle = nextHandle; });
+    return () => handle?.remove();
+  }, [syncNow]);
 
   const signOut = useCallback(async () => {
     stopSync();
@@ -154,6 +198,37 @@ function CloudSyncProvider({ children }) {
 
     return { error: null };
   }, [resetUserStorage, stopSync]);
+
+  const deleteAccount = useCallback(async () => {
+    if (!supabase || !activeUserId.current) {
+      return { error: new Error("Sign in before deleting an account.") };
+    }
+    if (deletionInFlight.current) {
+      return { error: new Error("Account deletion is already in progress.") };
+    }
+    deletionInFlight.current = true;
+    setStatus("deleting");
+    try {
+      const result = await executeAccountDeletion({
+        stopSync,
+        invoke: () => supabase.functions.invoke("delete-account", { body: {} }),
+        clearLocal: () => {
+          clearDeletedAccountLocalData();
+          activeUserId.current = null;
+          setSession(null);
+        },
+        endLocalSession: () => supabase.auth.signOut({ scope: "local" }).catch(() => {}),
+        reload: () => window.location.reload(),
+      });
+      if (result.error) {
+        setStatus("error");
+        return { error: new Error("BudgetForge could not delete the account. Your local data has not been cleared. Please retry or contact support.") };
+      }
+      return { error: null };
+    } finally {
+      deletionInFlight.current = false;
+    }
+  }, [stopSync]);
 
   useEffect(() => {
     if (!supabase) {
@@ -344,12 +419,14 @@ function CloudSyncProvider({ children }) {
 
   const value = useMemo(() => ({
     configured: isSupabaseConfigured,
+    authError,
     session,
     status,
     signIn,
     signOut,
+    deleteAccount,
     syncNow,
-  }), [session, signIn, signOut, status, syncNow]);
+  }), [authError, deleteAccount, session, signIn, signOut, status, syncNow]);
 
   return (
     <CloudSyncContext.Provider value={value}>

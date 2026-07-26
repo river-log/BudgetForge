@@ -2,6 +2,9 @@ import { useMemo, useState } from "react";
 import { Bell, CalendarDays, ChevronLeft, ChevronRight, Clock3 } from "lucide-react";
 import { isPaidForMonth } from "../utils/billPayments";
 import { useBudget } from "../context";
+import { safeReadNumber } from "../utils/safeStorage";
+import { storedDateInMonth } from "../utils/storedDates";
+import { isNativePlatform } from "../native/platform";
 
 const REMINDER_KEY = "budgetforge-reminder-days";
 
@@ -10,17 +13,14 @@ function formatCurrency(value) {
 }
 
 function billDateInMonth(bill, year, month) {
-  const source = new Date(`${bill.dueDate}T12:00:00`);
-  if (Number.isNaN(source.getTime())) return null;
-  const maxDay = new Date(year, month + 1, 0).getDate();
-  return new Date(year, month, Math.min(source.getDate(), maxDay), 12);
+  return storedDateInMonth(bill.dueDate, year, month);
 }
 
 function CalendarPage() {
   const { bills, togglePaid } = useBudget();
   const [cursor, setCursor] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
-  const [reminderDays, setReminderDays] = useState(() => Number(localStorage.getItem(REMINDER_KEY) || 3));
-  const [notificationState, setNotificationState] = useState(() => ("Notification" in window ? Notification.permission : "unsupported"));
+  const [reminderDays, setReminderDays] = useState(() => safeReadNumber(REMINDER_KEY, 3, { allowed: [0, 1, 3, 7, 14] }));
+  const [notificationState, setNotificationState] = useState(() => (!isNativePlatform() && "Notification" in window ? Notification.permission : "unsupported"));
 
   const year = cursor.getFullYear();
   const month = cursor.getMonth();
@@ -37,9 +37,10 @@ function CalendarPage() {
     today.setHours(0, 0, 0, 0);
     return bills.map((bill) => {
       const due = billDateInMonth(bill, today.getFullYear(), today.getMonth());
+      if (!due) return null;
       if (due < today) due.setMonth(due.getMonth() + 1);
       return { ...bill, nextDue: due, paid: isPaidForMonth(bill, due) };
-    }).filter((bill) => (bill.nextDue - today) / 86400000 <= 30).sort((left, right) => left.nextDue - right.nextDue);
+    }).filter((bill) => bill && (bill.nextDue - today) / 86400000 <= 30).sort((left, right) => left.nextDue - right.nextDue);
   }, [bills]);
 
   const reminders = timeline.filter((bill) => {
@@ -54,7 +55,7 @@ function CalendarPage() {
   }
 
   async function enableReminders() {
-    if (!("Notification" in window)) return;
+    if (isNativePlatform() || !("Notification" in window)) return;
     const permission = await Notification.requestPermission();
     setNotificationState(permission);
     if (permission === "granted" && reminders.length) {
@@ -94,11 +95,12 @@ function CalendarPage() {
         <aside className="widget reminders-panel">
           <div className="reminders-title"><Bell size={23} aria-hidden="true" /><h2>Bill reminders</h2></div>
           <p>Remind me when a bill is due within:</p>
-          <select value={reminderDays} onChange={(event) => updateReminderDays(event.target.value)}>
+          <label className="sr-only" htmlFor="reminder-window">Bill reminder window</label>
+          <select id="reminder-window" value={reminderDays} onChange={(event) => updateReminderDays(event.target.value)}>
             <option value="0">Due today</option><option value="1">1 day</option><option value="3">3 days</option><option value="7">1 week</option><option value="14">2 weeks</option>
           </select>
           <button onClick={enableReminders} disabled={notificationState === "unsupported" || notificationState === "denied"}>
-            <Bell size={18} /> {notificationState === "granted" ? "Reminders enabled" : notificationState === "denied" ? "Blocked by browser" : "Enable reminders"}
+            <Bell size={18} aria-hidden="true" /> {notificationState === "granted" ? "Reminders enabled" : notificationState === "denied" ? "Blocked by browser" : notificationState === "unsupported" ? "Notifications unavailable" : "Enable reminders"}
           </button>
           <div className="reminder-list">
             {reminders.length ? reminders.map((bill) => <div key={bill.id}><strong>{bill.name}</strong><span>{bill.nextDue.toLocaleDateString("en-US", { month: "short", day: "numeric" })} · {formatCurrency(bill.amount)}</span></div>) : <p className="text-muted">No unpaid bills are due in this reminder window.</p>}

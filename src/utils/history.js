@@ -1,20 +1,17 @@
 const SPENDING_KEY = "budgetforge-spending-history";
 const SAVINGS_KEY = "budgetforge-savings-history";
+import { isRecordObject, safeReadJson, safeWriteJson } from "./safeStorage";
 
 export function monthKey(date = new Date()) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
 }
 
 function readHistory(key) {
-  try {
-    return JSON.parse(localStorage.getItem(key) || "{}");
-  } catch {
-    return {};
-  }
+  return safeReadJson(key, {}, isRecordObject);
 }
 
 function writeHistory(key, history) {
-  localStorage.setItem(key, JSON.stringify(history));
+  safeWriteJson(key, history);
 }
 
 export function recordPayment(bill) {

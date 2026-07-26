@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Trash2, Wallet } from "lucide-react";
 import { useBudget } from "../context";
+import { isRecordArray, safeReadJson } from "../utils/safeStorage";
 
 const STORAGE_KEY = "budgetforge-budget-categories";
 const DEFAULT_CATEGORIES = ["Housing", "Food", "Transport", "Utilities", "Fun"];
@@ -16,12 +17,8 @@ function formatCurrency(value) {
 function BudgetPage() {
   const { bills, monthlyIncome } = useBudget();
   const [categories, setCategories] = useState(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      return saved.length ? saved : DEFAULT_CATEGORIES.map((name) => ({ id: crypto.randomUUID(), name, amount: 0 }));
-    } catch {
-      return [];
-    }
+    const saved = safeReadJson(STORAGE_KEY, [], isRecordArray);
+    return saved.length ? saved : DEFAULT_CATEGORIES.map((name) => ({ id: crypto.randomUUID(), name, amount: 0 }));
   });
   const [newCategory, setNewCategory] = useState("");
 

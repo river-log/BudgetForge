@@ -91,9 +91,14 @@ function CommandPaletteContent({ onClose }) {
     >
       <div
         className="command-palette"
+        role="dialog"
+        aria-modal="true"
+        aria-label="BudgetForge command palette"
         onClick={(e) => e.stopPropagation()}
       >
+        <label className="sr-only" htmlFor="command-search">Search BudgetForge pages</label>
         <input
+          id="command-search"
           autoFocus
           className="command-input"
           placeholder="Search BudgetForge..."
@@ -104,7 +109,7 @@ function CommandPaletteContent({ onClose }) {
           }}
         />
 
-        <div className="command-results">
+        <div className="command-results" role="listbox" aria-label="Available pages">
           <CommandGroup title="Pages">
             {filteredCommands.length > 0 ? (
               filteredCommands.map(

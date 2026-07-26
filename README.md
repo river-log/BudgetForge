@@ -10,11 +10,12 @@ Production: [budget-forge.com](https://budget-forge.com)
 - Savings goals, debt payoff guidance, financial reports, and history charts
 - JSON backup export and restore
 - Optional Supabase email-link accounts and multi-device cloud sync
+- Secure in-app account deletion and public privacy/support resources
 - Responsive desktop and mobile navigation, keyboard command palette, onboarding, and accessible recovery states
 
 ## Stack
 
-React 19, Vite, React Router, Recharts, Lucide, Supabase, Vitest, and React Testing Library.
+React 19, Vite, React Router, Recharts, Lucide, Supabase, Capacitor 8, Vitest, and React Testing Library.
 
 ## Local setup
 
@@ -39,7 +40,19 @@ Never add a Supabase service-role key to this app or commit `.env` files. Withou
 npm run lint
 npm test -- --run
 npm run build
+npm run cap:sync
 ```
+
+## Native builds
+
+Android and iOS projects are committed. Follow `CAPACITOR_SETUP.md`, then
+complete the callback and domain prerequisites in `NATIVE_AUTH.md`.
+`NATIVE_PRIVACY_NOTES.md` records security, privacy, and store-disclosure work.
+
+Public resources: [Privacy](https://budget-forge.com/privacy),
+[Terms](https://budget-forge.com/terms),
+[Support](https://budget-forge.com/support), and
+[Account Deletion](https://budget-forge.com/account-deletion).
 
 ## Cloud sync and privacy
 

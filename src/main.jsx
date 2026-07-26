@@ -13,8 +13,10 @@ import "./styles/forms.css";
 import "./styles/dashboard.css";
 import "./styles/pages.css";
 import "./styles/animations.css";
+import "./styles/mobile-pwa.css";
 import App from "./App.jsx";
 import { AppProviders } from "./providers";
+import { registerServiceWorker } from "./pwa/serviceWorker";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -23,3 +25,9 @@ createRoot(document.getElementById("root")).render(
     </AppProviders>
   </StrictMode>
 );
+
+window.addEventListener("load", () => {
+  registerServiceWorker().catch((error) => {
+    console.warn("BudgetForge could not register offline support.", error);
+  });
+});

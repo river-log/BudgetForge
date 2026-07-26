@@ -24,6 +24,14 @@ export const commands = [
     path: "/budget",
   },
   {
+    id: "calendar",
+    type: "page",
+    title: "Calendar",
+    subtitle: "Review due dates and bill reminders",
+    icon: "📅",
+    path: "/calendar",
+  },
+  {
     id: "savings",
     type: "page",
     title: "Savings",

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { recordPayment } from "../utils/history";
+import { isRecordArray, safeReadJson, safeReadNumber } from "../utils/safeStorage";
 import {
   isPaidForMonth,
   toggleBillMonth,
@@ -11,14 +12,12 @@ export default function useBudgetData() {
   const { showToast } = useToast();
   // Bills
   const [bills, setBills] = useState(() => {
-    const saved = localStorage.getItem("budgetforge-bills");
-    return saved ? JSON.parse(saved) : [];
+    return safeReadJson("budgetforge-bills", [], isRecordArray);
   });
 
   // Monthly Income
   const [monthlyIncome, setMonthlyIncome] = useState(() => {
-    const saved = localStorage.getItem("budgetforge-income");
-    return saved ? Number(saved) : 4000;
+    return safeReadNumber("budgetforge-income", 4000);
   });
 
   // User Name

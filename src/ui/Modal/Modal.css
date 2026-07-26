@@ -175,3 +175,8 @@
     width: 100%;
   }
 }
+
+.bf-modal__description {
+  margin-top: 0;
+  color: var(--color-text-secondary);
+}

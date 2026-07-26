@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">BudgetForge maskable icon</title>
+  <rect width="512" height="512" fill="#F8FAFC"/>
+  <g transform="translate(96 124) scale(2)">
+    <g fill="#22C55E">
+      <path d="M42 54V35a5 5 0 0 1 2.45-4.3l13-7.65A5 5 0 0 1 65 27.36V54Z"/>
+      <path d="M72 54V23a5 5 0 0 1 2.45-4.3l13-7.65A5 5 0 0 1 95 15.36V54Z"/>
+      <path d="M102 54V15a5 5 0 0 1 2.45-4.3l13-7.65A5 5 0 0 1 125 7.36V54Z"/>
+    </g>
+    <path fill="#1E293B" d="M13 58h35.2c2.35 0 4.46 1.1 5.82 2.98l3.24 4.5c1.36 1.88 3.47 2.98 5.82 2.98h33.84c2.35 0 4.46-1.1 5.82-2.98l3.24-4.5A7.15 7.15 0 0 1 111.8 58H147c1.35 0 1.93 1.7.88 2.52L112 88.5l10.6 18.2a3.6 3.6 0 0 1-3.1 5.42H40.5a3.6 3.6 0 0 1-3.1-5.42L48 88.5 12.12 60.52A1.6 1.6 0 0 1 13 58Z"/>
+  </g>
+</svg>

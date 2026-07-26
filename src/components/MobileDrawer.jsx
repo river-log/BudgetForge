@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import {
   LayoutDashboard,
   CreditCard,
@@ -16,7 +17,43 @@ import { Logo } from "./branding";
 function MobileDrawer({
   open,
   onClose,
+  returnFocusRef,
 }) {
+  const drawerRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    const returnFocusElement = returnFocusRef?.current;
+    const background = document.querySelectorAll(".sidebar, .mobile-header, .main-content");
+    background.forEach((element) => element.setAttribute("inert", ""));
+    document.body.style.overflow = "hidden";
+    function handleKeyDown(event) {
+      if (event.key === "Escape") onClose();
+      if (event.key === "Tab") {
+        const focusable = drawerRef.current?.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    window.requestAnimationFrame(() => drawerRef.current?.querySelector("button")?.focus());
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      background.forEach((element) => element.removeAttribute("inert"));
+      document.body.style.overflow = previousOverflow;
+      returnFocusElement?.focus();
+    };
+  }, [open, onClose, returnFocusRef]);
+
   if (!open) return null;
 
   return (
@@ -24,14 +61,15 @@ function MobileDrawer({
       <div
         className="drawer-overlay"
         onClick={onClose}
+        aria-hidden="true"
       />
 
-      <aside className="mobile-drawer">
+      <aside ref={drawerRef} className="mobile-drawer" role="dialog" aria-modal="true" aria-label="Main navigation">
         <div className="drawer-header">
           <Logo theme="dark" size="sm" />
 
-          <button onClick={onClose}>
-            <X size={22} />
+          <button onClick={onClose} aria-label="Close navigation">
+            <X size={22} aria-hidden="true" />
           </button>
         </div>
 
