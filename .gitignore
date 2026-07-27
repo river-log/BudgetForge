@@ -1,4 +1,6 @@
+# =========================
 # Logs
+# =========================
 logs
 *.log
 npm-debug.log*
@@ -7,27 +9,79 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# =========================
+# Dependencies
+# =========================
 node_modules
+.npm-cache
+
+# =========================
+# Build Output
+# =========================
 dist
 dist-ssr
-.npm-cache
-*.local
-android/keystore.properties
-android/*.jks
-android/*.keystore
-*.p12
-*.mobileprovision
+coverage
+
+# Android build outputs
+android/.gradle
+android/build
+android/app/build
+
+# Capacitor generated outputs
+android/capacitor-cordova-android-plugins/build
+
+# =========================
+# Environment Variables
+# =========================
 .env
 .env.*
 !.env.example
+*.local
 
-# Editor directories and files
+# =========================
+# Android Signing (NEVER COMMIT)
+# =========================
+android/keystore.properties
+android/local.properties
+android/key.properties
+
+*.jks
+*.keystore
+*.p12
+*.mobileprovision
+
+# Release artifacts
+*.aab
+*.apk
+
+# =========================
+# IDE / Editor
+# =========================
 .vscode/*
 !.vscode/extensions.json
+
 .idea
-.DS_Store
+*.iml
+
+# Visual Studio
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+
+# Vim
 *.sw?
+*.swp
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# =========================
+# Misc
+# =========================
+*.tmp
+*.temp
