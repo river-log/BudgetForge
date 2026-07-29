@@ -27,6 +27,8 @@ export function toIncomeRow(entry, userId) {
     other_deductions: entry.otherDeductions ?? null,
     total_deductions: entry.totalDeductions ?? null,
     net_pay: entry.netPay ?? null,
+    pay_frequency: entry.payFrequency ?? null,
+    schedule_id: entry.scheduleId ?? null,
     created_at: entry.createdAt,
     updated_at: entry.updatedAt,
   };

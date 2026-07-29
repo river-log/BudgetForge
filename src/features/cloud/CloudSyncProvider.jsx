@@ -10,6 +10,8 @@ import {
   clearDeletedAccountLocalData,
   getCloudOwnerId,
   getCloudSnapshot,
+  hasMeaningfulWorkspaceData,
+  hasUnsyncedLocalChanges,
   replaceCloudSnapshot,
   serializeCloudSnapshot,
   setCloudOwnerId,
@@ -17,6 +19,7 @@ import {
 import CloudSyncContext from "./CloudSyncContext";
 import { executeAccountDeletion } from "../accountDeletion/accountDeletion";
 import { toIncomeRow } from "../income/incomeCloud";
+import { toPaycheckScheduleRow } from "../income/paycheckScheduleCloud";
 
 const DEVICE_KEY = "budgetforge-device-id";
 const ISOLATION_RELOAD_KEY = "budgetforge-cloud-isolation-reload-user";
@@ -46,6 +49,7 @@ function CloudSyncProvider({ children }) {
   const channel = useRef(null);
   const lastSnapshot = useRef("");
   const lastIncomeRows = useRef("");
+  const lastScheduleRows = useRef("");
   const deletionInFlight = useRef(false);
 
   const isCurrentUser = useCallback((userId, requestGeneration) => (
@@ -57,6 +61,7 @@ function CloudSyncProvider({ children }) {
     initialized.current = false;
     lastSnapshot.current = "";
     lastIncomeRows.current = "";
+    lastScheduleRows.current = "";
 
     if (interval.current) {
       window.clearInterval(interval.current);
@@ -83,8 +88,9 @@ function CloudSyncProvider({ children }) {
     const snapshot = getCloudSnapshot();
     const serialized = serializeCloudSnapshot(snapshot);
     const serializedIncomeRows = snapshot["budgetforge-income-entries-v1"] || "[]";
+    const serializedScheduleRows = snapshot["budgetforge-paycheck-schedules-v1"] || "[]";
 
-    if (serialized === lastSnapshot.current && serializedIncomeRows === lastIncomeRows.current) {
+    if (serialized === lastSnapshot.current && serializedIncomeRows === lastIncomeRows.current && serializedScheduleRows === lastScheduleRows.current) {
       setStatus("synced");
       return { error: null };
     }
@@ -123,6 +129,21 @@ function CloudSyncProvider({ children }) {
         error = deleteResult.error;
       }
     }
+    if (!error) {
+      let schedules;
+      try { schedules = JSON.parse(serializedScheduleRows); } catch { schedules = []; }
+      const rows = schedules.map((schedule) => toPaycheckScheduleRow(schedule, userId));
+      if (rows.length) {
+        const result = await supabase.from("paycheck_schedules").upsert(rows);
+        error = result.error;
+        if (!error) {
+          const ids = rows.map((row) => row.id).join(",");
+          error = (await supabase.from("paycheck_schedules").delete().eq("user_id", userId).not("id", "in", `(${ids})`)).error;
+        }
+      } else {
+        error = (await supabase.from("paycheck_schedules").delete().eq("user_id", userId)).error;
+      }
+    }
 
     if (!isCurrentUser(userId, requestGeneration)) {
       return { error: new Error("Sync session changed.") };
@@ -131,6 +152,7 @@ function CloudSyncProvider({ children }) {
     if (!error) {
       lastSnapshot.current = serialized;
       lastIncomeRows.current = serializedIncomeRows;
+      lastScheduleRows.current = serializedScheduleRows;
       setCloudOwnerId(userId);
     }
 
@@ -373,20 +395,24 @@ function CloudSyncProvider({ children }) {
 
       if (remoteSnapshot) {
         const remoteSerialized = serializeCloudSnapshot(remoteSnapshot);
-        const localSerialized = serializeCloudSnapshot(getCloudSnapshot());
+        const localSnapshot = getCloudSnapshot();
+        const localSerialized = serializeCloudSnapshot(localSnapshot);
+        const preserveGuestWorkspace = guestDataEligible.current && hasMeaningfulWorkspaceData(localSnapshot);
 
         if (
-          remoteSerialized !== localSerialized ||
+          (!preserveGuestWorkspace && remoteSerialized !== localSerialized) ||
           getCloudOwnerId() !== userId
         ) {
-          replaceCloudSnapshot(remoteSnapshot);
           setCloudOwnerId(userId);
-          lastSnapshot.current = remoteSerialized;
-          window.location.reload();
-          return;
+          if (!preserveGuestWorkspace) {
+            replaceCloudSnapshot(remoteSnapshot);
+            lastSnapshot.current = remoteSerialized;
+            window.location.reload();
+            return;
+          }
         }
 
-        lastSnapshot.current = remoteSerialized;
+        lastSnapshot.current = preserveGuestWorkspace ? remoteSerialized : localSerialized;
         setCloudOwnerId(userId);
       } else if (!guestDataEligible.current) {
         resetUserStorage();
@@ -423,6 +449,13 @@ function CloudSyncProvider({ children }) {
             const remote = payload.new.data;
 
             if (remote?.deviceId && remote.deviceId !== getDeviceId()) {
+              if (hasUnsyncedLocalChanges(getCloudSnapshot(), lastSnapshot.current)) {
+                // Preserve edits made since the last confirmed sync. The normal
+                // sync cycle will upload them instead of silently overwriting.
+                setStatus("syncing");
+                syncSnapshot(userId, requestGeneration);
+                return;
+              }
               replaceCloudSnapshot(remote.snapshot);
               setCloudOwnerId(userId);
               lastSnapshot.current = serializeCloudSnapshot(remote.snapshot);

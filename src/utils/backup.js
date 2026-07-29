@@ -1,5 +1,7 @@
 import { isValidStoredDate } from "./storedDates";
 import { isRecordArray, isRecordObject, safeReadJson } from "./safeStorage";
+import { PAY_FREQUENCY_VALUES, PAYCHECK_SCHEDULES_STORAGE_KEY } from "../features/income/constants";
+import { normalizePaycheckSchedule, validatePaycheckSchedule } from "../features/income/paycheckSchedules";
 
 export const BACKUP_APPLICATION = "BudgetForge";
 export const BACKUP_SCHEMA_VERSION = 2;
@@ -19,6 +21,7 @@ export const WORKSPACE_STORAGE_KEYS = Object.freeze({
   reminderDays: "budgetforge-reminder-days",
   incomeEntries: "budgetforge-income-entries-v1",
   incomeMode: "budgetforge-income-mode-v1",
+  paycheckSchedules: PAYCHECK_SCHEDULES_STORAGE_KEY,
 });
 
 const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
@@ -119,7 +122,16 @@ function normalizeIncomeEntry(item, section) {
     if (!isValidStoredDate(item.payPeriodStart) || !isValidStoredDate(item.payPeriodEnd) || item.payPeriodEnd < item.payPeriodStart) fail(`${section}.payPeriod`, "must contain an ordered valid date range");
     normalized.payPeriodStart = item.payPeriodStart;
     normalized.payPeriodEnd = item.payPeriodEnd;
+    normalized.payFrequency = PAY_FREQUENCY_VALUES.includes(item.payFrequency) ? item.payFrequency : null;
+    normalized.scheduleId = typeof item.scheduleId === "string" ? item.scheduleId : null;
   }
+  return normalized;
+}
+
+function normalizeSchedule(item, section) {
+  const normalized = normalizePaycheckSchedule({ ...item, userId: null }, { id: validId(item.id, `${section}.id`), userId: null, now: item.updatedAt, createdAt: item.createdAt });
+  const errors = validatePaycheckSchedule(normalized);
+  if (Object.keys(errors).length) fail(section, Object.values(errors)[0]);
   return normalized;
 }
 
@@ -230,6 +242,7 @@ export function normalizeBackupData(input) {
       reminderDays,
       incomeEntries: validateArray(data.incomeEntries ?? [], "data.incomeEntries", normalizeIncomeEntry),
       incomeMode: data.incomeMode === "tracked" ? "tracked" : "manual",
+      paycheckSchedules: validateArray(data.paycheckSchedules ?? [], "data.paycheckSchedules", normalizeSchedule),
     },
   };
 }
@@ -248,6 +261,7 @@ function rawWorkspaceData(storage = localStorage) {
     reminderDays: Number(storage.getItem(WORKSPACE_STORAGE_KEYS.reminderDays) ?? 3),
     incomeEntries: safeReadJson(WORKSPACE_STORAGE_KEYS.incomeEntries, [], isRecordArray, storage),
     incomeMode: storage.getItem(WORKSPACE_STORAGE_KEYS.incomeMode) === "tracked" ? "tracked" : "manual",
+    paycheckSchedules: safeReadJson(WORKSPACE_STORAGE_KEYS.paycheckSchedules, [], isRecordArray, storage),
   };
 }
 
@@ -292,6 +306,7 @@ function serializedWorkspace(data) {
     [WORKSPACE_STORAGE_KEYS.reminderDays]: String(data.reminderDays),
     [WORKSPACE_STORAGE_KEYS.incomeEntries]: JSON.stringify(data.incomeEntries),
     [WORKSPACE_STORAGE_KEYS.incomeMode]: data.incomeMode,
+    [WORKSPACE_STORAGE_KEYS.paycheckSchedules]: JSON.stringify(data.paycheckSchedules),
   };
 }
 
@@ -349,6 +364,7 @@ export function getBackupPreview(input) {
     debts: normalized.data.debts.length,
     budgetCategories: normalized.data.budgetCategories.length,
     incomeEntries: normalized.data.incomeEntries.length,
+    paycheckSchedules: normalized.data.paycheckSchedules.length,
     historyMonths: [...months].sort(),
     preferences: ["User profile", "Debt strategy", "Reminder window"],
   };

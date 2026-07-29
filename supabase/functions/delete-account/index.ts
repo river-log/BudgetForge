@@ -47,17 +47,12 @@ Deno.serve(async (request) => {
   const admin = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
-  const { error: incomeError } = await admin.from("income_entries").delete().eq("user_id", user.id);
-  if (incomeError) return response(origin, 500, { error: "income_delete_failed" });
-  const { error: recordsError } = await admin.from("budgetforge_sync").delete().eq("user_id", user.id);
-  if (recordsError) return response(origin, 500, { error: "cloud_delete_failed" });
-
+  // Both application tables reference auth.users with ON DELETE CASCADE.
+  // Deleting Auth first keeps the operation atomic at the database boundary:
+  // if identity deletion fails, user-owned financial rows remain intact.
   const { error: authError } = await admin.auth.admin.deleteUser(user.id);
   if (authError) {
-    return response(origin, 500, {
-      error: "auth_delete_failed",
-      recoverable: true,
-    });
+    return response(origin, 500, { error: "account_delete_failed" });
   }
   return response(origin, 200, { deleted: true });
 });

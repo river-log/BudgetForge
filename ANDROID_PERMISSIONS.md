@@ -13,6 +13,10 @@ ID, foreground service, biometric, broad file access, or package-visibility
 permission is declared. Backup import uses the system chooser/WebView file
 input; export uses app cache plus the system share sheet.
 
+Android operating-system backup is disabled because the WebView workspace may
+contain locally stored financial information. Users retain control through
+BudgetForge's explicit backup export and recovery workflow.
+
 Cleartext traffic remains disabled, exported activity state is explicit, and
 the FileProvider is non-exported. Run `gradlew.bat
 processDebugMainManifest` and inspect the merged manifest after installing JDK

@@ -28,3 +28,9 @@ export function storedDateInMonth(value, year, month) {
   const maxDay = new Date(year, month + 1, 0).getDate();
   return new Date(year, month, Math.min(source.getDate(), maxDay), 12);
 }
+
+export function recurringStoredDate(value, date = new Date()) {
+  const occurrence = storedDateInMonth(value, date.getFullYear(), date.getMonth());
+  if (!occurrence) return null;
+  return `${occurrence.getFullYear()}-${String(occurrence.getMonth() + 1).padStart(2, "0")}-${String(occurrence.getDate()).padStart(2, "0")}`;
+}

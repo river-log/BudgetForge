@@ -1,11 +1,16 @@
+const safeAmount = (value) => {
+  const amount = Number(value);
+  return Number.isFinite(amount) && amount >= 0 ? amount : 0;
+};
+
 function DebtSummaryWidget({ debts }) {
   const totalDebt = debts.reduce(
-    (sum, debt) => sum + Number(debt.balance),
+    (sum, debt) => sum + safeAmount(debt?.balance),
     0
   );
 
   const totalMinimum = debts.reduce(
-    (sum, debt) => sum + Number(debt.minimum),
+    (sum, debt) => sum + safeAmount(debt?.minimum),
     0
   );
 
@@ -14,7 +19,7 @@ function DebtSummaryWidget({ debts }) {
       ? (
           debts.reduce(
             (sum, debt) =>
-              sum + Number(debt.apr),
+              sum + safeAmount(debt?.apr),
             0
           ) / debts.length
         ).toFixed(2)

@@ -5,12 +5,10 @@ Deploy with Supabase's normal server-managed `SUPABASE_URL`,
 service-role key into Vite or a native build.
 
 The function verifies the bearer token with `auth.getUser`, derives the user ID
-only from that verified user, deletes owned `income_entries` and the
-`budgetforge_sync` row, then deletes the Auth user. Request bodies are ignored.
-
-If record deletion fails, Auth deletion is not attempted. If Auth deletion fails
-after record deletion, the function returns `auth_delete_failed` and the user
-can retry; the row is already absent and the retry remains idempotent.
+only from that verified user, and deletes the Auth user. Request bodies are
+ignored. The reviewed `income_entries` and `budgetforge_sync` foreign keys use
+`ON DELETE CASCADE`, so application rows are removed by the same database
+operation. Apply both schema migrations before deploying this function.
 
 Required staging checks:
 

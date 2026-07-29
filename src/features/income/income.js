@@ -1,6 +1,11 @@
-import { DEPOSIT_METHODS, INCOME_SOURCE_TYPES } from "./constants";
+import { DEPOSIT_METHODS, INCOME_SOURCE_TYPES, PAY_FREQUENCY_VALUES } from "./constants";
 
-export const roundMoney = (value) => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+export const roundMoney = (value) => {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return 0;
+  const rounded = Math.round((number + Number.EPSILON) * 100) / 100;
+  return Object.is(rounded, -0) ? 0 : rounded;
+};
 export const nonNegative = (value) => Math.max(0, Number(value) || 0);
 export const formatIncomeCurrency = (value) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(value) || 0);
 
@@ -29,14 +34,16 @@ export function validateIncome(values) {
     ? ["hourlyRate", "regularHours", "overtimeHours", "overtimeMultiplier", "grossPay", "federalTax", "stateTax", "localTax", "socialSecurityTax", "medicareTax", "healthInsurance", "retirementContribution", "otherDeductions"]
     : ["amount"];
   numericFields.forEach((field) => {
-    if (values[field] !== "" && Number(values[field]) < 0) errors[field] = "Value cannot be negative.";
+    if (values[field] !== "" && !Number.isFinite(Number(values[field]))) errors[field] = "Enter a valid number.";
+    else if (values[field] !== "" && Number(values[field]) < 0) errors[field] = "Value cannot be negative.";
   });
   if (values.entryMode === "quick" && !(Number(values.amount) > 0)) errors.amount = "Amount must be greater than zero.";
   if (values.entryMode === "paycheck") {
+    if (!PAY_FREQUENCY_VALUES.includes(String(values.payFrequency || "").trim())) errors.payFrequency = "Choose a valid pay frequency.";
     if (!values.payPeriodStart) errors.payPeriodStart = "Pay period start is required.";
     if (!values.payPeriodEnd) errors.payPeriodEnd = "Pay period end is required.";
     if (values.payPeriodStart && values.payPeriodEnd && values.payPeriodEnd < values.payPeriodStart) errors.payPeriodEnd = "Pay period end cannot be before the start.";
-    if (calculatePaycheck(values).netPay < 0) errors.grossPay = "Deductions cannot exceed gross pay.";
+    if (calculatePaycheck(values).netPay <= 0) errors.grossPay = "Net pay must be greater than zero.";
   }
   return errors;
 }
@@ -54,6 +61,8 @@ export function normalizeIncomeEntry(values, { id = crypto.randomUUID(), userId 
   const fields = ["hourlyRate", "regularHours", "overtimeHours", "overtimeMultiplier", "federalTax", "stateTax", "localTax", "socialSecurityTax", "medicareTax", "healthInsurance", "retirementContribution", "otherDeductions"];
   return {
     ...core, employer: String(values.employer).trim(), payPeriodStart: values.payPeriodStart, payPeriodEnd: values.payPeriodEnd,
+    payFrequency: PAY_FREQUENCY_VALUES.includes(values.payFrequency) ? values.payFrequency : null,
+    scheduleId: typeof values.scheduleId === "string" && values.scheduleId ? values.scheduleId : null,
     ...Object.fromEntries(fields.map((field) => [field, roundMoney(nonNegative(values[field]))])),
     grossPay: calculated.grossPay, totalDeductions: calculated.totalDeductions, netPay: calculated.netPay,
   };
@@ -62,7 +71,7 @@ export function normalizeIncomeEntry(values, { id = crypto.randomUUID(), userId 
 export function incomeSummary(entries, now = new Date()) {
   const year = now.getFullYear();
   const month = now.getMonth();
-  const valid = entries.filter((entry) => entry && Number.isFinite(Number(entry.amount)) && !Number.isNaN(Date.parse(`${entry.dateReceived}T12:00:00`)));
+  const valid = (Array.isArray(entries) ? entries : []).filter((entry) => entry && Number.isFinite(Number(entry.amount)) && !Number.isNaN(Date.parse(`${entry.dateReceived}T12:00:00`)));
   const thisMonth = valid.filter((entry) => { const date = new Date(`${entry.dateReceived}T12:00:00`); return date.getFullYear() === year && date.getMonth() === month; });
   const thisYear = valid.filter((entry) => new Date(`${entry.dateReceived}T12:00:00`).getFullYear() === year);
   const paychecks = valid.filter((entry) => entry.entryMode === "paycheck");
@@ -80,7 +89,7 @@ export function resolveMonthlyIncome(manualIncome, entries, mode, now = new Date
 
 export function filterIncome(entries, filters = {}) {
   const query = String(filters.query || "").trim().toLowerCase();
-  return entries.filter((entry) => {
+  return (Array.isArray(entries) ? entries : []).filter((entry) => entry && typeof entry.dateReceived === "string").filter((entry) => {
     const date = new Date(`${entry.dateReceived}T12:00:00`);
     return (!query || [entry.sourceName, entry.employer, entry.notes].some((value) => String(value || "").toLowerCase().includes(query)))
       && (!filters.sourceType || entry.sourceType === filters.sourceType)
@@ -98,7 +107,7 @@ export function filterIncome(entries, filters = {}) {
 
 export function monthlyIncomeSeries(entries) {
   const totals = {};
-  entries.forEach((entry) => {
+  (Array.isArray(entries) ? entries : []).forEach((entry) => {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(entry.dateReceived || "")) return;
     const key = entry.dateReceived.slice(0, 7);
     totals[key] = roundMoney((totals[key] || 0) + nonNegative(entry.amount));

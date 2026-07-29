@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import Modal from "../components/Modal";
-import "../components/Modal.css";
+import { Modal } from "../ui";
 
 import SavingsSummaryWidget from "../widgets/SavingsSummaryWidget";
 import SavingsGoalCard from "../widgets/SavingsGoalCard";
@@ -229,7 +228,9 @@ if (modalMode === "edit") {
           </>
         ) : modalMode === "edit" ? (
           <>
+            <label htmlFor="edit-savings-name">Goal name</label>
             <input
+              id="edit-savings-name"
               type="text"
               placeholder="Goal Name"
               value={editName}
@@ -238,8 +239,12 @@ if (modalMode === "edit") {
               }
             />
 
+            <label htmlFor="edit-savings-target">Target amount</label>
             <input
+              id="edit-savings-target"
               type="number"
+              min="0.01"
+              step="0.01"
               placeholder="Target Amount"
               value={editTarget}
               onChange={(e) =>
@@ -247,8 +252,12 @@ if (modalMode === "edit") {
               }
             />
 
+            <label htmlFor="edit-savings-current">Current saved</label>
             <input
+              id="edit-savings-current"
               type="number"
+              min="0"
+              step="0.01"
               placeholder="Current Saved"
               value={editSaved}
               onChange={(e) =>
@@ -278,8 +287,12 @@ if (modalMode === "edit") {
               like to {modalMode}.
             </p>
 
+            <label htmlFor="savings-transaction-amount">Amount</label>
             <input
+              id="savings-transaction-amount"
               type="number"
+              min="0.01"
+              step="0.01"
               placeholder="Amount"
               value={amount}
               onChange={(e) =>

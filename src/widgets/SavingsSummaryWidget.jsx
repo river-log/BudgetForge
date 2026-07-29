@@ -1,11 +1,16 @@
+const safeAmount = (value) => {
+  const amount = Number(value);
+  return Number.isFinite(amount) && amount >= 0 ? amount : 0;
+};
+
 function SavingsSummaryWidget({ goals }) {
   const totalSaved = goals.reduce(
-    (sum, goal) => sum + Number(goal.saved),
+    (sum, goal) => sum + safeAmount(goal?.saved),
     0
   );
 
   const totalGoal = goals.reduce(
-    (sum, goal) => sum + Number(goal.target),
+    (sum, goal) => sum + safeAmount(goal?.target),
     0
   );
 

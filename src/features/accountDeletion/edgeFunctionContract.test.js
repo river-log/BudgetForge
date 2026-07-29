@@ -10,14 +10,14 @@ describe("delete-account Edge Function contract", () => {
   });
 
   it("derives ownership from the verified user and ignores request body IDs", () => {
-    expect(source).toContain('.eq("user_id", user.id)');
     expect(source).toContain("deleteUser(user.id)");
     expect(source).not.toMatch(/request\.json|body\.user|user_id\s*=/);
   });
 
-  it("deletes cloud records before Auth and exposes a recoverable partial failure", () => {
-    expect(source.indexOf('.from("budgetforge_sync").delete()')).toBeLessThan(source.indexOf("deleteUser(user.id)"));
-    expect(source).toContain('error: "auth_delete_failed"');
-    expect(source).toContain("recoverable: true");
+  it("deletes Auth once and relies on reviewed foreign-key cascades", () => {
+    expect(source.match(/deleteUser\(user\.id\)/g)).toHaveLength(1);
+    expect(source).not.toContain('.from("budgetforge_sync").delete()');
+    expect(source).not.toContain('.from("income_entries").delete()');
+    expect(source).toContain("ON DELETE CASCADE");
   });
 });

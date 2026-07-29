@@ -26,6 +26,7 @@ function validData(overrides = {}) {
     reminderDays: 7,
     incomeEntries: [],
     incomeMode: "manual",
+    paycheckSchedules: [],
     ...overrides,
   };
 }

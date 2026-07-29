@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { recordPayment } from "../utils/history";
+import { recordPayment, removePayment } from "../utils/history";
 import { isRecordArray, safeReadJson, safeReadNumber } from "../utils/safeStorage";
 import {
   isPaidForMonth,
@@ -8,8 +8,9 @@ import {
 } from "../utils/billPayments";
 import { useToast } from "../features/toasts";
 import useCloudSync from "../features/cloud/useCloudSync";
-import { INCOME_MODE_STORAGE_KEY, INCOME_STORAGE_KEY } from "../features/income/constants";
+import { INCOME_MODE_STORAGE_KEY, INCOME_STORAGE_KEY, PAYCHECK_SCHEDULES_STORAGE_KEY } from "../features/income/constants";
 import { incomeSummary, normalizeIncomeEntry, resolveMonthlyIncome, validateIncome } from "../features/income/income";
+import { nextExpectedPayDate, normalizePaycheckSchedule, validatePaycheckSchedule } from "../features/income/paycheckSchedules";
 
 export default function useBudgetData() {
   const { showToast } = useToast();
@@ -25,6 +26,7 @@ export default function useBudgetData() {
   });
   const [incomeEntries, setIncomeEntries] = useState(() => safeReadJson(INCOME_STORAGE_KEY, [], isRecordArray));
   const [incomeMode, setIncomeMode] = useState(() => localStorage.getItem(INCOME_MODE_STORAGE_KEY) === "tracked" ? "tracked" : "manual");
+  const [paycheckSchedules, setPaycheckSchedules] = useState(() => safeReadJson(PAYCHECK_SCHEDULES_STORAGE_KEY, [], isRecordArray));
 
   // User Name
   const [userName, setUserName] = useState(() => {
@@ -52,6 +54,9 @@ export default function useBudgetData() {
   useEffect(() => {
     localStorage.setItem(INCOME_MODE_STORAGE_KEY, incomeMode);
   }, [incomeMode]);
+  useEffect(() => {
+    localStorage.setItem(PAYCHECK_SCHEDULES_STORAGE_KEY, JSON.stringify(paycheckSchedules));
+  }, [paycheckSchedules]);
 
   // Persist User Name
   useEffect(() => {
@@ -73,8 +78,9 @@ export default function useBudgetData() {
   function togglePaid(id, date = new Date()) {
     const bill = bills.find((item) => item.id === id);
 
-    if (bill && !isPaidForMonth(bill, date)) {
-      recordPayment(bill);
+    if (bill) {
+      if (isPaidForMonth(bill, date)) removePayment(bill, date);
+      else recordPayment(bill, date);
     }
 
     setBills((prev) =>
@@ -127,6 +133,35 @@ export default function useBudgetData() {
     showToast("Income deleted.", "info");
   }
 
+  function addPaycheckSchedule(values) {
+    const errors = validatePaycheckSchedule(values);
+    if (Object.keys(errors).length) return { errors };
+    const schedule = normalizePaycheckSchedule(values, { userId: cloud.session?.user?.id || null });
+    setPaycheckSchedules((previous) => [...previous, schedule]);
+    showToast("Paycheck schedule added.", "success");
+    return { schedule };
+  }
+  function updatePaycheckSchedule(id, values) {
+    const existing = paycheckSchedules.find((schedule) => schedule.id === id);
+    if (!existing) return { errors: { schedule: "Schedule was not found." } };
+    const errors = validatePaycheckSchedule(values);
+    if (Object.keys(errors).length) return { errors };
+    const schedule = normalizePaycheckSchedule(values, { id, userId: cloud.session?.user?.id || existing.userId || null, createdAt: existing.createdAt });
+    setPaycheckSchedules((previous) => previous.map((item) => item.id === id ? schedule : item));
+    showToast("Paycheck schedule updated.", "success");
+    return { schedule };
+  }
+  function togglePaycheckSchedule(id) {
+    setPaycheckSchedules((previous) => previous.map((schedule) => schedule.id === id ? { ...schedule, isActive: !schedule.isActive, updatedAt: new Date().toISOString() } : schedule));
+  }
+  function deletePaycheckSchedule(id) {
+    setPaycheckSchedules((previous) => previous.filter((schedule) => schedule.id !== id));
+    showToast("Paycheck schedule deleted.", "info");
+  }
+  function advancePaycheckSchedule(id, receivedDate) {
+    setPaycheckSchedules((previous) => previous.map((schedule) => schedule.id === id ? { ...schedule, nextExpectedPayDate: nextExpectedPayDate(schedule, receivedDate), isActive: schedule.payFrequency === "one-time" ? false : schedule.isActive, updatedAt: new Date().toISOString() } : schedule));
+  }
+
   const trackedMonthlyIncome = incomeSummary(incomeEntries).monthIncome;
   const effectiveMonthlyIncome = resolveMonthlyIncome(monthlyIncome, incomeEntries, incomeMode);
 
@@ -144,6 +179,12 @@ export default function useBudgetData() {
     addIncomeEntry,
     updateIncomeEntry,
     deleteIncomeEntry,
+    paycheckSchedules,
+    addPaycheckSchedule,
+    updatePaycheckSchedule,
+    togglePaycheckSchedule,
+    deletePaycheckSchedule,
+    advancePaycheckSchedule,
 
     userName,
     setUserName,

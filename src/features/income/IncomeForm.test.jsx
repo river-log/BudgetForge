@@ -20,6 +20,7 @@ describe("IncomeForm", () => {
     render(<IncomeForm open onClose={vi.fn()} onSave={save} />);
     fireEvent.click(screen.getByRole("button", { name: "Detailed Paycheck" }));
     fireEvent.change(screen.getByLabelText("Employer"), { target: { value: "Forge Co" } });
+    fireEvent.change(screen.getByLabelText("Pay frequency"), { target: { value: "biweekly" } });
     fireEvent.change(screen.getByLabelText("Pay period start"), { target: { value: "2026-07-01" } });
     fireEvent.change(screen.getByLabelText("Pay period end"), { target: { value: "2026-07-14" } });
     fireEvent.change(screen.getByLabelText("Hourly rate"), { target: { value: "20" } });

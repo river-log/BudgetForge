@@ -14,16 +14,30 @@ function writeHistory(key, history) {
   safeWriteJson(key, history);
 }
 
-export function recordPayment(bill) {
+export function recordPayment(bill, date = new Date()) {
+  adjustPaymentHistory(bill, 1, date);
+}
+
+export function removePayment(bill, date = new Date()) {
+  adjustPaymentHistory(bill, -1, date);
+}
+
+function adjustPaymentHistory(bill, direction, date) {
   const history = readHistory(SPENDING_KEY);
-  const key = monthKey();
+  const key = monthKey(date);
   const entry = history[key] || { total: 0, categories: {} };
-  const amount = Number(bill.amount) || 0;
+  const amount = Math.max(0, Number(bill?.amount) || 0) * direction;
   const category = bill.category || "Other";
 
-  entry.total += amount;
-  entry.categories[category] = (entry.categories[category] || 0) + amount;
-  history[key] = entry;
+  entry.total = Math.max(0, Math.round(((Number(entry.total) || 0) + amount) * 100) / 100);
+  entry.categories = { ...(entry.categories || {}) };
+  const categoryTotal = Math.max(0, Math.round(((Number(entry.categories[category]) || 0) + amount) * 100) / 100);
+
+  if (categoryTotal > 0) entry.categories[category] = categoryTotal;
+  else delete entry.categories[category];
+
+  if (entry.total > 0 || Object.keys(entry.categories).length) history[key] = entry;
+  else delete history[key];
   writeHistory(SPENDING_KEY, history);
 }
 

@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --configLoader runner",
     "lint": "eslint .",
-    "test": "vitest",
+    "test": "vitest --configLoader runner",
     "preview": "vite preview",
     "cap:sync": "npm run build && cap sync",
     "cap:android": "cap open android",

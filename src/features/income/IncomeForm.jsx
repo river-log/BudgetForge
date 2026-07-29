@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { Button, Modal } from "../../ui";
-import { DEPOSIT_METHODS, INCOME_SOURCE_TYPES } from "./constants";
+import { DEPOSIT_METHODS, INCOME_SOURCE_TYPES, PAY_FREQUENCIES } from "./constants";
 import { calculatePaycheck, validateIncome } from "./income";
 
 const today = () => new Date().toISOString().slice(0, 10);
-const empty = { entryMode: "quick", sourceType: "", sourceName: "", amount: "", dateReceived: today(), depositMethod: "", notes: "", employer: "", payPeriodStart: "", payPeriodEnd: "", hourlyRate: "", regularHours: "", overtimeHours: "", overtimeMultiplier: 1.5, grossPay: "", federalTax: "", stateTax: "", localTax: "", socialSecurityTax: "", medicareTax: "", healthInsurance: "", retirementContribution: "", otherDeductions: "" };
+const empty = { entryMode: "quick", sourceType: "", sourceName: "", amount: "", dateReceived: today(), depositMethod: "", notes: "", employer: "", payFrequency: "", scheduleId: null, payPeriodStart: "", payPeriodEnd: "", hourlyRate: "", regularHours: "", overtimeHours: "", overtimeMultiplier: 1.5, grossPay: "", federalTax: "", stateTax: "", localTax: "", socialSecurityTax: "", medicareTax: "", healthInsurance: "", retirementContribution: "", otherDeductions: "" };
 const moneyFields = [["federalTax", "Federal tax"], ["stateTax", "State tax"], ["localTax", "Local tax"], ["socialSecurityTax", "Social Security tax"], ["medicareTax", "Medicare tax"], ["healthInsurance", "Health insurance"], ["retirementContribution", "Retirement contribution"], ["otherDeductions", "Other deductions"]];
 
 function Field({ label, name, value, onChange, error, type = "text", ...props }) {
@@ -12,8 +12,8 @@ function Field({ label, name, value, onChange, error, type = "text", ...props })
   return <div className="income-field"><label htmlFor={`income-${name}`}>{label}</label><input id={`income-${name}`} name={name} type={type} value={value} onChange={onChange} aria-invalid={Boolean(error)} aria-describedby={error ? errorId : undefined} {...props} />{error && <small id={errorId} className="field-error">{error}</small>}</div>;
 }
 
-function IncomeForm({ open, onClose, onSave, entry }) {
-  const [values, setValues] = useState(() => entry ? { ...empty, ...entry } : empty);
+function IncomeForm({ open, onClose, onSave, entry, initialValues }) {
+  const [values, setValues] = useState(() => entry || initialValues ? { ...empty, ...(entry || initialValues) } : empty);
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [grossOverridden, setGrossOverridden] = useState(Boolean(entry?.entryMode === "paycheck"));
@@ -50,6 +50,7 @@ function IncomeForm({ open, onClose, onSave, entry }) {
         <Field label="Amount" name="amount" type="number" min="0" step="0.01" inputMode="decimal" value={values.amount} onChange={change} error={errors.amount} />
       </> : <>
         <Field label="Employer" name="employer" value={values.employer} onChange={change} error={errors.sourceName} />
+        <div className="income-field"><label htmlFor="income-payFrequency">Pay frequency</label><select id="income-payFrequency" name="payFrequency" value={values.payFrequency || ""} onChange={change} aria-invalid={Boolean(errors.payFrequency)} aria-describedby={errors.payFrequency ? "payFrequency-error" : undefined}><option value="">Select frequency</option>{PAY_FREQUENCIES.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select>{errors.payFrequency && <small id="payFrequency-error" className="field-error">{errors.payFrequency}</small>}</div>
         <div className="income-form-grid"><Field label="Pay period start" name="payPeriodStart" type="date" value={values.payPeriodStart} onChange={change} error={errors.payPeriodStart} /><Field label="Pay period end" name="payPeriodEnd" type="date" value={values.payPeriodEnd} onChange={change} error={errors.payPeriodEnd} /></div>
         <h3>Earnings</h3><div className="income-form-grid"><Field label="Hourly rate" name="hourlyRate" type="number" min="0" step="0.01" inputMode="decimal" value={values.hourlyRate} onChange={change} error={errors.hourlyRate} /><Field label="Regular hours" name="regularHours" type="number" min="0" step="0.01" inputMode="decimal" value={values.regularHours} onChange={change} error={errors.regularHours} /><Field label="Overtime hours" name="overtimeHours" type="number" min="0" step="0.01" inputMode="decimal" value={values.overtimeHours} onChange={change} error={errors.overtimeHours} /><Field label="Overtime multiplier" name="overtimeMultiplier" type="number" min="0" step="0.01" inputMode="decimal" value={values.overtimeMultiplier} onChange={change} error={errors.overtimeMultiplier} /></div>
         <p className="calculated-line">Estimated regular pay: ${pay.regularPay.toFixed(2)} · Overtime: ${pay.overtimePay.toFixed(2)} · Estimated gross: ${pay.estimatedGrossPay.toFixed(2)}</p>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatStoredDateSafely, isValidStoredDate, parseStoredDate, storedDateInMonth } from "./storedDates";
+import { formatStoredDateSafely, isValidStoredDate, parseStoredDate, recurringStoredDate, storedDateInMonth } from "./storedDates";
 
 describe("stored date safety", () => {
   it.each(["", "not-a-date", "2026-02-30", "2026-13-01", null])("rejects invalid stored date %s", (value) => {
@@ -23,5 +23,9 @@ describe("stored date safety", () => {
     expect(storedDateInMonth("2026-02-30", 2026, 6)).toBeNull();
     expect(storedDateInMonth("", 2026, 6)).toBeNull();
     expect(storedDateInMonth("2026-01-31", 2026, 1).getDate()).toBe(28);
+  });
+
+  it("creates recurring local dates without UTC serialization shifts", () => {
+    expect(recurringStoredDate("2026-01-31", new Date("2026-02-10T12:00:00"))).toBe("2026-02-28");
   });
 });

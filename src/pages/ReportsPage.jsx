@@ -7,12 +7,13 @@ import { isRecordArray, safeReadJson } from "../utils/safeStorage";
 import MonthlyReview from "../features/monthlyReview";
 import { useBudget } from "../context";
 import { monthlyIncomeSeries } from "../features/income/income";
+import { scheduleForecast } from "../features/income/paycheckSchedules";
 
 const tooltipStyle = { background: "#1d2438", border: "1px solid rgba(255,255,255,.12)", borderRadius: "10px" };
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 function ReportsPage() {
-  const { bills, effectiveMonthlyIncome, incomeEntries } = useBudget();
+  const { bills, effectiveMonthlyIncome, incomeEntries, paycheckSchedules } = useBudget();
   const spendingHistory = getSpendingHistory();
   const savingsHistory = getSavingsHistory();
   const availableMonths = (() => {
@@ -49,6 +50,7 @@ function ReportsPage() {
   const yearToDateIncome = Object.entries(incomeHistory).filter(([key]) => key.startsWith(selectedYear) && key <= selectedMonth).reduce((sum, [, amount]) => sum + amount, 0);
   const sourceData = Object.entries(incomeEntries.filter((entry) => entry.dateReceived?.startsWith(selectedMonth)).reduce((totals, entry) => ({ ...totals, [entry.sourceType]: (totals[entry.sourceType] || 0) + Number(entry.amount || 0) }), {})).map(([source, amount]) => ({ source, amount }));
   const incomeData = recentMonths().map((month) => ({ month: month.label, income: incomeHistory[month.key] || 0 }));
+  const forecast = scheduleForecast(paycheckSchedules, incomeEntries, selectedMonth);
 
   return (
     <div className="insights-page">
@@ -66,6 +68,7 @@ function ReportsPage() {
         savingsHistory={savingsHistory}
         budgetCategories={budgetCategories}
       />
+      <section className="panel chart-panel" aria-labelledby="income-forecast-heading"><div className="chart-heading"><div><CircleDollarSign size={21} aria-hidden="true" /><h2 id="income-forecast-heading">Expected versus received income</h2></div><span>Forecast estimate</span></div><p>Received income: <strong>{currency.format(forecast.received)}</strong>. Scheduled estimate: <strong>{currency.format(forecast.expected)}</strong>. Remaining expected estimate: <strong>{currency.format(forecast.remainingExpected)}</strong>.</p><p className="chart-note">Forecasts come from active paycheck schedules and are never included in actual net cash flow or savings rate.</p></section>
 
       <section className="report-stats">
         <div><CircleDollarSign size={22} /><span>Income after planned bills</span><strong>{currency.format(remainingIncome)}</strong></div>

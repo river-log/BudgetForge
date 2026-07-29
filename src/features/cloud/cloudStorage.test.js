@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { RECOVERY_STORAGE_KEY } from "../../utils/backup";
 import { INVALID_STORAGE_PREFIX } from "../../utils/safeStorage";
-import { CLOUD_STORAGE_KEYS, clearAccountLocalSafetyData, clearCloudStorage, clearDeletedAccountLocalData, getCloudSnapshot, replaceCloudSnapshot } from "./cloudStorage";
+import { CLOUD_STORAGE_KEYS, clearAccountLocalSafetyData, clearCloudStorage, clearDeletedAccountLocalData, getCloudSnapshot, hasMeaningfulWorkspaceData, hasUnsyncedLocalChanges, replaceCloudSnapshot, serializeCloudSnapshot } from "./cloudStorage";
 describe("cloud storage snapshot", () => {
   beforeEach(() => localStorage.clear());
   it("replaces only cloud-owned values", () => {
@@ -36,5 +36,15 @@ describe("cloud storage snapshot", () => {
     expect(localStorage.getItem("budgetforge-cloud-owner-id")).toBeNull();
     expect(localStorage.getItem("budgetforge-device-id")).toBeNull();
     expect(sessionStorage.getItem("budgetforge-cloud-isolation-reload-user")).toBeNull();
+  });
+  it("distinguishes default empty state from meaningful guest data", () => {
+    expect(hasMeaningfulWorkspaceData({ "budgetforge-income": "4000", "budgetforge-bills": "[]" })).toBe(false);
+    expect(hasMeaningfulWorkspaceData({ "budgetforge-income": "4500", "budgetforge-bills": "[]" })).toBe(true);
+    expect(hasMeaningfulWorkspaceData({ "budgetforge-bills": JSON.stringify([{ id: 1 }]) })).toBe(true);
+  });
+  it("detects local edits made after the last confirmed snapshot", () => {
+    const original = { "budgetforge-bills": "[]" };
+    expect(hasUnsyncedLocalChanges(original, serializeCloudSnapshot(original))).toBe(false);
+    expect(hasUnsyncedLocalChanges({ "budgetforge-bills": "[{\"id\":1}]" }, serializeCloudSnapshot(original))).toBe(true);
   });
 });
