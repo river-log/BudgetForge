@@ -23,6 +23,7 @@ import { toPaycheckScheduleRow } from "../income/paycheckScheduleCloud";
 
 const DEVICE_KEY = "budgetforge-device-id";
 const ISOLATION_RELOAD_KEY = "budgetforge-cloud-isolation-reload-user";
+const HYDRATION_RELOAD_KEY = "budgetforge-cloud-hydration-reload";
 
 function getDeviceId() {
   let deviceId = localStorage.getItem(DEVICE_KEY);
@@ -398,15 +399,19 @@ function CloudSyncProvider({ children }) {
         const localSnapshot = getCloudSnapshot();
         const localSerialized = serializeCloudSnapshot(localSnapshot);
         const preserveGuestWorkspace = guestDataEligible.current && hasMeaningfulWorkspaceData(localSnapshot);
+        const alreadyHydratedSnapshot = (
+          sessionStorage.getItem(HYDRATION_RELOAD_KEY) === remoteSerialized
+        );
 
         if (
-          (!preserveGuestWorkspace && remoteSerialized !== localSerialized) ||
+          (!preserveGuestWorkspace && !alreadyHydratedSnapshot && remoteSerialized !== localSerialized) ||
           getCloudOwnerId() !== userId
         ) {
           setCloudOwnerId(userId);
           if (!preserveGuestWorkspace) {
             replaceCloudSnapshot(remoteSnapshot);
             lastSnapshot.current = remoteSerialized;
+            sessionStorage.setItem(HYDRATION_RELOAD_KEY, remoteSerialized);
             window.location.reload();
             return;
           }
@@ -426,6 +431,7 @@ function CloudSyncProvider({ children }) {
       guestDataEligible.current = false;
 
       await syncSnapshot(userId, requestGeneration);
+      sessionStorage.removeItem(HYDRATION_RELOAD_KEY);
 
       if (cancelled || !isCurrentUser(userId, requestGeneration)) {
         return;
