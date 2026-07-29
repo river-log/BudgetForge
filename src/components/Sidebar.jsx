@@ -7,6 +7,7 @@ import {
   BarChart3,
   CalendarDays,
   Settings,
+  BanknoteArrowDown,
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
@@ -39,6 +40,10 @@ function Sidebar() {
           <NavLink to="/budget" className="nav-item">
             <Wallet size={20} />
             Budget
+          </NavLink>
+          <NavLink to="/income" className="nav-item">
+            <BanknoteArrowDown size={20} />
+            Income
           </NavLink>
 
           <NavLink to="/calendar" className="nav-item">

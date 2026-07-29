@@ -24,6 +24,14 @@ export const commands = [
     path: "/budget",
   },
   {
+    id: "income",
+    type: "page",
+    title: "Income",
+    subtitle: "Record deposits and paychecks",
+    icon: "$",
+    path: "/income",
+  },
+  {
     id: "calendar",
     type: "page",
     title: "Calendar",

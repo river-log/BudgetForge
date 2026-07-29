@@ -9,6 +9,7 @@ import {
   CalendarDays,
   Settings,
   X,
+  BanknoteArrowDown,
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
@@ -100,6 +101,10 @@ function MobileDrawer({
           >
             <Wallet size={20} />
             Budget
+          </NavLink>
+          <NavLink to="/income" className="nav-item" onClick={onClose}>
+            <BanknoteArrowDown size={20} />
+            Income
           </NavLink>
 
           <NavLink

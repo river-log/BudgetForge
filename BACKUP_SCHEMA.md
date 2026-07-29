@@ -22,6 +22,9 @@ deterministic.
 - `bills`: recurring bill records, including their IDs, amount, due date,
   category, current paid flag, and recorded `paidMonths`.
 - `income`: current non-negative monthly income.
+- `incomeEntries`: normalized quick deposits and detailed paycheck records.
+- `incomeMode`: `manual` for the legacy monthly estimate or `tracked` for the
+  current calendar month's recorded entries.
 - `userName`: local profile/display name.
 - `budgetCategories`: category IDs, names, and planned amounts.
 - `savingsGoals`: goal IDs, names, targets, and current saved balances.
@@ -42,6 +45,8 @@ state.
 ## Compatibility and safety
 
 Legacy BudgetForge `19.0` backups are migrated in memory before validation.
+Schema-v2 backups created before Income Tracking receive an empty income-entry
+array and `manual` mode, preserving their existing monthly estimate.
 Future unsupported schema versions are rejected. The entire normalized payload
 is validated before storage is changed. A restore first keeps the current
 workspace in `budgetforge-restore-recovery-v1`, verifies every write, and rolls

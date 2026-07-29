@@ -17,6 +17,8 @@ export const WORKSPACE_STORAGE_KEYS = Object.freeze({
   debtStrategy: "budgetforge-debt-strategy",
   spendingHistory: "budgetforge-spending-history",
   reminderDays: "budgetforge-reminder-days",
+  incomeEntries: "budgetforge-income-entries-v1",
+  incomeMode: "budgetforge-income-mode-v1",
 });
 
 const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
@@ -87,6 +89,38 @@ function normalizeCategory(item, section) {
   const name = typeof item.name === "string" ? item.name.trim() : "";
   if (!name) fail(`${section}.name`, "is required");
   return { ...item, id: validId(item.id, `${section}.id`), name, amount: finiteNonNegative(item.amount, `${section}.amount`) };
+}
+
+function normalizeIncomeEntry(item, section) {
+  const mode = item.entryMode;
+  if (!["quick", "paycheck"].includes(mode)) fail(`${section}.entryMode`, "must be quick or paycheck");
+  const sourceName = typeof item.sourceName === "string" ? item.sourceName.trim() : "";
+  if (!sourceName) fail(`${section}.sourceName`, "is required");
+  if (!isValidStoredDate(item.dateReceived)) fail(`${section}.dateReceived`, "must be a valid YYYY-MM-DD date");
+  const normalized = {
+    ...item,
+    id: validId(item.id, `${section}.id`),
+    userId: typeof item.userId === "string" ? item.userId : null,
+    entryMode: mode,
+    sourceType: typeof item.sourceType === "string" ? item.sourceType : "Other",
+    sourceName,
+    amount: finiteNonNegative(item.amount, `${section}.amount`),
+    dateReceived: item.dateReceived,
+    depositMethod: typeof item.depositMethod === "string" ? item.depositMethod : "Other",
+    notes: typeof item.notes === "string" ? item.notes : "",
+    createdAt: typeof item.createdAt === "string" && !Number.isNaN(Date.parse(item.createdAt)) ? item.createdAt : new Date(0).toISOString(),
+    updatedAt: typeof item.updatedAt === "string" && !Number.isNaN(Date.parse(item.updatedAt)) ? item.updatedAt : new Date(0).toISOString(),
+  };
+  if (mode === "paycheck") {
+    ["hourlyRate", "regularHours", "overtimeHours", "overtimeMultiplier", "grossPay", "federalTax", "stateTax", "localTax", "socialSecurityTax", "medicareTax", "healthInsurance", "retirementContribution", "otherDeductions", "totalDeductions", "netPay"].forEach((field) => {
+      normalized[field] = finiteNonNegative(item[field] ?? 0, `${section}.${field}`);
+    });
+    normalized.employer = typeof item.employer === "string" ? item.employer.trim() : sourceName;
+    if (!isValidStoredDate(item.payPeriodStart) || !isValidStoredDate(item.payPeriodEnd) || item.payPeriodEnd < item.payPeriodStart) fail(`${section}.payPeriod`, "must contain an ordered valid date range");
+    normalized.payPeriodStart = item.payPeriodStart;
+    normalized.payPeriodEnd = item.payPeriodEnd;
+  }
+  return normalized;
 }
 
 function normalizeSpendingHistory(value) {
@@ -194,6 +228,8 @@ export function normalizeBackupData(input) {
       debtStrategy: strategy,
       spendingHistory: normalizeSpendingHistory(data.spendingHistory ?? {}),
       reminderDays,
+      incomeEntries: validateArray(data.incomeEntries ?? [], "data.incomeEntries", normalizeIncomeEntry),
+      incomeMode: data.incomeMode === "tracked" ? "tracked" : "manual",
     },
   };
 }
@@ -210,6 +246,8 @@ function rawWorkspaceData(storage = localStorage) {
     debtStrategy: storage.getItem(WORKSPACE_STORAGE_KEYS.debtStrategy) ?? "snowball",
     spendingHistory: safeReadJson(WORKSPACE_STORAGE_KEYS.spendingHistory, {}, isRecordObject, storage),
     reminderDays: Number(storage.getItem(WORKSPACE_STORAGE_KEYS.reminderDays) ?? 3),
+    incomeEntries: safeReadJson(WORKSPACE_STORAGE_KEYS.incomeEntries, [], isRecordArray, storage),
+    incomeMode: storage.getItem(WORKSPACE_STORAGE_KEYS.incomeMode) === "tracked" ? "tracked" : "manual",
   };
 }
 
@@ -252,6 +290,8 @@ function serializedWorkspace(data) {
     [WORKSPACE_STORAGE_KEYS.debtStrategy]: data.debtStrategy,
     [WORKSPACE_STORAGE_KEYS.spendingHistory]: JSON.stringify(data.spendingHistory),
     [WORKSPACE_STORAGE_KEYS.reminderDays]: String(data.reminderDays),
+    [WORKSPACE_STORAGE_KEYS.incomeEntries]: JSON.stringify(data.incomeEntries),
+    [WORKSPACE_STORAGE_KEYS.incomeMode]: data.incomeMode,
   };
 }
 
@@ -308,6 +348,7 @@ export function getBackupPreview(input) {
     savingsGoals: normalized.data.savingsGoals.length,
     debts: normalized.data.debts.length,
     budgetCategories: normalized.data.budgetCategories.length,
+    incomeEntries: normalized.data.incomeEntries.length,
     historyMonths: [...months].sort(),
     preferences: ["User profile", "Debt strategy", "Reminder window"],
   };

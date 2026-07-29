@@ -24,6 +24,8 @@ function validData(overrides = {}) {
     debtStrategy: "avalanche",
     spendingHistory: { "2026-07": { total: 1200, categories: { Housing: 1200 } } },
     reminderDays: 7,
+    incomeEntries: [],
+    incomeMode: "manual",
     ...overrides,
   };
 }
@@ -80,6 +82,15 @@ describe("BudgetForge schema v2 backups", () => {
     expect(detectBackupVersion(legacy)).toBe(1);
     expect(migrated).toMatchObject({ schemaVersion: 2, migratedFrom: 1, data: { income: 1000, reminderDays: 3 } });
     expect(localStorage.length).toBe(0);
+  });
+
+  it("imports a pre-income schema v2 backup with safe defaults", () => {
+    const legacyV2 = v2();
+    delete legacyV2.data.incomeEntries;
+    delete legacyV2.data.incomeMode;
+    const normalized = normalizeBackupData(legacyV2);
+    expect(normalized.data.incomeEntries).toEqual([]);
+    expect(normalized.data.incomeMode).toBe("manual");
   });
 
   it("rejects unsupported versions and malformed structures", () => {

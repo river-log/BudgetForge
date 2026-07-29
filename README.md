@@ -7,6 +7,7 @@ Production: [budget-forge.com](https://budget-forge.com)
 ## Features
 
 - Monthly bills, payment tracking, budget categories, and calendar reminders
+- Quick deposits and detailed paychecks with tracked/manual dashboard income
 - Savings goals, debt payoff guidance, financial reports, and history charts
 - JSON backup export and restore
 - Optional Supabase email-link accounts and multi-device cloud sync
@@ -33,6 +34,9 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 Never add a Supabase service-role key to this app or commit `.env` files. Without configuration, BudgetForge remains a local-first workspace and the Cloud Sync card explains that setup is required.
+
+Apply `supabase/migrations/202607280001_create_income_entries.sql` before
+deploying the Income-enabled client or updated account-deletion function.
 
 ## Commands
 

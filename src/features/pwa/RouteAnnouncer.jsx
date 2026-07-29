@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 const ROUTE_NAMES = {
   "/": "Dashboard",
   "/bills": "Bills",
+  "/income": "Income",
   "/budget": "Budget",
   "/calendar": "Calendar",
   "/savings": "Savings",

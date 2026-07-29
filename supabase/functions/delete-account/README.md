@@ -5,8 +5,8 @@ Deploy with Supabase's normal server-managed `SUPABASE_URL`,
 service-role key into Vite or a native build.
 
 The function verifies the bearer token with `auth.getUser`, derives the user ID
-only from that verified user, deletes the user's sole `budgetforge_sync` row,
-then deletes the Auth user. Request bodies are ignored.
+only from that verified user, deletes owned `income_entries` and the
+`budgetforge_sync` row, then deletes the Auth user. Request bodies are ignored.
 
 If record deletion fails, Auth deletion is not attempted. If Auth deletion fails
 after record deletion, the function returns `auth_delete_failed` and the user

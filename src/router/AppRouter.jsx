@@ -5,6 +5,7 @@ import { Logo } from "../components/branding";
 
 const DashboardPage = lazy(() => import("../pages/DashboardPage"));
 const BillsPage = lazy(() => import("../pages/BillsPage"));
+const IncomePage = lazy(() => import("../pages/IncomePage"));
 const BudgetPage = lazy(() => import("../pages/BudgetPage"));
 const CalendarPage = lazy(() => import("../pages/CalendarPage"));
 const SavingsPage = lazy(() => import("../pages/SavingsPage"));
@@ -69,6 +70,7 @@ function AppRouter() {
         path="/settings"
         element={<SettingsPage />}
       />
+      <Route path="/income" element={<IncomePage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
       <Route path="/support" element={<SupportPage />} />

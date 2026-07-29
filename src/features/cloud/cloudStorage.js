@@ -9,6 +9,8 @@ export const CLOUD_STORAGE_KEYS = [
   "budgetforge-savings-history",
   "budgetforge-reminder-days",
   "budgetforge-debt-strategy",
+  "budgetforge-income-entries-v1",
+  "budgetforge-income-mode-v1",
 ];
 import { RECOVERY_STORAGE_KEY } from "../../utils/backup";
 import { clearQuarantinedStorage } from "../../utils/safeStorage";

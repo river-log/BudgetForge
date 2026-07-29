@@ -7,9 +7,13 @@ import {
   toggleBillMonth,
 } from "../utils/billPayments";
 import { useToast } from "../features/toasts";
+import useCloudSync from "../features/cloud/useCloudSync";
+import { INCOME_MODE_STORAGE_KEY, INCOME_STORAGE_KEY } from "../features/income/constants";
+import { incomeSummary, normalizeIncomeEntry, resolveMonthlyIncome, validateIncome } from "../features/income/income";
 
 export default function useBudgetData() {
   const { showToast } = useToast();
+  const cloud = useCloudSync();
   // Bills
   const [bills, setBills] = useState(() => {
     return safeReadJson("budgetforge-bills", [], isRecordArray);
@@ -19,6 +23,8 @@ export default function useBudgetData() {
   const [monthlyIncome, setMonthlyIncome] = useState(() => {
     return safeReadNumber("budgetforge-income", 4000);
   });
+  const [incomeEntries, setIncomeEntries] = useState(() => safeReadJson(INCOME_STORAGE_KEY, [], isRecordArray));
+  const [incomeMode, setIncomeMode] = useState(() => localStorage.getItem(INCOME_MODE_STORAGE_KEY) === "tracked" ? "tracked" : "manual");
 
   // User Name
   const [userName, setUserName] = useState(() => {
@@ -40,6 +46,12 @@ export default function useBudgetData() {
       monthlyIncome
     );
   }, [monthlyIncome]);
+  useEffect(() => {
+    localStorage.setItem(INCOME_STORAGE_KEY, JSON.stringify(incomeEntries));
+  }, [incomeEntries]);
+  useEffect(() => {
+    localStorage.setItem(INCOME_MODE_STORAGE_KEY, incomeMode);
+  }, [incomeMode]);
 
   // Persist User Name
   useEffect(() => {
@@ -90,12 +102,48 @@ export default function useBudgetData() {
     );
   }
 
+  function addIncomeEntry(values) {
+    const errors = validateIncome(values);
+    if (Object.keys(errors).length) return { errors };
+    const entry = normalizeIncomeEntry(values, { userId: cloud.session?.user?.id || null });
+    setIncomeEntries((previous) => [...previous, entry]);
+    showToast("Income added.", "success");
+    return { entry };
+  }
+
+  function updateIncomeEntry(id, values) {
+    const existing = incomeEntries.find((entry) => entry.id === id);
+    if (!existing) return { errors: { entry: "Income entry was not found." } };
+    const errors = validateIncome(values);
+    if (Object.keys(errors).length) return { errors };
+    const entry = normalizeIncomeEntry(values, { id, userId: cloud.session?.user?.id || existing.userId || null, createdAt: existing.createdAt });
+    setIncomeEntries((previous) => previous.map((item) => item.id === id ? entry : item));
+    showToast("Income updated.", "success");
+    return { entry };
+  }
+
+  function deleteIncomeEntry(id) {
+    setIncomeEntries((previous) => previous.filter((entry) => entry.id !== id));
+    showToast("Income deleted.", "info");
+  }
+
+  const trackedMonthlyIncome = incomeSummary(incomeEntries).monthIncome;
+  const effectiveMonthlyIncome = resolveMonthlyIncome(monthlyIncome, incomeEntries, incomeMode);
+
   return {
     bills,
     setBills,
 
     monthlyIncome,
     setMonthlyIncome,
+    incomeEntries,
+    incomeMode,
+    setIncomeMode,
+    trackedMonthlyIncome,
+    effectiveMonthlyIncome,
+    addIncomeEntry,
+    updateIncomeEntry,
+    deleteIncomeEntry,
 
     userName,
     setUserName,

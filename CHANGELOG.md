@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added local-first Income Tracking with quick deposits, detailed paychecks,
+  search/filter/history, Dashboard mode selection, Reports, backup support, and
+  normalized Supabase persistence protected by RLS.
+
 ## 2.8.0 — 2026-07-26
 
 - Added secure authenticated account deletion through a Supabase Edge Function.

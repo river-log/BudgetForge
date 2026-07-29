@@ -101,6 +101,7 @@ function ImportDataCard() {
             <div><dt>Savings goals</dt><dd>{preview.savingsGoals}</dd></div>
             <div><dt>Debts</dt><dd>{preview.debts}</dd></div>
             <div><dt>Budget categories</dt><dd>{preview.budgetCategories}</dd></div>
+            <div><dt>Income entries</dt><dd>{preview.incomeEntries}</dd></div>
             <div><dt>History coverage</dt><dd>{preview.historyMonths.length ? `${preview.historyMonths[0]} through ${preview.historyMonths.at(-1)}` : "No recorded history"}</dd></div>
             <div><dt>Preferences</dt><dd>{preview.preferences.join(", ")}</dd></div>
           </dl>

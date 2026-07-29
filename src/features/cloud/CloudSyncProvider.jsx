@@ -16,6 +16,7 @@ import {
 } from "./cloudStorage";
 import CloudSyncContext from "./CloudSyncContext";
 import { executeAccountDeletion } from "../accountDeletion/accountDeletion";
+import { toIncomeRow } from "../income/incomeCloud";
 
 const DEVICE_KEY = "budgetforge-device-id";
 const ISOLATION_RELOAD_KEY = "budgetforge-cloud-isolation-reload-user";
@@ -44,6 +45,7 @@ function CloudSyncProvider({ children }) {
   const interval = useRef(null);
   const channel = useRef(null);
   const lastSnapshot = useRef("");
+  const lastIncomeRows = useRef("");
   const deletionInFlight = useRef(false);
 
   const isCurrentUser = useCallback((userId, requestGeneration) => (
@@ -54,6 +56,7 @@ function CloudSyncProvider({ children }) {
     generation.current += 1;
     initialized.current = false;
     lastSnapshot.current = "";
+    lastIncomeRows.current = "";
 
     if (interval.current) {
       window.clearInterval(interval.current);
@@ -79,15 +82,16 @@ function CloudSyncProvider({ children }) {
 
     const snapshot = getCloudSnapshot();
     const serialized = serializeCloudSnapshot(snapshot);
+    const serializedIncomeRows = snapshot["budgetforge-income-entries-v1"] || "[]";
 
-    if (serialized === lastSnapshot.current) {
+    if (serialized === lastSnapshot.current && serializedIncomeRows === lastIncomeRows.current) {
       setStatus("synced");
       return { error: null };
     }
 
     setStatus("syncing");
 
-    const { error } = await supabase
+    let { error } = await supabase
       .from("budgetforge_sync")
       .upsert({
         user_id: userId,
@@ -98,12 +102,35 @@ function CloudSyncProvider({ children }) {
         updated_at: new Date().toISOString(),
       });
 
+    if (!error) {
+      let incomeEntries;
+      try {
+        incomeEntries = JSON.parse(snapshot["budgetforge-income-entries-v1"] || "[]");
+      } catch {
+        incomeEntries = [];
+      }
+      const rows = incomeEntries.map((entry) => toIncomeRow(entry, userId));
+      if (rows.length) {
+        const upsertResult = await supabase.from("income_entries").upsert(rows);
+        error = upsertResult.error;
+        if (!error) {
+          const ids = rows.map((row) => row.id).join(",");
+          const pruneResult = await supabase.from("income_entries").delete().eq("user_id", userId).not("id", "in", `(${ids})`);
+          error = pruneResult.error;
+        }
+      } else {
+        const deleteResult = await supabase.from("income_entries").delete().eq("user_id", userId);
+        error = deleteResult.error;
+      }
+    }
+
     if (!isCurrentUser(userId, requestGeneration)) {
       return { error: new Error("Sync session changed.") };
     }
 
     if (!error) {
       lastSnapshot.current = serialized;
+      lastIncomeRows.current = serializedIncomeRows;
       setCloudOwnerId(userId);
     }
 

@@ -47,6 +47,8 @@ Deno.serve(async (request) => {
   const admin = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  const { error: incomeError } = await admin.from("income_entries").delete().eq("user_id", user.id);
+  if (incomeError) return response(origin, 500, { error: "income_delete_failed" });
   const { error: recordsError } = await admin.from("budgetforge_sync").delete().eq("user_id", user.id);
   if (recordsError) return response(origin, 500, { error: "cloud_delete_failed" });
 
