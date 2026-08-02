@@ -5,12 +5,10 @@ import SavingsSummaryWidget from "../widgets/SavingsSummaryWidget";
 import SavingsGoalCard from "../widgets/SavingsGoalCard";
 import AddSavingsGoal from "../widgets/AddSavingsGoal";
 import { recordSavingsSnapshot } from "../utils/history";
-import { isRecordArray, safeReadJson } from "../utils/safeStorage";
+import { useBudget } from "../context";
 
 function SavingsPage() {
-  const [goals, setGoals] = useState(() => {
-    return safeReadJson("budgetforge-savings", [], isRecordArray);
-  });
+  const { savingsGoals: goals, setSavingsGoals: setGoals } = useBudget();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("");
@@ -27,13 +25,6 @@ function SavingsPage() {
 
   const [editSaved, setEditSaved] =
     useState("");
-
-  useEffect(() => {
-    localStorage.setItem(
-      "budgetforge-savings",
-      JSON.stringify(goals)
-    );
-  }, [goals]);
 
   useEffect(() => {
     recordSavingsSnapshot(goals);

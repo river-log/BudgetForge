@@ -6,12 +6,11 @@ import DebtSummaryWidget from "../widgets/DebtSummaryWidget";
 import DebtCard from "../widgets/DebtCard";
 import AddDebt from "../widgets/AddDebt";
 import DebtStrategyWidget from "../widgets/DebtStrategyWidget";
-import { isRecordArray, safeReadEnum, safeReadJson } from "../utils/safeStorage";
+import { safeReadEnum } from "../utils/safeStorage";
+import { useBudget } from "../context";
 
 function DebtPage() {
-  const [debts, setDebts] = useState(() => {
-    return safeReadJson("budgetforge-debts", [], isRecordArray);
-  });
+  const { debts, setDebts } = useBudget();
 
   const [modalOpen, setModalOpen] =
     useState(false);
@@ -40,13 +39,6 @@ function DebtPage() {
 
   const [editMinimum, setEditMinimum] =
     useState("");
-
-  useEffect(() => {
-    localStorage.setItem(
-      "budgetforge-debts",
-      JSON.stringify(debts)
-    );
-  }, [debts]);
 
   useEffect(() => {
     localStorage.setItem("budgetforge-debt-strategy", strategy);

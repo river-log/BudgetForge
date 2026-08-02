@@ -27,6 +27,8 @@ export default function useBudgetData() {
   const [incomeEntries, setIncomeEntries] = useState(() => safeReadJson(INCOME_STORAGE_KEY, [], isRecordArray));
   const [incomeMode, setIncomeMode] = useState(() => localStorage.getItem(INCOME_MODE_STORAGE_KEY) === "tracked" ? "tracked" : "manual");
   const [paycheckSchedules, setPaycheckSchedules] = useState(() => safeReadJson(PAYCHECK_SCHEDULES_STORAGE_KEY, [], isRecordArray));
+  const [savingsGoals, setSavingsGoals] = useState(() => safeReadJson("budgetforge-savings", [], isRecordArray));
+  const [debts, setDebts] = useState(() => safeReadJson("budgetforge-debts", [], isRecordArray));
 
   // User Name
   const [userName, setUserName] = useState(() => {
@@ -57,6 +59,12 @@ export default function useBudgetData() {
   useEffect(() => {
     localStorage.setItem(PAYCHECK_SCHEDULES_STORAGE_KEY, JSON.stringify(paycheckSchedules));
   }, [paycheckSchedules]);
+  useEffect(() => {
+    localStorage.setItem("budgetforge-savings", JSON.stringify(savingsGoals));
+  }, [savingsGoals]);
+  useEffect(() => {
+    localStorage.setItem("budgetforge-debts", JSON.stringify(debts));
+  }, [debts]);
 
   // Persist User Name
   useEffect(() => {
@@ -185,6 +193,10 @@ export default function useBudgetData() {
     togglePaycheckSchedule,
     deletePaycheckSchedule,
     advancePaycheckSchedule,
+    savingsGoals,
+    setSavingsGoals,
+    debts,
+    setDebts,
 
     userName,
     setUserName,
