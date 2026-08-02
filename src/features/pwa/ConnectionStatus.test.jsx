@@ -18,12 +18,12 @@ describe("connection status", () => {
       Object.defineProperty(navigator, "onLine", { configurable: true, value: false });
       window.dispatchEvent(new Event("offline"));
     });
-    expect(screen.getByText("Your local workspace remains available on this device.")).toBeInTheDocument();
+    expect(screen.getByText(/Local Storage data remains on this device/)).toBeInTheDocument();
     act(() => {
       Object.defineProperty(navigator, "onLine", { configurable: true, value: true });
       window.dispatchEvent(new Event("online"));
     });
-    expect(screen.queryByText("Your local workspace remains available on this device.")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Local Storage data remains on this device/)).not.toBeInTheDocument();
     expect(screen.getByText("Connection restored.")).toBeInTheDocument();
   });
 
@@ -33,7 +33,7 @@ describe("connection status", () => {
       Object.defineProperty(navigator, "onLine", { configurable: true, value: false });
       window.dispatchEvent(new Event("offline"));
     });
-    expect(screen.getByText("Changes stay on this device until cloud sync resumes.")).toBeInTheDocument();
+    expect(screen.getByText(/Cloud sync will resume after reconnection/)).toBeInTheDocument();
   });
 });
 

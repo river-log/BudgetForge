@@ -22,6 +22,8 @@ describe("service worker strategy", () => {
     expect(source).toContain('request.method !== "GET"');
     expect(source).toContain('request.mode === "navigate"');
     expect(source).toContain("caches.match(SHELL_URL)");
+    expect(source).toContain("caches.match(OFFLINE_URL)");
+    expect(source).toContain("...BUILD_ASSETS");
     expect(source).toContain('".supabase.co"');
     expect(source).toContain('"access_token"');
     expect(source).toContain('key.startsWith("budgetforge-")');

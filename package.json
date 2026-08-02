@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --configLoader runner",
+    "build": "vite build --configLoader runner && node scripts/finalize-pwa.mjs",
     "lint": "eslint .",
     "test": "vitest --configLoader runner",
     "preview": "vite preview",

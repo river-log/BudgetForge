@@ -1,7 +1,10 @@
-const CACHE_VERSION = "budgetforge-shell-v2.6.0";
+const CACHE_VERSION = "budgetforge-shell-development";
 const SHELL_URL = "/";
+const OFFLINE_URL = "/offline.html";
+const BUILD_ASSETS = [];
 const PRECACHE = [
   SHELL_URL,
+  OFFLINE_URL,
   "/site.webmanifest",
   "/branding/app-icon.svg",
   "/branding/app-icon-192.png",
@@ -26,7 +29,7 @@ function isImmutableAsset(url) {
 }
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_VERSION).then((cache) => cache.addAll(PRECACHE)));
+  event.waitUntil(caches.open(CACHE_VERSION).then((cache) => cache.addAll([...PRECACHE, ...BUILD_ASSETS])));
 });
 
 self.addEventListener("activate", (event) => {
@@ -57,7 +60,7 @@ self.addEventListener("fetch", (event) => {
           }
           return response;
         })
-        .catch(() => caches.match(SHELL_URL))
+        .catch(async () => (await caches.match(SHELL_URL)) || caches.match(OFFLINE_URL))
     );
     return;
   }

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#1E293B" />
+    <title>BudgetForge is offline</title>
+    <style>
+      :root { color-scheme: dark; font-family: Inter, "Segoe UI", sans-serif; background: #0f172a; color: #f8fafc; }
+      * { box-sizing: border-box; }
+      body { min-height: 100vh; min-height: 100dvh; margin: 0; display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left)); background: radial-gradient(circle at top, #243b55 0, #0f172a 48%, #080d19 100%); }
+      main { width: min(100%, 560px); padding: clamp(24px, 6vw, 44px); border: 1px solid rgba(148,163,184,.24); border-radius: 22px; background: rgba(30,41,59,.82); box-shadow: 0 24px 70px rgba(0,0,0,.35); backdrop-filter: blur(18px); }
+      img { width: 58px; height: 58px; }
+      h1 { margin: 22px 0 10px; font-size: clamp(1.8rem, 7vw, 2.7rem); }
+      p, li { color: #cbd5e1; line-height: 1.65; }
+      ul { padding-left: 20px; }
+      button { min-height: 46px; margin-top: 12px; padding: 0 20px; border: 1px solid rgba(134,239,172,.35); border-radius: 10px; color: #07150d; background: #86efac; font: inherit; font-weight: 700; cursor: pointer; }
+      button:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 3px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/branding/app-icon.svg" alt="" />
+      <h1>BudgetForge is offline</h1>
+      <p>The network is unavailable right now.</p>
+      <ul>
+        <li>Previously loaded app features may remain available.</li>
+        <li>Cloud sync and other network-only resources cannot load until you reconnect.</li>
+        <li>BudgetForge Local Storage data remains on this device.</li>
+      </ul>
+      <button type="button" onclick="window.location.reload()">Retry</button>
+    </main>
+  </body>
+</html>
