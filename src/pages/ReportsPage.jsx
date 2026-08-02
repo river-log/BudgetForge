@@ -8,12 +8,18 @@ import MonthlyReview from "../features/monthlyReview";
 import { useBudget } from "../context";
 import { monthlyIncomeSeries } from "../features/income/income";
 import { scheduleForecast } from "../features/income/paycheckSchedules";
+import FinancialSummaryCard from "../widgets/FinancialSummaryCard";
+import NetWorthCard from "../widgets/NetWorthCard";
+import SavingsProgressCard from "../widgets/SavingsProgressCard";
+import DebtProgressCard from "../widgets/DebtProgressCard";
+import MonthlySpendingCard from "../widgets/MonthlySpendingCard";
+import ReportActionsCard from "../widgets/ReportActionsCard";
 
 const tooltipStyle = { background: "#1d2438", border: "1px solid rgba(255,255,255,.12)", borderRadius: "10px" };
 const currency = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 function ReportsPage() {
-  const { bills, effectiveMonthlyIncome, incomeEntries, paycheckSchedules } = useBudget();
+  const { bills, effectiveMonthlyIncome, incomeEntries, paycheckSchedules, savingsGoals = [], debts = [] } = useBudget();
   const spendingHistory = getSpendingHistory();
   const savingsHistory = getSavingsHistory();
   const availableMonths = (() => {
@@ -55,8 +61,17 @@ function ReportsPage() {
   return (
     <div className="insights-page">
       <header className="insights-header">
-        <div><h1>Reports</h1><p className="text-muted">Track your financial trends as you pay bills and grow your savings.</p></div>
+        <div><h1>Reports</h1><p className="text-muted">Understand your current financial position and recorded trends.</p></div>
       </header>
+
+      <section className="reports-dashboard" aria-label="Financial report dashboard">
+        <FinancialSummaryCard monthlyIncome={effectiveMonthlyIncome} bills={bills} savingsGoals={savingsGoals} debts={debts} />
+        <NetWorthCard savingsGoals={savingsGoals} debts={debts} />
+        <SavingsProgressCard goals={savingsGoals} />
+        <DebtProgressCard debts={debts} />
+        <MonthlySpendingCard bills={bills} />
+        <ReportActionsCard reportData={{ monthlyIncome: effectiveMonthlyIncome, bills, savingsGoals, debts }} />
+      </section>
 
       <MonthlyReview
         selectedMonth={selectedMonth}
